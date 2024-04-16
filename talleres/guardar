@@ -1,0 +1,12 @@
+<?php
+class guardar {
+    public static function redireccionar($pagina) {
+        header("Location: $pagina");
+        exit(); // Asegura que el script se detenga después de la redirección
+    }
+}
+
+// Uso:
+guardar::redireccionar("/html/talleres/talleres-crear.php");
+?>
+    

@@ -1,0 +1,4 @@
+# re-escribir reglas del servidor -> activado
+RewriteEngine On
+# todas la peticiones que no sean a la carpeta public pasan al index.php
+ RewriteRule !(^public) index.php
