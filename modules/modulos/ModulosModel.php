@@ -15,7 +15,6 @@ class ModulosModel extends DB {
         }
         return $modulos;
     }
-
     public function buscarCategoriasModulos($nocuenta) {
         $this->rows = array();
         $this->query = "SELECT DISTINCT(m.menu) FROM modulo As m INNER JOIN permiso AS p ON p.idmodulo = m.idmodulo"
