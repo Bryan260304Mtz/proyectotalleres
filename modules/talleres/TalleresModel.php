@@ -16,16 +16,13 @@ class talleresModel extends DB
 		$this->set_query();
 	}
     
-    public function modificar($idTaller, $nombre, $imagen)
-    {
-        $this->query = "UPDATE talleres SET nombre = '$nombre', imagen = '$imagen' WHERE id = $idTaller";
-        $this->set_query();
-    }
 
     public function darTalleres()
     {
         $this->rows = array();
-        $this->query= "SELECT * FROM talleres";
+        //$this->query= "SELECT * FROM talleres";
+        $this->query= "SELECT * FROM talleres ORDER BY idtalleres DESC";
+
         $this->get_query();
         return $this->rows;
     }

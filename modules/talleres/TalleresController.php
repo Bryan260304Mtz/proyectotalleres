@@ -18,79 +18,61 @@ class TalleresController
     public function guardar()
     {
         if (isset($_POST["guardar-taller"])) {
-            // Aquí va tu código para guardar el taller...
+
             $target_dir = "public/images/talleres/";
-            $target_extension = $target_dir . basename($_FILES["Imagen"]["name"]);
+            $target_name = $target_dir . basename($_FILES["imagen"]["name"]);
             $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($target_extension, PATHINFO_EXTENSION));
-            $file_name = $_POST["nombre"] . "." . $imageFileType;
-            $check = getimagesize($_FILES["Imagen"]["tmp_name"]);
-            if ($check !== false) {
-                $uploadOk = 1;
-            } else {
+            $imageFileType = strtolower(pathinfo($target_name, PATHINFO_EXTENSION));
+            $file_name = $target_dir . $_POST["nombre"] . "." . $imageFileType;
+
+            $check = getimagesize($_FILES["imagen"]["tmp_name"]);
+            if ($check === false) {
                 $uploadOk = 0;
             }
 
-            if ($_FILES["Imagen"]["size"] > 500000) {
-                $uploadOk = 0;
-            }
-            if (
-                $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                && $imageFileType != "gif"
-            ) {
-                $uploadOk = 0;
-            }
-            if ($uploadOk == 0) {
-                echo "Sorry, your file was not uploaded.";
-            } else {
-                if (move_uploaded_file($_FILES["Imagen"]["tmp_name"], $file_name)) {
-                    $talleresModel = new TalleresModel();
-                    $nombre = $_POST["nombre"];
-                    $imagen = $file_name;
-                    $talleresModel->crear($nombre, 1, $imagen);
-                    header("Location: http://www.talleres.local/talleres/crear");
-                    exit(); 
-                } else {
-                    echo "Sorry, there was an error uploading your file.";
-                }
-            }
-        } else {
-            echo "Error al guardar el taller.";
-        }
-    }
-   
-    public function modificar()
-    {
-        if (isset($_POST["modificar-taller"])) {
-            $idTaller = $_POST["id_taller"];
-            $nombre = $_POST["nombre"];
-            $imagen = '';
-    
-            if ($_FILES["nueva_imagen"]["name"]) {
-                $target_dir = "public/images/talleres/";
-                $target_file = $target_dir . basename($_FILES["nueva_imagen"]["name"]);
-                
-                if (move_uploaded_file($_FILES["nueva_imagen"]["tmp_name"], $target_file)) {
-                    $imagen = basename($_FILES["nueva_imagen"]["name"]);
-                } else {
-                    echo "Error al cargar la imagen.";
-                    exit(); 
-                }
-            } else {
-                $imagen = $_POST["imagen_actual"];
-            }
-    
             $talleresModel = new TalleresModel();
-            $talleresModel->modificar($idTaller, $nombre, $imagen);
-    
-            header("Location: http://www.talleres.local/talleres");
-            exit();
-        } else {
-            echo "Error al modificar el taller.";
+            $tallerExistente = $talleresModel->darTalleres($_POST["nombre"]);
+            if ($tallerExistente) {
+                // Mostrar ventana emergente indicando que el taller ya existe
+                echo "<script>alert('El taller ya existe');</script>";
+                $uploadOk = 0;
+            }
+
+            if ($_FILES["imagen"]["size"] > 500000) {
+                $uploadOk = 0;
+
+                if ($_FILES["imagen"]["size"] > 500000) {
+                    $uploadOk = 0;
+                }
+
+                if (
+                    $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif"
+                ) {
+                    $uploadOk = 0;
+                }
+
+                if ($uploadOk == 0) {
+                    echo "Sorry, your file was not uploaded.";
+                } else {
+                    if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $file_name)) {
+                        $arrayImg = explode("/", $file_name);
+                        $nomImg = $arrayImg[count($arrayImg) - 1];
+                        $talleresModel = new TalleresModel();
+                        $talleresModel->crear($_POST["nombre"], 1, $nomImg);
+
+                        // Redireccionar a la página donde está el botón "Crear un taller"
+                        header("Location: http://www.talleres.local/talleres/crear");
+                        exit(); // Asegurar que se detenga la ejecución después de la redirección
+                    } else {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
+                }
+            }
         }
     }
-    
-    
+
+
 
     public function crear()
     {
@@ -120,4 +102,3 @@ class TalleresController
         $talleresView->home($cursos, $persona);*/
     }
 }
-?>

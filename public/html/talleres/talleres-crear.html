@@ -123,40 +123,12 @@
                     </tr>
                     <!--LISTA_TALLERES-->
                     <tr>
-                        <td> {null} </td>
+                        <td><img src="../public/images/talleres/{imagen}" width="100px"> </td>
                         <td> {idtalleres} </td>
                         <td> {nombre} </td>
-                        <td> 
-                            <button onclick="document.getElementById('form-modificar').style.display='block'" class="w3-button w3-green w3-round">Modificar</button>
-                            <div id="form-modificar" class="w3-modal">
-                                <div class="w3-modal-content w3-card-4 w3-animate-zoom w3-text-black" style="max-width:600px">
-                                    <div class="w3-center"><br>
-                                        <span onclick="document.getElementById('form-modificar').style.display='none'"
-                                            class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Cerrar Formulario">×</span>
-                                    </div>
-                                    <form class="w3-container" action="/talleres/modificar/" method="post" enctype="multipart/form-data">
-                                        <!-- Agregar un campo oculto para almacenar el ID del taller -->
-                                        <input type="hidden" name="id_taller" value="{id_del_taller_a_modificar}">
-                                        <!-- Campo para el nombre del taller -->
-                                        <div class="w3-section">
-                                            <label><b>Nombre del Taller</b></label>
-                                            <input class="w3-input w3-border w3-margin-bottom" type="text" name="nombre" value="{nombre_del_taller_actual}" required>
-                                        </div>
-                                        <!-- Campo para la nueva imagen del taller -->
-                                        <div class="w3-section">
-                                            <label><b>Nueva Imagen</b></label>
-                                            <input class="w3-input w3-border" type="file" name="nueva_imagen" accept="image/*">
-                                        </div>
-                                        <!-- Campo oculto para almacenar el nombre de la imagen actual -->
-                                        <input type="hidden" name="imagen_actual" value="{nombre_de_la_imagen_actual}">
-                                        <!-- Botón para enviar el formulario de modificación -->
-                                        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                                            <input class="w3-button w3-green" type="submit" value="Modificar" name="modificar-taller">
-                                            <button onclick="document.getElementById('form-modificar').style.display='none'" type="button" class="w3-button w3-red w3-right">Cancelar</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                        <td>
+                            <button onclick="document.getElementById('form-modificar').style.display='block'"
+                                class="w3-button w3-green w3-round">Modificar</button>
                             <button onclick="document.getElementById('form-desactivar').style.display='block'"
                                 class="w3-button w3-green w3-round">Desactivar</button>
                         </td>
@@ -180,7 +152,7 @@
                                 <label><b>Nombre del Taller</b></label>
                                 <input class="w3-input w3-border w3-margin-bottom" type="text" name="nombre" required>
                                 <label><b>Imagen</b></label>
-                                <input class="w3-input w3-border" type="file" name="Imagen"
+                                <input class="w3-input w3-border" type="file" name="imagen"
                                     accept="image/x-png,image/gif,image/jpeg" required>
                             </div>
                             <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
