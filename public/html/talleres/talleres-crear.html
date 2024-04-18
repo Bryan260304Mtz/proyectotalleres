@@ -132,11 +132,7 @@
 									<button onclick="document.getElementById('form-actualizar{idtalleres}').style.display='block'"
 						class="w3-button w3-green w3-round">Actualizar</button>
 									
-									<form action="/modules/talleres/TalleresController.php?action=cambiarEstado" method="post">
-										<input type="hidden" name="idTaller" value="{idtalleres}">
-										<input class="w3-button w3-green w3-round" type="submit" value="Desactivar"
-										name="Desactivar">
-									</form>
+									<a href="/talleres/cambiar_estado/{idtalleres}" class="w3-button w3-green w3-round"  > estado </a>
 								</td>							
 							</tr>
 							<!--LISTA_TALLERES-->

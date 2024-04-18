@@ -10,9 +10,7 @@
 		
 		function __construct($metodo, $parametros)
 		{
-			if ($metodo === 'cambiarEstado') {
-				$this->cambiarEstado($parametros[0]);
-			}
+			
 			if (method_exists($this, $metodo)) {
 				call_user_func(array($this, $metodo), $parametros);
 				} else {
@@ -86,55 +84,52 @@
 				
 				$check = getimagesize($_FILES["imagen"]["tmp_name"]);
 				if ($check === false) {
-                $uploadOk = 0;
+					$uploadOk = 0;
 				}
 				
 				if (file_exists($target_name)) {
-                echo "Sorry, file already exists.";
-                $uploadOk = 0;
+					echo "Sorry, file already exists.";
+					$uploadOk = 0;
 				}
 				
 				if ($_FILES["imagen"]["size"] > 500000) {
-                $uploadOk = 0;
+					$uploadOk = 0;
 				}
 				
 				if (
                 $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
                 && $imageFileType != "gif"
 				) {
-                $uploadOk = 0;
+					$uploadOk = 0;
 				}
 				
 				if ($uploadOk == 0) {
-                echo "Sorry, your file was not uploaded.";
-				} else {
-                if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $file_name)) {
-				$arrayImg = explode("/", $file_name);
-				$nomImg = $arrayImg[count($arrayImg) - 1];
-				$talleresModel = new TalleresModel();
-				$talleresModel->crear($_POST["nombre"], 1, $nomImg);
-				
-				// Redireccionar a la página donde está el botón "Crear un taller"
-				header("Location: http://www.talleres.local/talleres/crear");
-				exit(); // Asegurar que se detenga la ejecución después de la redirección
-                } else {
-				echo "Sorry, there was an error uploading your file.";
-			}
-            }
+					echo "Sorry, your file was not uploaded.";
+					} else {
+					if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $file_name)) {
+						$arrayImg = explode("/", $file_name);
+						$nomImg = $arrayImg[count($arrayImg) - 1];
+						$talleresModel = new TalleresModel();
+						$talleresModel->crear($_POST["nombre"], 1, $nomImg);
+						
+						// Redireccionar a la página donde está el botón "Crear un taller"
+						header("Location: http://www.talleres.local/talleres/crear");
+						exit(); // Asegurar que se detenga la ejecución después de la redirección
+						} else {
+						echo "Sorry, there was an error uploading your file.";
+					}
+				}
 			}
 		}
 		
-		public function cambiarEstado($idTalleres) {
+		public function cambiarEstado( $param = array() ) {
+			
 			$talleresModel = new TalleresModel();
-			$resultado = $talleresModel->cambiarEstado($idTalleres);
+			$resultado = $talleresModel->cambiarEstado($param[0]);
 			
+			header("Location: http://www.talleres.local/talleres/crear");
+			exit();
 			
-			if ($resultado) {
-				header("Location: http://www.talleres.local/talleres/crear");
-				exit();
-				} else {
-				echo "Hubo un error al cambiar el estado del taller.";
-			}
 		}
 		
 		public function crear()

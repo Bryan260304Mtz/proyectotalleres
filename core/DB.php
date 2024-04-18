@@ -30,8 +30,8 @@ abstract class DB {
 
 	protected function set_query() {
 		$this->db_open();
-		$this->conn->query($this->query);
-                $this->afectadas_rows = $this->conn->affected_rows;
+		$this->conn->query($this->query) or die("Error: " . $this->query);
+        $this->afectadas_rows = $this->conn->affected_rows;
 		$this->db_close();
 	}
 

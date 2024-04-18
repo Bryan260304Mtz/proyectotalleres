@@ -25,17 +25,9 @@ class TalleresModel extends DB
 
     public function cambiarEstado($idTalleres) {
         // Preparar la consulta para cambiar el estado del taller
-        $query = "UPDATE talleres SET estado = CASE WHEN estado = 1 THEN 0 ELSE 1 END WHERE idtalleres = :idTaller";
-
-       
-        // Verificar si la consulta fue exitosa
-        if ($stmt->rowCount() > 0) {
-            // La consulta se ejecutó con éxito
-            return true;
-        } else {
-            // La consulta no se ejecutó correctamente
-            return false;
-        }
+        $this->query = "UPDATE talleres SET estado = !estado WHERE idtalleres = $idTalleres ";
+		$this->set_query();
+		
     }
 
     public function crear($nombre, $estado, $imagen)
