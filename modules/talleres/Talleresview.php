@@ -10,6 +10,9 @@ class TalleresView {
         $template = new Template($contenido);
         $contenido = $template->render_regex($talleres, "LISTA_TALLERES"); //renderizar tablas
 
+		$template = new Template($contenido);
+        $contenido = $template->render_regex($talleres, "ACTUALIZAR_TALLERES"); //renderizar tablas
+
         $template = new Template($contenido);
         $contenido = $template->render($persona, $talleres);
 

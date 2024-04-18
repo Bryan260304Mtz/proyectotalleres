@@ -5,6 +5,15 @@ require_once "./core/DB.php";
 
 class TalleresModel extends DB
 {
+	
+	public function actualizar($idtalleres, $nombre, $imagen)
+    {
+        $this->rows = array();
+        $this->query = "UPDATE talleres 
+		                SET nombre = '$nombre', imagen = '$imagen' 
+		                WHERE talleres.idtalleres = $idtalleres ";
+        $this->set_query();
+    }
 
     public function darTalleres()
     {
