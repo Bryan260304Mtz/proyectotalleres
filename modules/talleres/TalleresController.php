@@ -10,13 +10,18 @@ class TalleresController
 
     function __construct($metodo, $parametros)
     {
-
+        if ($metodo === 'cambiarEstado') {
+            $this->cambiarEstado($parametros[0]);
+        }
         if (method_exists($this, $metodo)) {
             call_user_func(array($this, $metodo), $parametros);
         } else {
             echo "El metodo no existe " . $metodo;
         }
+
+       
     }
+   
     public function guardar()
     {
         if (isset($_POST["guardar-taller"])) {
@@ -31,11 +36,8 @@ class TalleresController
                 $uploadOk = 0;
             }
     
-            $talleresModel = new TalleresModel();
-            $tallerExistente = $talleresModel->darTalleres($_POST["nombre"]);
-            if ($tallerExistente) {
-                // Mostrar ventana emergente indicando que el taller ya existe
-                echo "<script>alert('El taller ya existe');</script>";
+            if (file_exists($target_name)) {
+                echo "Sorry, file already exists.";
                 $uploadOk = 0;
             }
     
@@ -66,6 +68,19 @@ class TalleresController
                     echo "Sorry, there was an error uploading your file.";
                 }
             }
+        }
+    }
+
+    public function cambiarEstado($idTalleres) {
+        $talleresModel = new TalleresModel();
+        $resultado = $talleresModel->cambiarEstado($idTalleres);
+        
+        
+        if ($resultado) {
+            header("Location: http://www.talleres.local/talleres/crear");
+            exit();
+        } else {
+            echo "Hubo un error al cambiar el estado del taller.";
         }
     }
 

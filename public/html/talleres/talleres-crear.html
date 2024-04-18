@@ -1,171 +1,213 @@
 <!DOCTYPE html>
 <!-- saved from url=(0046)https://sii.upatlacomulco.edu.mx/alumnos/index -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>SII UPAtlacomulco</title>
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="icono/png" href="/public/images/upa_logo.png">
-        <link rel="stylesheet" href="/public/css/w3.css"><!--primera forma de importar estilos (archivo dentro de la carpeta de mi servidor)  -->
+<html lang="es">
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <!--segunda forma de importar estilos (archivo en otro servidor)  -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>SII UPAtlacomulco</title>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-       
-        <style>
-            html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif} 
-            .ancho-avatar{width: 46px;}
-        </style> <!--tercera forma de importar estilos (bloque de estilo)  -->
-    
-    <body class="w3-light-grey">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="icono/png" href="/public/images/upa_logo.png">
+    <link rel="stylesheet" href="/public/css/w3.css">
+    <!--primera forma de importar estilos (archivo dentro de la carpeta de mi servidor)  -->
 
-        <!-- Top container -->
-        <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-            <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
-            <span class="w3-bar-item w3-right"><img src="/public/images/upa_logo.png" style="width:46px"> SII UPAtlacomulco</span>
-        </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--segunda forma de importar estilos (archivo en otro servidor)  -->
 
-        <!-- Sidebar/menu -->
-        <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
-            <div class="w3-container w3-row">
-                <div class="w3-col s4">
-                    <img src="/public/images/avatar2.png" class="w3-circle w3-margin-right ancho-avatar" >
-                </div>
-                <div class="w3-col s8 w3-bar">
-                    <br>
-                    <span>Hola, <strong>{nombrePersona}</strong></span>
-                </div>
-            </div>
-            <hr>
-            <div class="w3-container w3-green">
-                <h5>MENU</h5>
-            </div>
-            <div class="w3-bar-block">
-                <a href="https://sii.upatlacomulco.edu.mx/alumnos/index#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="cerrar menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Cerrar Menu</a>
-                
-                <a href="https://sii.upatlacomulco.edu.mx/alumnos/index" class="w3-bar-item w3-button w3-padding ">
-                    <i class="fa fa-home fa-fw"></i>&nbsp; INICIO</a>   
-                    
-                <a href="http://www.talleres.local/talleres/crear" class="w3-bar-item w3-button w3-padding ">
-                        <i class="fa fa-futbol-o"></i>&nbsp; TALLERES</a>
-                
-                <a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes" class="w3-bar-item w3-button w3-padding ">
-                    <i class="fa fa-user-o fa-fw"></i>&nbsp; ACTUALIZAR DATOS</a>    
-                
-                <a href="https://sii.upatlacomulco.edu.mx/clases/alumnos" class="w3-bar-item w3-button w3-padding ">
-                    <i class="fa fa-address-book-o fa-fw"></i>&nbsp; DATOS PERSONALES</a>    
-                
-                <a href="https://sii.upatlacomulco.edu.mx/alumnos/mapa_curricular" class="w3-bar-item w3-button w3-padding ">
-                    <i class="fa fa-table fa-fw"></i>&nbsp; MAPA CURRICULAR</a>    
-                
-                <a href="https://sii.upatlacomulco.edu.mx/alumnos/consulta_actas" class="w3-bar-item w3-button w3-padding ">
-                    <i class="fa fa-file-o fa-fw"></i>&nbsp; ACTA DE CALIFICACIONES</a>    
-                
-                <a href="https://sii.upatlacomulco.edu.mx/alumnos/historial_alumnos" class="w3-bar-item w3-button w3-padding ">
-                    <i class="fa fa-folder-open-o fa-fw"></i>&nbsp; HISTORIAL ACADÉMICO</a>    
-                
-                <a href="https://sii.upatlacomulco.edu.mx/alumnos/chgpase" class="w3-bar-item w3-button w3-padding ">
-                    <i class="fa fa-unlock-alt fa-fw"></i>&nbsp; NIP</a>    
-                
-                <a href="https://sii.upatlacomulco.edu.mx/alumnos/salir" class="w3-bar-item w3-button w3-padding ">
-                    <i class="fa fa-sign-out fa-fw"></i>&nbsp; SALIR Y CERRAR SESIÓN</a>    
-                
-            </div>
-        </nav>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-        <!-- Overlay effect when opening sidebar on small screens -->
-        <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="cerrar menu" id="myOverlay"></div>
-        <!-- !PAGE CONTENT! -->
-        <div class="w3-main" style="margin-left:300px;margin-top:43px;">
-
-
-<!-- Header -->
-  <header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-futbol-o"></i> TALLERES</b></h5>
-  </header>
-
-  <div class="w3-display-container w3-content " style="max-width: 1500px">
-
-    <div class="w3-container w3-dark-grey w3-padding-32">
-
-        <button onclick="document.getElementById('form-crear').style.display='block'" class="w3-button w3-green w3-round">Crear un Taller</button>
-
-        <table class="w3-table-all w3-text-black">
-            <tr>
-                <th>Imagen</th>
-                <th>ID</th>
-                <th>Talleres</th>
-                <th>Acciones</th>
-            </tr>
-            <!--LISTA_TALLERES-->
-            <tr>
-                <td> <img src="../public/images/talleres/{imagen}" width="50px" > </td>
-                <td> {idtalleres} </td>
-                <td> {nombre} </td>
-                <td> <input class="w3-button w3-green w3-round" type="submit" value="Modificar" name="guardar-taller">  
-                 <input class="w3-button w3-green w3-round" type="submit" value="Desactivar" name="guardar-taller">  </td>
-
-            </tr>
-            <!--LISTA_TALLERES-->
-        </table>
-
-        <div id="form-crear" class="w3-modal">
-          <div class="w3-modal-content w3-card-4 w3-animate-zoom  w3-text-black" style="max-width:600px">
-        
-            <div class="w3-center"><br>
-              <span onclick="document.getElementById('form-crear').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Cerrar formulario">×</span>
-              
-            </div>
-      
-            <form class="w3-container" action="/talleres/guardar/" method="post" enctype="multipart/form-data">
-              <div class="w3-section">
-                <label><b>Nombre del taller</b></label>
-                <input class="w3-input w3-border w3-margin-bottom" type="text" name="nombre" required>
-                <label><b>Imagen</b></label>
-                <input class="w3-input w3-border" type="file" name="imagen" required>
-              
-              </div>
-              <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                <input class="w3-button w3-green w3-round" type="submit" value="GUARDAR" name="guardar-taller"> 
-                <button onclick="document.getElementById('form-crear').style.display='none'" type="button" class="w3-button w3-red w3-right w3-round">CANCELAR</button>
-              </div>
-            </form>    
-          </div>
-        </div>
-      </div>
-    </div>  
-<!-- Footer -->
-<footer class="w3-container w3-padding-16 w3-light-grey">
-    <p><i style="font-size: 16px" class="fa"></i>
-        Universidad Politécnica de Atlacomulco, 
-        Km. 5 Carretera Atlacomulco - San José Toxi, 
-        Santo Domingo Shomeje, Atlacomulco de Fabela, 
-        Estado de México. Tel. (712) 690 3020
-    </p>
-</footer>
-
-<!-- End page content -->
-</div>
-
-<script>
-    var mySidebar = document.getElementById("mySidebar");
-    var overlayBg = document.getElementById("myOverlay");
-    function w3_open() {
-        if (mySidebar.style.display === 'block') {
-            mySidebar.style.display = 'none';
-            overlayBg.style.display = "none";
-        } else {
-            mySidebar.style.display = 'block';
-            overlayBg.style.display = "block";
+    <style>
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: "Raleway", sans-serif
         }
-    }
-    function w3_close() {
-        mySidebar.style.display = "none";
-        overlayBg.style.display = "none";
-    }
-</script>
+
+        .ancho-avatar {
+            width: 46px;
+        }
+    </style> <!--tercera forma de importar estilos (bloque de estilo)  -->
+
+<body class="w3-light-grey">
+
+    <!-- Top container -->
+    <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+        <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey"
+            onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+        <span class="w3-bar-item w3-right"><img src="/public/images/upa_logo.png" style="width:46px"> SII
+            UPAtlacomulco</span>
+    </div>
+
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+        <div class="w3-container w3-row">
+            <div class="w3-col s4">
+                <img src="/public/images/avatar2.png" class="w3-circle w3-margin-right ancho-avatar">
+            </div>
+            <div class="w3-col s8 w3-bar">
+                <br>
+                <span>Hola, <strong>{nombrePersona}</strong></span>
+            </div>
+        </div>
+        <hr>
+        <div class="w3-container w3-green">
+            <h5>MENU</h5>
+        </div>
+        <div class="w3-bar-block">
+            <a href="https://sii.upatlacomulco.edu.mx/alumnos/index#"
+                class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
+                onclick="w3_close()" title="cerrar menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Cerrar Menu</a>
+
+            <a href="https://sii.upatlacomulco.edu.mx/alumnos/index" class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-home fa-fw"></i>&nbsp; INICIO</a>
+
+            <a href="http://www.talleres.local/talleres/crear" class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-futbol-o"></i>&nbsp; TALLERES</a>
+
+            <a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
+                class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-user-o fa-fw"></i>&nbsp; ACTUALIZAR DATOS</a>
+
+            <a href="https://sii.upatlacomulco.edu.mx/clases/alumnos" class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-address-book-o fa-fw"></i>&nbsp; DATOS PERSONALES</a>
+
+            <a href="https://sii.upatlacomulco.edu.mx/alumnos/mapa_curricular"
+                class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-table fa-fw"></i>&nbsp; MAPA CURRICULAR</a>
+
+            <a href="https://sii.upatlacomulco.edu.mx/alumnos/consulta_actas" class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-file-o fa-fw"></i>&nbsp; ACTA DE CALIFICACIONES</a>
+
+            <a href="https://sii.upatlacomulco.edu.mx/alumnos/historial_alumnos"
+                class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-folder-open-o fa-fw"></i>&nbsp; HISTORIAL ACADÉMICO</a>
+
+            <a href="https://sii.upatlacomulco.edu.mx/alumnos/chgpase" class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-unlock-alt fa-fw"></i>&nbsp; NIP</a>
+
+            <a href="https://sii.upatlacomulco.edu.mx/alumnos/salir" class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-sign-out fa-fw"></i>&nbsp; SALIR Y CERRAR SESIÓN</a>
+
+        </div>
+    </nav>
+
+
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+        title="cerrar menu" id="myOverlay"></div>
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+
+        <!-- Header -->
+        <header class="w3-container" style="padding-top:22px">
+            <h5><b><i class="fa fa-futbol-o"></i> TALLERES</b></h5>
+        </header>
+
+        <div class="w3-display-container w3-content " style="max-width: 1500px">
+
+            <div class="w3-container w3-dark-grey w3-padding-32">
+
+                <button onclick="document.getElementById('form-crear').style.display='block'"
+                    class="w3-button w3-green w3-round">Crear un Taller</button>
+
+                <table class="w3-table-all w3-text-black">
+                    <tr>
+                        <th>Imagen</th>
+                        <th>ID</th>
+                        <th>Talleres</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    <!--LISTA_TALLERES-->
+                    <tr>
+                        <td> <img src="../public/images/talleres/{imagen}" width="50px"> </td>
+                        <td> {idtalleres} </td>
+                        <td> {nombre} </td>
+                        <td>{estado}</td>
+                        <td> <input class="w3-button w3-green w3-round" type="submit" value="Modificar"
+                                name="Modificar">
+
+                                <form action="/modules/talleres/TalleresController.php?action=cambiarEstado" method="post">
+                                <input type="hidden" name="idTaller" value="{idtalleres}">
+                                <input class="w3-button w3-green w3-round" type="submit" value="Desactivar"
+                                    name="Desactivar">
+                            </form>
+
+                        </td>
+
+
+                    </tr>
+                    <!--LISTA_TALLERES-->
+                </table>
+
+                <div id="form-crear" class="w3-modal">
+                    <div class="w3-modal-content w3-card-4 w3-animate-zoom  w3-text-black" style="max-width:600px">
+
+                        <div class="w3-center"><br>
+                            <span onclick="document.getElementById('form-crear').style.display='none'"
+                                class="w3-button w3-xlarge w3-transparent w3-display-topright"
+                                title="Cerrar formulario">×</span>
+
+                        </div>
+
+                        <form class="w3-container" action="/talleres/guardar/" method="post"
+                            enctype="multipart/form-data">
+                            <div class="w3-section">
+                                <label><b>Nombre del taller</b></label>
+                                <input class="w3-input w3-border w3-margin-bottom" type="text" name="nombre" required>
+                                <label><b>Imagen</b></label>
+                                <input class="w3-input w3-border" type="file" name="imagen" required>
+
+                            </div>
+                            <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                                <input class="w3-button w3-green w3-round" type="submit" value="GUARDAR"
+                                    name="guardar-taller">
+                                <button onclick="document.getElementById('form-crear').style.display='none'"
+                                    type="button" class="w3-button w3-red w3-right w3-round">CANCELAR</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer class="w3-container w3-padding-16 w3-light-grey">
+            <p><i style="font-size: 16px" class="fa"></i>
+                Universidad Politécnica de Atlacomulco,
+                Km. 5 Carretera Atlacomulco - San José Toxi,
+                Santo Domingo Shomeje, Atlacomulco de Fabela,
+                Estado de México. Tel. (712) 690 3020
+            </p>
+        </footer>
+
+        <!-- End page content -->
+    </div>
+
+    <script>
+        var mySidebar = document.getElementById("mySidebar");
+        var overlayBg = document.getElementById("myOverlay");
+        function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+                overlayBg.style.display = "none";
+            } else {
+                mySidebar.style.display = 'block';
+                overlayBg.style.display = "block";
+            }
+        }
+        function w3_close() {
+            mySidebar.style.display = "none";
+            overlayBg.style.display = "none";
+        }
+    </script>
 
 
 
-</body></html>
+</body>
+
+</html>

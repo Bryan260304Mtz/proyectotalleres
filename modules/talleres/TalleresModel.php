@@ -3,33 +3,35 @@
 // incluir el archivo de configuración
 require_once "./core/DB.php";
 
-class TalleresModel extends DB {
+class TalleresModel extends DB
+{
 
-    public function darTalleres() {
+    public function darTalleres()
+    {
         $this->rows = array();
-       $this->query= "SELECT * FROM talleres WHERE idtalleres ORDER BY idtalleres DESC";
+        $this->query = "SELECT * FROM talleres WHERE idtalleres ORDER BY idtalleres DESC";
         $this->get_query();
-		return $this->rows;
-	
-	}
-    public function crear($nombre, $estado, $imagen)
-	{
-		$this->query = "INSERT INTO talleres (nombre, estado, imagen) VALUES ( '$nombre', $estado, '$imagen')"; 
-		$this->set_query();
-	}
+        return $this->rows;
+    }
 
-	/*public function actualizar($item){
-        $consulta = "UPDATE inventarios SET producto=:producto, stock=:stock
-        WHERE folio=:folio";
-        $query = $this->db->connect()->prepare($consulta);
-        try{
-            $query->execute([
-                'folio'=>$item['folio'],
-                'producto'=>$item['producto'],
-                'stock'=>$item['stock']]);
+    public function cambiarEstado($idTalleres) {
+        // Preparar la consulta para cambiar el estado del taller
+        $query = "UPDATE talleres SET estado = CASE WHEN estado = 1 THEN 0 ELSE 1 END WHERE idtalleres = :idTaller";
+
+       
+        // Verificar si la consulta fue exitosa
+        if ($stmt->rowCount() > 0) {
+            // La consulta se ejecutó con éxito
             return true;
-        }catch(PDOException $e){
+        } else {
+            // La consulta no se ejecutó correctamente
             return false;
         }
     }
-*/}
+
+    public function crear($nombre, $estado, $imagen)
+    {
+        $this->query = "INSERT INTO talleres (nombre, estado, imagen) VALUES ( '$nombre', $estado, '$imagen')";
+        $this->set_query();
+    }
+}
