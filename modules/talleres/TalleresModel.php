@@ -38,7 +38,7 @@ class TalleresModel extends DB
     public function darTallerista()
     {
 
-        $this->query = "SELECT talleristas.*, persona.nombre
+        $this->query = "SELECT talleristas.*, persona.nombre, persona.apellidopat, persona.apellidomat
         FROM talleristas
         INNER JOIN profesor ON talleristas.idprofesor = profesor.idprofesor
         INNER JOIN persona ON profesor.idpersonas = persona.idpersonas
