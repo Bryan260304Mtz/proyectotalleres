@@ -20,15 +20,26 @@
             }
         
             public function home() {
-                $MaestrosModel = new MaestrosModel();
-                $cursos = $MaestrosModel->darCursos();
+                
  
                 $personaModel = new PersonaModel();
                 $persona = $personaModel->darPersona(25);
                 //escribeMatriz($persona);
  
                 $maestrosView = new MaestrosView();
-                $maestrosView->home($cursos, $persona);
+                $maestrosView->home($persona);
+                
       }
+      public function tallerista()
+		{
+            $maestrosModel = new MaestrosModel();
+			$docente = $maestrosModel->darTallerista();
+
+            $personaModel = new PersonaModel();
+			$persona = $personaModel->darPersona(5);
+
+			$maestrosView = new MaestrosView();
+			$maestrosView->tallerista($persona, $docente);
+		}
      }
 ?>

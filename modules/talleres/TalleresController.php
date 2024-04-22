@@ -155,30 +155,7 @@
 			$talleresView->tallerista($persona, $docente);
 		}
 		
-		/*function actualizarInventario($parametros){
-			$idtalleres = $parametros[0];
-			//var_dump($folio);
-			$nombreN = $_POST['nombre'];
-			$imagen = $_POST['imagen'];
-			
-			if($this->TalleresModel->actualizar(['idtalleres' =>$idtalleres,'nombre' =>$nombreN,'imagen' =>$imagen])){
-            //actualizacion correcta
-            $talleres= new Talleres;
-            $talleres->idtalleres= $idtalleres;
-            $talleres->nombre= $nombreN;
-            $talleres->imagen= $imagen;
-			$this-> view->talleres=$talleres;
-			$this->view->mensaje="Inventario actualizado";
-			}
-			else{
-            //error en la actuaizacion
-			
-            $this->view->mensaje="Ocurrio un error, Inventario no actualizado";
-			}
-			$this->view->render('consultarinventario/detalles');
-			}
-			
-		*/ public function home()
+		public function home()
 		{
 		}
 	}

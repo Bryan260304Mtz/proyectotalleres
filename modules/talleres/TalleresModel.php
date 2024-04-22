@@ -5,8 +5,8 @@ require_once "./core/DB.php";
 
 class TalleresModel extends DB
 {
-	
-	public function actualizar($idtalleres, $nombre, $imagen)
+
+    public function actualizar($idtalleres, $nombre, $imagen)
     {
         $this->rows = array();
         $this->query = "UPDATE talleres 
@@ -23,11 +23,11 @@ class TalleresModel extends DB
         return $this->rows;
     }
 
-    public function cambiarEstado($idTalleres) {
+    public function cambiarEstado($idTalleres)
+    {
         // Preparar la consulta para cambiar el estado del taller
         $this->query = "UPDATE talleres SET estado = !estado WHERE idtalleres = $idTalleres ";
-		$this->set_query();
-		
+        $this->set_query();
     }
 
     public function crear($nombre, $estado, $imagen)
@@ -37,13 +37,19 @@ class TalleresModel extends DB
     }
     public function darTallerista()
     {
-      
-        $this->query = "SELECT profesor.*, persona.apellidopat, persona.apellidomat, persona.nombre 
-        FROM profesor
-        INNER JOIN persona ON profesor.idprofesor = persona.idpersonas;
-        ";
+
+        $this->query = "SELECT talleristas.*, persona.nombre
+        FROM talleristas
+        INNER JOIN profesor ON talleristas.idprofesor = profesor.idprofesor
+        INNER JOIN persona ON profesor.idpersonas = persona.idpersonas
+        WHERE talleristas.idtalleristas = talleristas.idtalleristas";
+
+
+
+
+
+
         $this->get_query();
         return $this->rows;
-
     }
 }

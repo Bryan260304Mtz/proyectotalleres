@@ -69,7 +69,10 @@
 					<i class="fa fa-futbol-o"></i>&nbsp; TALLERES</a>
 					
 					<a href="http://www.talleres.local/talleres/tallerista" class="w3-bar-item w3-button w3-padding ">
-						<i class="fa fa-futbol-o"></i>&nbsp; TALLERISTAS</a>
+                        <i class="fa fa-futbol-o"></i>&nbsp; TALLERISTAS</a>
+					
+					<a href="http://www.talleres.local/maestros/tallerista" class="w3-bar-item w3-button w3-padding ">
+						<i class="fa fa-futbol-o"></i>&nbsp; PROFESORES</a>
 					
 					<a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
 					class="w3-bar-item w3-button w3-padding ">
@@ -113,92 +116,27 @@
 				
 				<div class="w3-container w3-dark-grey w3-padding">
 					<div class="w3-container w3-padding">
-						<button onclick="document.getElementById('form-crear').style.display='block'"
-						class="w3-button w3-green w3-round">Crear un Taller</button>
+					
 					</div>
 					<div class="w3-container">
 						<table class="w3-table-all w3-text-black">
 							<tr>
 								<th>ID Profesor</th>
-								<th>Nombre</th>
-								<th>Acciones</th>
-
+								<th>ID Persona</th>
+								<th>Nombre Tallerista</th>
 							</tr>
 							<!--LISTA_TALLERISTA-->
 							<tr>
 							
-								<td> {idprofesor} </td>
+								<td> {idtalleristas} </td>
+								<td>{idprofesor}</td>
 								<td>{apellidopat} {apellidomat} {nombre}</td>
-								<td> 
-									<!--<button onclick="document.getElementById('form-actualizar{idtalleres}').style.display='block'"
-						class="w3-button w3-green w3-round">Actualizar</button>-->
-									
-									<a href="/talleres/cambiar_estado/{idtalleres}" class="w3-button w3-green w3-round"  > Agregar </a>
-								</td>							
+					
 							</tr>
 							<!--LISTA_TALLERISTA-->
 						</table>				
 					</div>
 				</div>
-				<!--Modal para crear taller-->
-				<div id="form-crear" class="w3-modal">
-					<div class="w3-modal-content w3-card-4 w3-animate-zoom  w3-text-black" style="max-width:600px">
-						<div class="w3-center"><br>
-							<span onclick="document.getElementById('form-crear').style.display='none'"
-							class="w3-button w3-xlarge w3-transparent w3-display-topright"
-							title="Cerrar formulario">×</span>
-							
-						</div>
-						<form class="w3-container" action="/talleres/guardar/" method="post"
-						enctype="multipart/form-data">
-							<div class="w3-section">
-								<label><b>Nombre del taller</b></label>
-								<input class="w3-input w3-border w3-margin-bottom" type="text" name="nombre" required>
-								<label><b>Imagen</b></label>
-								<input class="w3-input w3-border" type="file" name="imagen" required>
-								
-							</div>
-							<div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-								<input class="w3-button w3-green w3-round" type="submit" value="GUARDAR"
-								name="guardar-taller">
-								<button onclick="document.getElementById('form-crear').style.display='none'"
-								type="button" class="w3-button w3-red w3-right w3-round">CANCELAR</button>
-							</div>
-						</form>
-					</div>
-				</div>
-				
-				<!--Modal para actulizar un taller-->
-				<!--ACTUALIZAR_TALLERES-->
-				<div id="form-actualizar{idtalleres}" class="w3-modal">
-					<div class="w3-modal-content w3-card-4 w3-animate-zoom  w3-text-black" style="max-width:600px">
-						<div class="w3-center"><br>
-							<span onclick="document.getElementById('form-actualizar{idtalleres}').style.display='none'"
-							class="w3-button w3-xlarge w3-transparent w3-display-topright"
-							title="Cerrar formulario">×</span>
-							
-						</div>
-						<form class="w3-container" action="/talleres/actualizar/" method="post"
-						enctype="multipart/form-data">
-							<div class="w3-section">
-							<img src="../public/images/talleres/{imagen}" width="50px"> 
-							<input type="hidden" name="idtalleres" value="{idtalleres}" >
-								<label><b>Nombre del taller</b></label>
-								<input class="w3-input w3-border w3-margin-bottom" type="text" name="nombre" required value="{nombre}">
-								<label><b>Imagen</b></label>
-								<input class="w3-input w3-border" type="file" name="imagen" required>
-								
-							</div>
-							<div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-								<input class="w3-button w3-green w3-round" type="submit" value="ACTUALIZAR"
-								name="actualizar-taller">
-								<button onclick="document.getElementById('form-actualizar{idtalleres}').style.display='none'"
-								type="button" class="w3-button w3-red w3-right w3-round">CANCELAR</button>
-							</div>
-						</form>
-					</div>
-				</div>
-				<!--ACTUALIZAR_TALLERES-->
 				
 				<!-- Footer -->
 				<footer class="w3-container w3-padding-16 w3-light-grey">
