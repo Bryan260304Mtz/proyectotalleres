@@ -143,6 +143,17 @@
 			$talleresView = new TalleresView();
 			$talleresView->crear($talleres, $persona);
 		}
+        public function tallerista()
+		{
+            $talleresModel = new TalleresModel();
+			$docente = $talleresModel->darTallerista();
+
+            $personaModel = new PersonaModel();
+			$persona = $personaModel->darPersona(5);
+
+			$talleresView = new TalleresView();
+			$talleresView->tallerista($persona, $docente);
+		}
 		
 		/*function actualizarInventario($parametros){
 			$idtalleres = $parametros[0];

@@ -19,6 +19,18 @@ class TalleresView {
         echo $contenido;
 	}
 
+    public function tallerista($persona, $docente)
+    {
+        $contenido = file_get_contents("./public/html/talleres/talleres-tallerista.html");
+        
+        $template = new Template($contenido);
+        $contenido = $template->render_regex($docente, "LISTA_TALLERISTA");
+
+        $template = new Template($contenido);
+        $contenido = $template->render($persona, $docente);
+        echo $contenido;
+    }
+
     public function home($talleres, $persona) {
         /*$contenido = file_get_contents("./public/html/talleres/talleres-crear.html");
         

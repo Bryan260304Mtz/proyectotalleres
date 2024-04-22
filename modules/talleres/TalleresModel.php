@@ -35,4 +35,15 @@ class TalleresModel extends DB
         $this->query = "INSERT INTO talleres (nombre, estado, imagen) VALUES ( '$nombre', $estado, '$imagen')";
         $this->set_query();
     }
+    public function darTallerista()
+    {
+      
+        $this->query = "SELECT profesor.*, persona.apellidopat, persona.apellidomat, persona.nombre 
+        FROM profesor
+        INNER JOIN persona ON profesor.idprofesor = persona.idpersonas;
+        ";
+        $this->get_query();
+        return $this->rows;
+
+    }
 }

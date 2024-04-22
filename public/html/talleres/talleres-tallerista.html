@@ -67,8 +67,8 @@
 					
 					<a href="http://www.talleres.local/talleres/crear" class="w3-bar-item w3-button w3-padding ">
 					<i class="fa fa-futbol-o"></i>&nbsp; TALLERES</a>
-                    
-                    <a href="http://www.talleres.local/talleres/tallerista" class="w3-bar-item w3-button w3-padding ">
+					
+					<a href="http://www.talleres.local/talleres/tallerista" class="w3-bar-item w3-button w3-padding ">
 						<i class="fa fa-futbol-o"></i>&nbsp; TALLERISTAS</a>
 					
 					<a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
@@ -119,26 +119,24 @@
 					<div class="w3-container">
 						<table class="w3-table-all w3-text-black">
 							<tr>
-								<th>Imagen</th>
-								<th>ID</th>
-								<th>Talleres</th>
-								<th>Estado</th>
+								<th>ID Profesor</th>
+								<th>Nombre</th>
 								<th>Acciones</th>
+
 							</tr>
-							<!--LISTA_TALLERES-->
+							<!--LISTA_TALLERISTA-->
 							<tr>
-								<td> <img src="../public/images/talleres/{imagen}" width="50px"> </td>
-								<td> {idtalleres} </td>
-								<td> {nombre} </td>
-								<td>{estado}</td>
+							
+								<td> {idprofesor} </td>
+								<td>{apellidopat} {apellidomat} {nombre}</td>
 								<td> 
-									<button onclick="document.getElementById('form-actualizar{idtalleres}').style.display='block'"
-						class="w3-button w3-green w3-round">Actualizar</button>
+									<!--<button onclick="document.getElementById('form-actualizar{idtalleres}').style.display='block'"
+						class="w3-button w3-green w3-round">Actualizar</button>-->
 									
-									<a href="/talleres/cambiar_estado/{idtalleres}" class="w3-button w3-green w3-round"  > estado </a>
+									<a href="/talleres/cambiar_estado/{idtalleres}" class="w3-button w3-green w3-round"  > Agregar </a>
 								</td>							
 							</tr>
-							<!--LISTA_TALLERES-->
+							<!--LISTA_TALLERISTA-->
 						</table>				
 					</div>
 				</div>
