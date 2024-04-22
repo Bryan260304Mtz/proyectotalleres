@@ -25,7 +25,6 @@ class TalleresModel extends DB
 
     public function cambiarEstado($idTalleres)
     {
-        // Preparar la consulta para cambiar el estado del taller
         $this->query = "UPDATE talleres SET estado = !estado WHERE idtalleres = $idTalleres ";
         $this->set_query();
     }
@@ -42,14 +41,15 @@ class TalleresModel extends DB
         FROM talleristas
         INNER JOIN profesor ON talleristas.idprofesor = profesor.idprofesor
         INNER JOIN persona ON profesor.idpersonas = persona.idpersonas
-        WHERE talleristas.idtalleristas = talleristas.idtalleristas";
-
-
-
-
-
+        WHERE talleristas.idtalleristas = talleristas.idtalleristas 
+        ORDER BY idtalleristas DESC";
 
         $this->get_query();
         return $this->rows;
+    }
+    public function guardarTallerista($idProfesor)
+    {
+        $this->query = "INSERT INTO talleristas (idprofesor) VALUES ($idProfesor)";
+        $this->set_query();
     }
 }
