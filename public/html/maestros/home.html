@@ -119,26 +119,16 @@
 
 			</div>
 			<div class="w3-container">
-				<table class="w3-table-all w3-text-black">
-					<tr>
-						<th>ID Profesor</th>
-						<th>Nombre</th>
-						<th>Acciones</th>
 
-					</tr>
-					<!--LISTA_TALLERISTA-->
-					<tr>
-						<td>{idprofesor}</td>
-						<td>{apellidopat} {apellidomat} {nombre}</td>
-						<td>
-							<form action="/talleres/agregarTallerista" method="post">
-								<input type="hidden" name="idProfesor" value="{idprofesor}">
-								<button type="submit" class="w3-button w3-green w3-round">Agregar a Talleristas</button>
-							</form>
-						</td>
-					</tr>
-					<!--LISTA_TALLERISTA-->
-				</table>
+				<form action="/talleres/agregarTallerista" method="post">
+					<select name="profesor">
+						<!--LISTA_TALLERISTA-->
+						<option value="{idprofesor}">{nombre_profesor}</option>
+						<!--LISTA_TALLERISTA-->
+					</select>
+					<button type="submit" class="w3-button w3-green w3-round">Agregar a Talleristas</button>
+				</form>
+
 			</div>
 		</div>
 
