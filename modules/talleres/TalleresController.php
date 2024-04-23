@@ -141,17 +141,20 @@ class TalleresController
 		$talleresView->crear($talleres, $persona);
 	}
 	public function tallerista()
-	{
+    {
+        $talleresModel = new TalleresModel();
+        $docente = $talleresModel->darTallerista();
+
 		$talleresModel = new TalleresModel();
-		$docente = $talleresModel->darTallerista();
+        $profesor = $talleresModel->darProfesor();
+		
+        $personaModel = new PersonaModel();
+        $persona = $personaModel->darPersona(5);
 
-		$personaModel = new PersonaModel();
-		$persona = $personaModel->darPersona(5);
-
-		$talleresView = new TalleresView();
-		$talleresView->tallerista($persona, $docente);
-	}
-	public function agregarTallerista()
+        $talleresView = new TalleresView();
+        $talleresView->tallerista($persona, $docente, $profesor);
+    }
+	/*public function agregarTallerista()
 	{
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$idProfesor = $_POST['idProfesor'];
@@ -159,13 +162,13 @@ class TalleresController
 			$talleresModel = new TalleresModel();
 			$talleresModel->guardarTallerista($idProfesor);
 
-			header("Location: http://www.talleres.local/maestros/tallerista");
+			header("Location: http://www.talleres.local/talleres/tallerista");
 			exit();
 		}
 	}
 
 
-	public function home()
+	*/public function home()
 	{
 	}
 }

@@ -71,9 +71,6 @@
 			<a href="http://www.talleres.local/talleres/tallerista" class="w3-bar-item w3-button w3-padding ">
 				<i class="fa fa-futbol-o"></i>&nbsp; TALLERISTAS</a>
 
-			<a href="http://www.talleres.local/maestros/tallerista" class="w3-bar-item w3-button w3-padding ">
-				<i class="fa fa-futbol-o"></i>&nbsp; PROFESORES</a>
-
 			<a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
 				class="w3-bar-item w3-button w3-padding ">
 				<i class="fa fa-user-o fa-fw"></i>&nbsp; ACTUALIZAR DATOS</a>
@@ -115,26 +112,39 @@
 		</header>
 
 		<div class="w3-container w3-dark-grey w3-padding">
-			<div class="w3-container w3-padding">
+			
+			<div class="w3-container w3-padding">		
 
 			</div>
 			<div class="w3-container">
-				<table class="w3-table-all w3-text-black">
-					<tr>
-						<th>ID Tallerista</th>
-						<th>Nombre Tallerista</th>
-					</tr>
-					<!--LISTA_TALLERISTA-->
-					<tr>
-
-						<td> {idtalleristas} </td>
-						<td>{apellidopat} {apellidomat} {nombre}</td>
-
-					</tr>
-					<!--LISTA_TALLERISTA-->
-				</table>
+				<form action="/talleres/agregarTallerista" method="post">
+					<select name="profesor">
+						<!--LISTA_TALLERISTA-->
+						<option value="{idprofesor}">{nombre_profesor}</option>
+						<!--LISTA_TALLERISTA-->
+					</select>
+					<button type="submit" class="w3-button w3-green w3-round">Agregar a Talleristas</button>
+				</form>
 			</div>
-		</div>
+
+			<div class="w3-container w3-padding">		
+		<table class="w3-table-all w3-text-black">
+			<tr>
+				<th>ID Tallerista</th>
+				<th>Nombre Tallerista</th>
+			</tr>
+			<!--LISTA_PROFESORES-->
+			<tr>
+
+				<td> {idtalleristas} </td>
+				<td>{apellidopat} {apellidomat} {nombre}</td>
+
+			</tr>
+		<!--LISTA_PROFESORES-->
+		</table>
+	</div>
+</div>
+
 
 		<!-- Footer -->
 		<footer class="w3-container w3-padding-16 w3-light-grey">

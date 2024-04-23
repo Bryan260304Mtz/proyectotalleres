@@ -37,13 +37,21 @@ class TalleresModel extends DB
     public function darTallerista()
     {
 
+        $this->query = "SELECT nombreCompleto(persona.idpersonas) AS 'nombre_profesor'
+        FROM persona
+        WHERE persona.profesor = 1 AND persona.profesor_activo = 1 
+        ORDER BY nombre_profesor ";
+        $this->get_query();
+        return $this->rows;
+    }
+    public function darProfesor()
+    {
         $this->query = "SELECT talleristas.*, persona.nombre, persona.apellidopat, persona.apellidomat
         FROM talleristas
         INNER JOIN profesor ON talleristas.idprofesor = profesor.idprofesor
         INNER JOIN persona ON profesor.idpersonas = persona.idpersonas
         WHERE talleristas.idtalleristas = talleristas.idtalleristas 
         ORDER BY idtalleristas DESC";
-
         $this->get_query();
         return $this->rows;
     }
