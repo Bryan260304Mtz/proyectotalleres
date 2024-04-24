@@ -165,6 +165,15 @@ class TalleresController
 			exit();
 		}
 	}
+	public function cambiarEstadoTallerista($param = array())
+	{
+		$talleresModel = new TalleresModel();
+		$resultado = $talleresModel->cambiarEstadoTallerista($param[0]);
+		
+
+		header("Location: http://www.talleres.local/talleres/tallerista");
+		exit();
+	}
 
 
 	public function home()

@@ -58,4 +58,9 @@ class TalleresModel extends DB
         $this->query = "INSERT INTO talleristas (idprofesor,estado) VALUES ($idProfesor,1)";
         $this->set_query();
     }
+    public function cambiarEstadoTallerista($idProfesor)
+    {
+        $this->query = "UPDATE talleristas SET estado = !estado WHERE idprofesor = $idProfesor ";
+        $this->set_query();
+    }
 }

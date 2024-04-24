@@ -126,21 +126,26 @@
 					</select>
 
 					<button type="submit" class="w3-button w3-green w3-round">Agregar a Talleristas</button>
-					
+
 				</form>
 			</div>
 
 			<div class="w3-container w3-padding">		
 		<table class="w3-table-all w3-text-black">
 			<tr>
-				<th>ID Tallerista</th>
+				<th>ID Profesor</th>
 				<th>Nombre Tallerista</th>
+				<th>Estado</th>
+				<th>Acciones</th>
 			</tr>
 			<!--LISTA_TALLERISTAS-->
 			<tr>
 
 				<td> {idprofesor} </td>
 				<td>{nombre_talleristas}</td>
+				<td>{estado}</td>
+				<td><a href="/talleres/cambiarEstadoTallerista/{idprofesor}" class="w3-button w3-green w3-round"  > estado </a>
+				</td>		
 
 			</tr>
 		<!--LISTA_TALLERISTAS-->
