@@ -143,22 +143,21 @@ class TalleresController
 	public function tallerista()
     {
         $talleresModel = new TalleresModel();
-        $docente = $talleresModel->darTallerista();
+        $docente = $talleresModel->darProfesor();
 
 		$talleresModel = new TalleresModel();
-        $profesor = $talleresModel->darProfesor();
+        $tallerista = $talleresModel->darTallerista();
 		
         $personaModel = new PersonaModel();
         $persona = $personaModel->darPersona(5);
 
         $talleresView = new TalleresView();
-        $talleresView->tallerista($persona, $docente, $profesor);
+        $talleresView->tallerista($persona, $docente, $tallerista);
     }
-	/*public function agregarTallerista()
+	public function agregarTallerista()
 	{
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
-			$idProfesor = $_POST['idProfesor'];
-
+			$idProfesor = $_POST['idprofesor'];
 			$talleresModel = new TalleresModel();
 			$talleresModel->guardarTallerista($idProfesor);
 
@@ -168,7 +167,7 @@ class TalleresController
 	}
 
 
-	*/public function home()
+	public function home()
 	{
 	}
 }

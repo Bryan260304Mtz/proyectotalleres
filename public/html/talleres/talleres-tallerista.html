@@ -108,7 +108,7 @@
 
 		<!-- Header -->
 		<header class="w3-container" style="padding-top:22px">
-			<h5><b><i class="fa fa-futbol-o"></i> TALLERES</b></h5>
+			<h5><b><i class="fa fa-futbol-o"></i> TALLERISTAS</b></h5>
 		</header>
 
 		<div class="w3-container w3-dark-grey w3-padding">
@@ -118,12 +118,15 @@
 			</div>
 			<div class="w3-container">
 				<form action="/talleres/agregarTallerista" method="post">
-					<select name="profesor">
-						<!--LISTA_TALLERISTA-->
-						<option value="{idprofesor}">{nombre_profesor}</option>
-						<!--LISTA_TALLERISTA-->
+
+					<select name="idprofesor" class="w3-input">
+						<!--LISTA_PROFESORES-->
+						<option value="{idpersonas}">{nombre_profesor}</option>
+						<!--LISTA_PROFESORES-->
 					</select>
+
 					<button type="submit" class="w3-button w3-green w3-round">Agregar a Talleristas</button>
+					
 				</form>
 			</div>
 
@@ -133,14 +136,14 @@
 				<th>ID Tallerista</th>
 				<th>Nombre Tallerista</th>
 			</tr>
-			<!--LISTA_PROFESORES-->
+			<!--LISTA_TALLERISTAS-->
 			<tr>
 
-				<td> {idtalleristas} </td>
-				<td>{apellidopat} {apellidomat} {nombre}</td>
+				<td> {idprofesor} </td>
+				<td>{nombre_talleristas}</td>
 
 			</tr>
-		<!--LISTA_PROFESORES-->
+		<!--LISTA_TALLERISTAS-->
 		</table>
 	</div>
 </div>

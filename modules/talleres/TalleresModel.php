@@ -34,30 +34,28 @@ class TalleresModel extends DB
         $this->query = "INSERT INTO talleres (nombre, estado, imagen) VALUES ( '$nombre', $estado, '$imagen')";
         $this->set_query();
     }
-    public function darTallerista()
+    public function darProfesor()
     {
 
-        $this->query = "SELECT nombreCompleto(persona.idpersonas) AS 'nombre_profesor'
+        $this->query = "SELECT persona.idpersonas, nombreCompleto(persona.idpersonas) AS 'nombre_profesor'
         FROM persona
         WHERE persona.profesor = 1 AND persona.profesor_activo = 1 
         ORDER BY nombre_profesor ";
         $this->get_query();
         return $this->rows;
     }
-    public function darProfesor()
+    public function darTallerista()
     {
-        $this->query = "SELECT talleristas.*, persona.nombre, persona.apellidopat, persona.apellidomat
+        $this->query = "SELECT talleristas.*, nombreCompleto(persona.idpersonas) AS 'nombre_talleristas'
         FROM talleristas
-        INNER JOIN profesor ON talleristas.idprofesor = profesor.idprofesor
-        INNER JOIN persona ON profesor.idpersonas = persona.idpersonas
-        WHERE talleristas.idtalleristas = talleristas.idtalleristas 
-        ORDER BY idtalleristas DESC";
+        INNER JOIN persona ON persona.idpersonas =  talleristas.idprofesor 
+        ORDER BY nombre_talleristas";
         $this->get_query();
         return $this->rows;
     }
     public function guardarTallerista($idProfesor)
     {
-        $this->query = "INSERT INTO talleristas (idprofesor) VALUES ($idProfesor)";
+        $this->query = "INSERT INTO talleristas (idprofesor,estado) VALUES ($idProfesor,1)";
         $this->set_query();
     }
 }

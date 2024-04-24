@@ -19,18 +19,18 @@ class TalleresView {
         echo $contenido;
 	}
 
-    public function tallerista($persona, $docente, $profesor)
+    public function tallerista($persona, $docente, $tallerista)
     {
         $contenido = file_get_contents("./public/html/talleres/talleres-tallerista.html");
         
         $template = new Template($contenido);
-        $contenido = $template->render_regex($docente, "LISTA_TALLERISTA");
+        $contenido = $template->render_regex($docente, "LISTA_PROFESORES");
 
        $template = new Template($contenido);
-        $contenido = $template->render_regex($profesor, "LISTA_PROFESORES");
+        $contenido = $template->render_regex($tallerista, "LISTA_TALLERISTAS");
 
         $template = new Template($contenido);
-        $contenido = $template->render($persona, $docente, $profesor);
+        $contenido = $template->render($persona, $docente, $tallerista);
         echo $contenido;
     }
     public function home() {
