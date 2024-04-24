@@ -48,7 +48,7 @@ class TalleresModel extends DB
     {
         $this->query = "SELECT talleristas.*, nombreCompleto(persona.idpersonas) AS 'nombre_talleristas'
         FROM talleristas
-        INNER JOIN persona ON persona.idpersonas =  talleristas.idprofesor 
+        INNER JOIN persona ON persona.idpersonas =  talleristas.idprofesor
         ORDER BY nombre_talleristas";
         $this->get_query();
         return $this->rows;
@@ -62,5 +62,24 @@ class TalleresModel extends DB
     {
         $this->query = "UPDATE talleristas SET estado = !estado WHERE idprofesor = $idProfesor ";
         $this->set_query();
+    }
+    public function darTallerista1()
+    {
+        $this->query = "SELECT talleristas.*, nombreCompleto(persona.idpersonas) AS 'nombre_talleristas'
+        FROM talleristas
+        INNER JOIN persona ON persona.idpersonas =  talleristas.idprofesor  WHERE talleristas.estado = 1
+        ORDER BY nombre_talleristas";
+        $this->get_query();
+        return $this->rows;
+    }
+    public function darTalleres1()
+    {
+        $this->rows = array();
+        $this->query = "SELECT talleres.*, talleres.nombre  AS 'nombre_taller'
+        FROM talleres
+        WHERE talleres.estado = 1
+        ORDER BY nombre_taller ";
+        $this->get_query();
+        return $this->rows;  
     }
 }

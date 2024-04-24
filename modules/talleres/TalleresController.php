@@ -141,19 +141,19 @@ class TalleresController
 		$talleresView->crear($talleres, $persona);
 	}
 	public function tallerista()
-    {
-        $talleresModel = new TalleresModel();
-        $docente = $talleresModel->darProfesor();
+	{
+		$talleresModel = new TalleresModel();
+		$docente = $talleresModel->darProfesor();
 
 		$talleresModel = new TalleresModel();
-        $tallerista = $talleresModel->darTallerista();
-		
-        $personaModel = new PersonaModel();
-        $persona = $personaModel->darPersona(5);
+		$tallerista = $talleresModel->darTallerista();
 
-        $talleresView = new TalleresView();
-        $talleresView->tallerista($persona, $docente, $tallerista);
-    }
+		$personaModel = new PersonaModel();
+		$persona = $personaModel->darPersona(5);
+
+		$talleresView = new TalleresView();
+		$talleresView->tallerista($persona, $docente, $tallerista);
+	}
 	public function agregarTallerista()
 	{
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -169,10 +169,26 @@ class TalleresController
 	{
 		$talleresModel = new TalleresModel();
 		$resultado = $talleresModel->cambiarEstadoTallerista($param[0]);
-		
+
 
 		header("Location: http://www.talleres.local/talleres/tallerista");
 		exit();
+	}
+
+	public function crearGrupoTaller()
+	{
+
+		$talleresModel = new TalleresModel();
+		$tallerista = $talleresModel->darTallerista1();
+
+		$talleresModel = new TalleresModel();
+		$talleres = $talleresModel->darTalleres1();
+
+		$personaModel = new PersonaModel();
+		$persona = $personaModel->darPersona(5);
+
+		$talleresView = new TalleresView();
+		$talleresView->crearGrupoTaller($persona, $tallerista, $talleres);
 	}
 
 

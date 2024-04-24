@@ -33,6 +33,22 @@ class TalleresView {
         $contenido = $template->render($persona, $docente, $tallerista);
         echo $contenido;
     }
+
+    public function crearGrupoTaller($persona, $tallerista, $talleres)
+    {
+        $contenido = file_get_contents("./public/html/talleres/talleres-grupo.html");   
+     
+       $template = new Template($contenido);
+        $contenido = $template->render_regex($tallerista, "LISTA_TALLERISTAS");
+
+        $template = new Template($contenido);
+        $contenido = $template->render_regex($talleres, "LISTA_TALLERES");
+
+        $template = new Template($contenido);
+        $contenido = $template->render($persona, $tallerista, $talleres);
+        echo $contenido;
+
+    }
     public function home() {
       }
 }
