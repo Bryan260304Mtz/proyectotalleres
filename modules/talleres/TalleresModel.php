@@ -48,26 +48,26 @@ class TalleresModel extends DB
     {
         $this->query = "SELECT talleristas.*, nombreCompleto(persona.idpersonas) AS 'nombre_talleristas'
         FROM talleristas
-        INNER JOIN persona ON persona.idpersonas =  talleristas.idprofesor
+        INNER JOIN persona ON persona.idpersonas =  talleristas.idtallerista
         ORDER BY nombre_talleristas";
         $this->get_query();
         return $this->rows;
     }
-    public function guardarTallerista($idProfesor)
+    public function guardarTallerista($idtallerista)
     {
-        $this->query = "INSERT INTO talleristas (idprofesor,estado) VALUES ($idProfesor,1)";
+        $this->query = "INSERT INTO talleristas (idtallerista,estado) VALUES ($idtallerista,1)";
         $this->set_query();
     }
-    public function cambiarEstadoTallerista($idProfesor)
+    public function cambiarEstadoTallerista($idtallerista)
     {
-        $this->query = "UPDATE talleristas SET estado = !estado WHERE idprofesor = $idProfesor ";
+        $this->query = "UPDATE talleristas SET estado = !estado WHERE idtallerista = $idtallerista ";
         $this->set_query();
     }
     public function darTallerista1()
     {
         $this->query = "SELECT talleristas.*, nombreCompleto(persona.idpersonas) AS 'nombre_talleristas'
         FROM talleristas
-        INNER JOIN persona ON persona.idpersonas =  talleristas.idprofesor  WHERE talleristas.estado = 1
+        INNER JOIN persona ON persona.idpersonas =  talleristas.idtallerista  WHERE talleristas.estado = 1
         ORDER BY nombre_talleristas";
         $this->get_query();
         return $this->rows;
@@ -79,6 +79,15 @@ class TalleresModel extends DB
         FROM talleres
         WHERE talleres.estado = 1
         ORDER BY nombre_taller ";
+        $this->get_query();
+        return $this->rows;  
+    }
+    public function darPeriodo()
+    {
+        $this->rows = array();
+        $this->query = "SELECT periodo.periodo  AS 'periodo_actual'
+        FROM periodo
+        WHERE periodo.actual = 1";
         $this->get_query();
         return $this->rows;  
     }

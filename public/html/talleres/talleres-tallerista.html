@@ -123,6 +123,7 @@
 				<form action="/talleres/agregarTallerista" method="post">
 
 					<select name="idprofesor" class="w3-input">
+						<option value="">-- SELECCIONA PROFESOR --</option>
 						<!--LISTA_PROFESORES-->
 						<option value="{idpersonas}">{nombre_profesor}</option>
 						<!--LISTA_PROFESORES-->
@@ -136,7 +137,7 @@
 			<div class="w3-container w3-padding">		
 		<table class="w3-table-all w3-text-black">
 			<tr>
-				<th>ID Profesor</th>
+				<th>ID Tallerista</th>
 				<th>Nombre Tallerista</th>
 				<th>Estado</th>
 				<th>Acciones</th>
@@ -144,10 +145,10 @@
 			<!--LISTA_TALLERISTAS-->
 			<tr>
 
-				<td> {idprofesor} </td>
+				<td> {idtallerista} </td>
 				<td>{nombre_talleristas}</td>
 				<td>{estado}</td>
-				<td><a href="/talleres/cambiarEstadoTallerista/{idprofesor}" class="w3-button w3-green w3-round"  > estado </a>
+				<td><a href="/talleres/cambiarEstadoTallerista/{idtallerista}" class="w3-button w3-green w3-round"  > estado </a>
 				</td>		
 
 			</tr>

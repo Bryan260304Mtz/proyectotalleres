@@ -34,7 +34,7 @@ class TalleresView {
         echo $contenido;
     }
 
-    public function crearGrupoTaller($persona, $tallerista, $talleres)
+    public function crearGrupoTaller($persona, $tallerista, $talleres, $periodo)
     {
         $contenido = file_get_contents("./public/html/talleres/talleres-grupo.html");   
      
@@ -43,9 +43,12 @@ class TalleresView {
 
         $template = new Template($contenido);
         $contenido = $template->render_regex($talleres, "LISTA_TALLERES");
+        
+        $template = new Template($contenido);
+        $contenido = $template->render_regex($periodo, "PERIODO");
 
         $template = new Template($contenido);
-        $contenido = $template->render($persona, $tallerista, $talleres);
+        $contenido = $template->render($persona, $tallerista, $talleres, $periodo);
         echo $contenido;
 
     }
