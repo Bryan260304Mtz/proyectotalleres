@@ -188,6 +188,20 @@ class TalleresController
 		$talleresView = new TalleresView();
 		$talleresView->crearGrupoTaller($persona, $tallerista, $talleres, $periodo);
 	}
+	public function guardarGrupoTaller()
+	{
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			$idtallerista = $_POST['idtallerista'];
+			$idtaller = $_POST['idtalleres'];
+			$cupo =$_POST['cupo'];
+			$idperiodo =$_POST['idperiodo'];
+			$talleresModel = new TalleresModel();
+			$talleresModel->guardarGrupoTaller($idtallerista, $idtaller, $cupo, $idperiodo);
+
+			header("Location: http://www.talleres.local/talleres/crearGrupoTaller");
+			exit();
+		}	
+	}
 	public function home()
 	{
 	}

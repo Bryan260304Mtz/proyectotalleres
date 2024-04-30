@@ -85,10 +85,15 @@ class TalleresModel extends DB
     public function darPeriodo()
     {
         $this->rows = array();
-        $this->query = "SELECT periodo.periodo  AS 'periodo_actual'
+        $this->query = "SELECT periodo.idperiodo, periodo.periodo  AS 'periodo_actual'
         FROM periodo
         WHERE periodo.actual = 1";
         $this->get_query();
         return $this->rows;  
+    }
+    public function guardarGrupoTaller($idtallerista,$idtaller,$cupo, $idperiodo)
+    {
+        $this->query = "INSERT INTO grupo_talleres (idtallerista,idtaller,idperiodo,cupo) VALUES ($idtallerista,$idtaller,$idperiodo,$cupo)";
+        $this->set_query();
     }
 }

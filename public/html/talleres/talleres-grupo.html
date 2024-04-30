@@ -44,21 +44,23 @@
             background-color: black;
             color: white;
         }
-       
-    <style>
+
         table {
             border-collapse: collapse;
             width: 100%;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid black;
             padding: 8px;
             text-align: center;
         }
+
         th {
-            background-color: lightgray; /* Color de fondo para las horas */
+            background-color: lightgray;
+            /* Color de fondo para las horas */
         }
-    
     </style>
 </head>
 
@@ -148,82 +150,145 @@
 
             </div>
             <div class="w3-container">
-                <div class="w3-container w3-padding">
+                <form class="w3-container" action="/talleres/guardarGrupoTaller/" method="post"
+                    enctype="multipart/form-data">
 
-                    <select name="idprofesor" class="w3-input">
-						<option value="">-- SELECCIONA TALLERISTA --</option>
-                        <!--LISTA_TALLERISTAS-->
-                        <option value="{idpersonas}">{nombre_talleristas}</option>
-                        <!--LISTA_TALLERISTAS-->
-                    </select>
-                </div>
+                    <div class="w3-container w3-padding">
 
-                <div class="w3-container w3-padding">
+                        <select name="idtallerista" class="w3-input">
+                            <option value="">-- SELECCIONA TALLERISTA --</option>
+                            <!--LISTA_TALLERISTAS-->
+                            <option value="{idtallerista}">{nombre_talleristas}</option>
+                            <!--LISTA_TALLERISTAS-->
+                        </select>
+                    </div>
 
-                    <select name="idtaller" class="w3-input">
-						<option value="">-- SELECCIONA TALLER --</option>
-                        <!--LISTA_TALLERES-->
-                        <option value="{idtaller}">{nombre_taller}</option>
-                        <!--LISTA_TALLERES-->
-                    </select>
-                </div>
-                <div class="w3-container w3-padding">
+                    <div class="w3-container w3-padding">
 
-                    <label for="fname" class="w3-text-white">Cupo</label>
-                    <input type="text" id="fname" name="fname" onkeyup="showHint(this.value)">
+                        <select name="idtalleres" class="w3-input">
+                            <option value="">-- SELECCIONA TALLER --</option>
+                            <!--LISTA_TALLERES-->
+                            <option value="{idtalleres}">{nombre_taller}</option>
+                            <!--LISTA_TALLERES-->
+                        </select>
+                    </div>
+                    <div class="w3-container w3-padding">
 
-                </div>
-                
-                <!--PERIODO-->
-                <td> <h5>{periodo_actual} </h5></td>
-                <!--PERIODO-->
+                        <label for="cupo" class="w3-text-white">Cupo</label>
+                        <input type="text" id="cupo" name="cupo" onkeyup="showHint(this.value)">
 
-                <table border style="background-color: #ffffff; color: black;">
-                    
-					<tr>
-						<th rowspan="2">Horas</th>
-						<th colspan="5">Días</th>
-					  </tr>
-                    <tr>
-                     <th>LUNES</th><th>MARTES</th><th>MIERCOLES</th><th>JUEVES</th><th>VIERNES</th></td>
-                    </tr>
+                    </div>
 
-                    <tr align="center">
-                        <th>7-8</th><td id="borderCell"></td><td></td><td></td><td></td><td></td>
-                    </tr>
-                    <tr align="center">
-                        <th>8-9</th><td></td><td></td><td id="rowspanCell"></td><td></td><td></td>
-                    </tr>
-                    <tr align="center">
-                        <th>9-10</th><td></td><td></td><td id="colspanCell"></td><td></td><td></td>
-                    </tr>
-                    <tr align="center">
-                        <th>10-11</th><td></td><td id="alignCell"></td><td></td><td></td><td></td>
-                    </tr>
-                    <tr align="center">
-                        <th>11-12</th><td></td><td></td><td id="valignCell"></td><td></td><td></td>
-                    </tr>
-                    <tr align="center">
-                        <th>12-13</th><td id="widthCell"></td><td></td><td id="widthCell"></td><td></td><td></td>
-                    </tr>
-                    <tr align="center">
-                        <th>13-14</th><td id="heightCell"></td><td></td><td id="heightCell"></td><td></td><td></td>
-                    </tr>
-                    <tr align="center">
-                        <th>14-15</th><td id="cellpaddingCell"></td><td></td><td></td><td></td><td></td>
-                    </tr>
-                    <tr align="center">
-                        <th>15-16</th><td id="cellspacingCell"></td><td></td><td></td><td></td><td></td>
-                    </tr>
-					<tr align="center">
-                        <th>16-17</th><td id="cellspacingCell"></td><td></td><td></td><td></td><td></td>
-                    </tr>
-                </table>
+                    <!--PERIODO-->
+                    <div class="w3-container w3-padding">
+                        <label for="idperiodo" class="w3-text-white"></label>
+                        <span>{periodo_actual}</span>
+                        <input type="hidden" name="idperiodo" value="{idperiodo}">
+                    </div>                    
+                    <!--PERIODO-->
 
-                <div class="w3-container w3-padding">
-                    <input class="w3-button w3-green w3-round w3-right" type="submit" value="GUARDAR"
-                        name="guardar-grupo-taller">
-                </div>
+                    <table border style="background-color: #ffffff; color: black;">
+
+                        <tr>
+                            <th rowspan="2">Horas</th>
+                            <th colspan="5">Días</th>
+                        </tr>
+                        <tr>
+                            <th>LUNES</th>
+                            <th>MARTES</th>
+                            <th>MIERCOLES</th>
+                            <th>JUEVES</th>
+                            <th>VIERNES</th>
+                            </td>
+                        </tr>
+
+                        <tr align="center">
+                            <th>7-8</th>
+                            <td id="borderCell"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr align="center">
+                            <th>8-9</th>
+                            <td></td>
+                            <td></td>
+                            <td id="rowspanCell"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr align="center">
+                            <th>9-10</th>
+                            <td></td>
+                            <td></td>
+                            <td id="colspanCell"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr align="center">
+                            <th>10-11</th>
+                            <td></td>
+                            <td id="alignCell"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr align="center">
+                            <th>11-12</th>
+                            <td></td>
+                            <td></td>
+                            <td id="valignCell"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr align="center">
+                            <th>12-13</th>
+                            <td id="widthCell"></td>
+                            <td></td>
+                            <td id="widthCell"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr align="center">
+                            <th>13-14</th>
+                            <td id="heightCell"></td>
+                            <td></td>
+                            <td id="heightCell"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr align="center">
+                            <th>14-15</th>
+                            <td id="cellpaddingCell"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr align="center">
+                            <th>15-16</th>
+                            <td id="cellspacingCell"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr align="center">
+                            <th>16-17</th>
+                            <td id="cellspacingCell"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    <div class="w3-container w3-padding">
+                        <input class="w3-button w3-green w3-round w3-right" type="submit" value="GUARDAR"
+                            name="guardar-grupo-taller">
+                    </div>
+                </form>
 
             </div>
         </div>
@@ -243,36 +308,36 @@
     </div>
 
     <script>
-		var mySidebar = document.getElementById("mySidebar");
-		var overlayBg = document.getElementById("myOverlay");
-		function w3_open() {
-			if (mySidebar.style.display === 'block') {
-				mySidebar.style.display = 'none';
-				overlayBg.style.display = "none";
-			} else {
-				mySidebar.style.display = 'block';
-				overlayBg.style.display = "block";
-			}
-		}
-		function w3_close() {
-			mySidebar.style.display = "none";
-			overlayBg.style.display = "none";
-		}
-	
-		const cells = document.querySelectorAll('td');
-		cells.forEach(cell => {
-			cell.addEventListener('click', () => {
-				if (cell.classList.contains('selected')) {
-					cell.classList.remove('selected');
-					cell.innerHTML = ''; // Remover la palomita
-				} else {
-					cell.classList.add('selected');
-					cell.innerHTML = '&#10003;'; // Agregar la palomita
-				}
-			});
-		});
-	</script>
-	
+        var mySidebar = document.getElementById("mySidebar");
+        var overlayBg = document.getElementById("myOverlay");
+        function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+                overlayBg.style.display = "none";
+            } else {
+                mySidebar.style.display = 'block';
+                overlayBg.style.display = "block";
+            }
+        }
+        function w3_close() {
+            mySidebar.style.display = "none";
+            overlayBg.style.display = "none";
+        }
+
+        const cells = document.querySelectorAll('td');
+        cells.forEach(cell => {
+            cell.addEventListener('click', () => {
+                if (cell.classList.contains('selected')) {
+                    cell.classList.remove('selected');
+                    cell.innerHTML = ''; // Remover la palomita
+                } else {
+                    cell.classList.add('selected');
+                    cell.innerHTML = '&#10003;'; // Agregar la palomita
+                }
+            });
+        });
+    </script>
+
 
 </body>
 
