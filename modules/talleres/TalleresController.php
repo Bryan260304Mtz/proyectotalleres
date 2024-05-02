@@ -206,6 +206,25 @@ class TalleresController
 			exit();
 		}	
 	}
+	public function horario()
+{
+    $grupo_talleres = array(); 
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['idgrupo_talleres'])) {
+            $idGrupo = $_POST['idgrupo_talleres'];
+            $talleresModel = new TalleresModel();
+            $grupo_talleres = $talleresModel->darGrupo($idGrupo);
+        }
+    }
+
+	$personaModel = new PersonaModel();
+    $persona = $personaModel->darPersona(5);
+
+    $talleresView = new TalleresView();
+    $talleresView->horario($persona, $grupo_talleres);
+}
+
 	public function home()
 	{
 	}

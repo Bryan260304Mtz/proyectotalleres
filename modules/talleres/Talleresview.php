@@ -56,6 +56,18 @@ class TalleresView {
         echo $contenido;
 
     }
+    public function horario( $persona, $grupo_talleres)
+    {
+        $contenido = file_get_contents("./public/html/talleres/talleres-horario.html");   
+     
+        $template = new Template($contenido);
+        $contenido = $template->render_regex($grupo_talleres, "GRUPO_TALLERES");
+
+        $template = new Template($contenido);
+        $contenido = $template->render($persona, $grupo_talleres);
+        echo $contenido;
+
+    }
     public function home() {
       }
 }
