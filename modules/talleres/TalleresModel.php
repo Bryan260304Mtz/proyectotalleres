@@ -96,4 +96,20 @@ class TalleresModel extends DB
         $this->query = "INSERT INTO grupo_talleres (idtallerista,idtaller,idperiodo,cupo) VALUES ($idtallerista,$idtaller,$idperiodo,$cupo)";
         $this->set_query();
     }
+    public function darGrupoTaller()
+    {
+        $this->rows = array();
+        $this->query = "SELECT grupo_talleres.*, 
+        nombreCompleto(persona.idpersonas) AS 'nombre_talleristas',
+        talleres.nombre AS 'nombre_taller',
+        periodo.periodo AS 'periodo',
+        grupo_talleres.cupo 
+        FROM grupo_talleres
+        INNER JOIN persona ON persona.idpersonas =  grupo_talleres.idtallerista
+        INNER JOIN talleres ON talleres.idtalleres= grupo_talleres.idtaller
+        INNER JOIN periodo ON periodo.idperiodo = grupo_talleres.idperiodo
+        ORDER BY idgrupo_talleres DESC";
+        $this->get_query();
+        return $this->rows;  
+    }
 }

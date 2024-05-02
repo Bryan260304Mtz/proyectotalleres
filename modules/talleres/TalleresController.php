@@ -185,8 +185,12 @@ class TalleresController
 		$talleresModel = new TalleresModel();
 		$periodo = $talleresModel->darPeriodo();
 
+		$talleresModel = new TalleresModel();
+		$grupo_talleres = $talleresModel->darGrupoTaller();
+
+
 		$talleresView = new TalleresView();
-		$talleresView->crearGrupoTaller($persona, $tallerista, $talleres, $periodo);
+		$talleresView->crearGrupoTaller($persona, $tallerista, $talleres, $periodo, $grupo_talleres);
 	}
 	public function guardarGrupoTaller()
 	{
