@@ -127,6 +127,12 @@ class TalleresModel extends DB
         WHERE grupo_talleres.idgrupo_talleres = $idgrupo
         ORDER BY idgrupo_talleres DESC";
         $this->get_query();
-        return $this->rows;  
+        return $this->rows[0];  
+    }
+	
+	public function horariosGuardar($idgrupo_talleres, $dia, $hora)
+    {
+        $this->query = "INSERT INTO horario_talleres (idgrupo_talleres, dia, inicio, duracion) VALUES ( $idgrupo_talleres, $dia, '$hora',1)";
+        $this->set_query();
     }
 }
