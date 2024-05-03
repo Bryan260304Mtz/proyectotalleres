@@ -135,4 +135,20 @@ class TalleresModel extends DB
         $this->query = "INSERT INTO horario_talleres (idgrupo_talleres, dia, inicio, duracion) VALUES ( $idgrupo_talleres, $dia, '$hora',1)";
         $this->set_query();
     }
+    public function estaOcupada($idGrupo, $dia, $hora)
+    {
+        $this->query = "SELECT * FROM horario_talleres WHERE idgrupo_talleres = $idGrupo AND dia = $dia AND inicio = '$hora:00'";
+        $this->get_query();
+                if (count($this->rows) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+   
+    public function eliminarHorario($idgrupo_talleres, $dia, $hora){
+        $query = "DELETE FROM horario_talleres WHERE idgrupo_talleres = $idgrupo_talleres AND dia = $dia AND inicio = '$hora:00'";
+        $this->execute_query($query); 
+    }
+    
 }

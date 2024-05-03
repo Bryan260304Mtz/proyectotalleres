@@ -46,4 +46,21 @@ abstract class DB {
 		 $this->db_close();
 		 array_pop($this->rows);
 	}
+	protected function execute_query($query){
+        $conexion = new mysqli("localhost", "root", "", "upatalleres");
+        
+        if ($conexion->connect_error) {
+            die("Error de conexión a la base de datos: " . $conexion->connect_error);
+        }
+    
+        $resultado = $conexion->query($query);
+        
+        if ($resultado === TRUE) {
+            echo "Consulta ejecutada correctamente.";
+        } else {
+            echo "Error al ejecutar la consulta: " . $conexion->error;
+        }
+    
+        $conexion->close();
+    }
 }

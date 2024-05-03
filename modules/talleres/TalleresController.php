@@ -232,38 +232,36 @@
 			$idgrupo_talleres = $param[0];
 			$dia = $param[1];
 			$hora = $param[2];
-			(new TalleresModel())->horariosGuardar($idgrupo_talleres, $dia, $hora);
+			$talleresModel = new TalleresModel();
+		
+			if ($talleresModel->estaOcupada($idgrupo_talleres, $dia, $hora)) {
+				$talleresModel->eliminarHorario($idgrupo_talleres, $dia, $hora);
+			} else {
+				$talleresModel->horariosGuardar($idgrupo_talleres, $dia, $hora);
+			}
+		
 			header("location: /talleres/horario/$idgrupo_talleres");
 			exit();
 		}
 		
-		private function darHorarios($idGrupo){
-			$data[] = ["idgrupo_taller" => 54, "dia" => 2, "inicio" => "07:00"];
-			$data[] = ["idgrupo_taller" => 54, "dia" => 3, "inicio" => "07:00"];
-			$data[] = ["idgrupo_taller" => 54, "dia" => 3, "inicio" => "08:00"];
-			$data[] = ["idgrupo_taller" => 54, "dia" => 4, "inicio" => "13:00"];
-			$data[] = ["idgrupo_taller" => 54, "dia" => 4, "inicio" => "14:00"];
-			
-			$horarios = array();
-			for( $i = 7; $i < 19; $i++) {
-				$horarios[] = ["horas" => $i . " - " . ($i + 1),
-				"dia1" => "<a href='/talleres/horarios_guardar/$idGrupo/1/$i:00:00' > X </a>",
-				"dia2" => "<a href='/talleres/horarios_guardar/$idGrupo/2/$i:00:00' > X </a>",
-				"dia3" => "<a href='/talleres/horarios_guardar/$idGrupo/3/$i:00:00' > X </a>",
-				"dia4" => "<a href='/talleres/horarios_guardar/$idGrupo/4/$i:00:00' > X </a>",
-				"dia5" => "<a href='/talleres/horarios_guardar/$idGrupo/5/$i:00:00' > X </a>"
-				];
-			}
-			
-			foreach( $data as $key => $val ){
-				$inicio = explode(":",$val["inicio"]);
-				$hora = $inicio[0];	
-				$horarios[$hora - 7 ]["dia".$val["dia"]] = "H";
-			}
-			
-			return $horarios;
-		}
 		
+		private function darHorarios($idGrupo)
+	{
+		$horarios = array();
+	
+		for ($i = 7; $i < 18; $i++) {
+			$horarios[] = [
+				"horas" => $i . " - " . ($i + 1),
+				"dia1" => "<a href='/talleres/horarios_guardar/$idGrupo/1/$i:00:00' > " . ((new TalleresModel())->estaOcupada($idGrupo, 1, $i) ? "H" : "X") . " </a>",
+				"dia2" => "<a href='/talleres/horarios_guardar/$idGrupo/2/$i:00:00' > " . ((new TalleresModel())->estaOcupada($idGrupo, 2, $i) ? "H" : "X") . " </a>",
+				"dia3" => "<a href='/talleres/horarios_guardar/$idGrupo/3/$i:00:00' > " . ((new TalleresModel())->estaOcupada($idGrupo, 3, $i) ? "H" : "X") . " </a>",
+				"dia4" => "<a href='/talleres/horarios_guardar/$idGrupo/4/$i:00:00' > " . ((new TalleresModel())->estaOcupada($idGrupo, 4, $i) ? "H" : "X") . " </a>",
+				"dia5" => "<a href='/talleres/horarios_guardar/$idGrupo/5/$i:00:00' > " . ((new TalleresModel())->estaOcupada($idGrupo, 5, $i) ? "H" : "X") . " </a>"
+			];
+		}
+		return $horarios;
+	}
+			
 		public function home()
 		{
 		}
