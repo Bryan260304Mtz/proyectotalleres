@@ -72,6 +72,19 @@ class TalleresView {
         echo $contenido;
 
     }
+    public function verGrupoTaller( $persona, $grupo_talleres)
+    {
+        $contenido = file_get_contents("./public/html/talleres/talleres-alumnos.html");   
+     
+        $template = new Template($contenido);
+        $contenido = $template->render_regex($grupo_talleres, "GRUPO_TALLERES");
+		
+		$template = new Template($contenido);
+        $contenido = $template->render($persona);
+
+        echo $contenido;
+
+    }
     public function home() {
       }
 }

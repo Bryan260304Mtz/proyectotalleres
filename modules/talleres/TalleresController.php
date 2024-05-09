@@ -261,7 +261,18 @@
 		}
 		return $horarios;
 	}
+
+		public function verGrupoTaller(){
+			$talleresModel = new TalleresModel();
+			$grupoTalleres = $talleresModel->darGrupoTallerActivo();
 			
+			$personaModel = new PersonaModel();
+			$persona = $personaModel->darPersona(5);
+			
+			$talleresView = new TalleresView();
+			$talleresView->verGrupoTaller( $persona, $grupoTalleres);
+		}
+
 		public function home()
 		{
 		}

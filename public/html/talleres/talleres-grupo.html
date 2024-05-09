@@ -106,6 +106,9 @@
             <a href="http://www.talleres.local/talleres/crearGrupoTaller" class="w3-bar-item w3-button w3-padding ">
                 <i class="fa fa-futbol-o"></i>&nbsp; GRUPO-TALLER</a>
 
+            <a href="http://www.talleres.local/talleres/verGrupoTaller" class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-futbol-o"></i>&nbsp; ALUMNO TALLER</a>
+
             <a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
                 class="w3-bar-item w3-button w3-padding ">
                 <i class="fa fa-user-o fa-fw"></i>&nbsp; ACTUALIZAR DATOS</a>
@@ -141,19 +144,26 @@
 
         <!-- Header -->
         <header class="w3-container" style="padding-top:22px">
-            <h5><b><i class="fa fa-futbol-o"></i> TALLERISTAS</b></h5>
+            <h5><b><i class="fa fa-futbol-o"></i> CREAR GRUPO DE TALLER</b></h5>
         </header>
 
         <div class="w3-container w3-dark-grey w3-padding">
 
-            <div class="w3-container w3-padding">
-
-            </div>
+            
             <div class="w3-container">
                 <form class="w3-container" action="/talleres/guardarGrupoTaller/" method="post"
                     enctype="multipart/form-data">
 
                     <div class="w3-container w3-padding">
+
+                        <!--PERIODO-->
+                        <div class="w3-container w3-padding">
+                            <label for="idperiodo" class="w3-text-white"></label>
+                            <span>{periodo_actual}</span>
+                            <input type="hidden" name="idperiodo" value="{idperiodo}">
+                        </div>
+                        <!--PERIODO-->
+
 
                         <select name="idtallerista" class="w3-input">
                             <option value="">-- SELECCIONA TALLERISTA --</option>
@@ -179,15 +189,7 @@
 
                     </div>
 
-                    <!--PERIODO-->
-                    <div class="w3-container w3-padding">
-                        <label for="idperiodo" class="w3-text-white"></label>
-                        <span>{periodo_actual}</span>
-                        <input type="hidden" name="idperiodo" value="{idperiodo}">
-                    </div>                    
-                    <!--PERIODO-->
 
-                    
 
                     <div class="w3-container w3-padding">
                         <input class="w3-button w3-green w3-round w3-right" type="submit" value="GUARDAR"
@@ -205,20 +207,20 @@
 
 
                     </tr>
-                 <!--GRUPO_TALLERES-->
-                 <tr>
-        
+                    <!--GRUPO_TALLERES-->
+                    <tr>
+
                         <td> {idgrupo_talleres} </td>
                         <td>{nombre_talleristas}</td>
                         <td>{nombre_taller}</td>
                         <td>{periodo}</td>
                         <td>{cupo}</td>
                         <td>
-                            <a  class="w3-button w3-green w3-round" href= "/talleres/horario/{idgrupo_talleres}"> edit
-                            </a>                        
-                        </td>		
+                            <a class="w3-button w3-green w3-round" href="/talleres/horario/{idgrupo_talleres}"> edit
+                            </a>
+                        </td>
                     </tr>
-                 <!--GRUPO_TALLERES-->
+                    <!--GRUPO_TALLERES-->
                 </table>
 
 
