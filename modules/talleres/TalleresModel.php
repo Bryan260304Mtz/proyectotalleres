@@ -80,7 +80,7 @@ class TalleresModel extends DB
         WHERE talleres.estado = 1
         ORDER BY nombre_taller ";
         $this->get_query();
-        return $this->rows;  
+        return $this->rows;
     }
     public function darPeriodo()
     {
@@ -89,9 +89,9 @@ class TalleresModel extends DB
         FROM periodo
         WHERE periodo.actual = 1";
         $this->get_query();
-        return $this->rows;  
+        return $this->rows;
     }
-    public function guardarGrupoTaller($idtallerista,$idtaller,$cupo, $idperiodo)
+    public function guardarGrupoTaller($idtallerista, $idtaller, $cupo, $idperiodo)
     {
         $this->query = "INSERT INTO grupo_talleres (idtallerista,idtaller,idperiodo,cupo) VALUES ($idtallerista,$idtaller,$idperiodo,$cupo)";
         $this->set_query();
@@ -110,7 +110,7 @@ class TalleresModel extends DB
         INNER JOIN periodo ON periodo.idperiodo = grupo_talleres.idperiodo
         ORDER BY idgrupo_talleres DESC";
         $this->get_query();
-        return $this->rows;  
+        return $this->rows;
     }
     public function darGrupo($idgrupo)
     {
@@ -127,10 +127,10 @@ class TalleresModel extends DB
         WHERE grupo_talleres.idgrupo_talleres = $idgrupo
         ORDER BY idgrupo_talleres DESC";
         $this->get_query();
-        return $this->rows[0];  
+        return $this->rows[0];
     }
-	
-	public function horariosGuardar($idgrupo_talleres, $dia, $hora)
+
+    public function horariosGuardar($idgrupo_talleres, $dia, $hora)
     {
         $this->query = "INSERT INTO horario_talleres (idgrupo_talleres, dia, inicio, duracion) VALUES ( $idgrupo_talleres, $dia, '$hora',1)";
         $this->set_query();
@@ -139,16 +139,17 @@ class TalleresModel extends DB
     {
         $this->query = "SELECT * FROM horario_talleres WHERE idgrupo_talleres = $idGrupo AND dia = $dia AND inicio = '$hora:00'";
         $this->get_query();
-                if (count($this->rows) > 0) {
+        if (count($this->rows) > 0) {
             return true;
         } else {
             return false;
         }
     }
-   
-    public function eliminarHorario($idgrupo_talleres, $dia, $hora){
+
+    public function eliminarHorario($idgrupo_talleres, $dia, $hora)
+    {
         $query = "DELETE FROM horario_talleres WHERE idgrupo_talleres = $idgrupo_talleres AND dia = $dia AND inicio = '$hora:00'";
-        $this->execute_query($query); 
+        $this->execute_query($query);
     }
     public function darGrupoTallerActivo()
     {
@@ -167,5 +168,27 @@ class TalleresModel extends DB
         $this->get_query();
         return $this->rows;
     }
-    
+
+    public function eliminarGrupoTaller($idgrupo_talleres)
+    {
+        $query = "DELETE FROM grupo_talleres WHERE idgrupo_talleres = $idgrupo_talleres";
+        $this->execute_query($query);
+    }
+
+
+    public function consultarHorariosPorGrupo($idgrupo_talleres)
+    {
+        $this->query = "SELECT CASE 
+                        WHEN EXISTS (
+                            SELECT 1 
+                            FROM horario_talleres ht 
+                            JOIN cursan_talleres ct ON ht.idhorario_talleres = ct.idhorario_talleres 
+                            WHERE ht.idgrupo_talleres = $idgrupo_talleres
+                        ) THEN 1 
+                        ELSE 0 
+                    END AS resultado";
+
+        $this->get_query();
+        return $this->rows[0]['resultado'];
+    }
 }
