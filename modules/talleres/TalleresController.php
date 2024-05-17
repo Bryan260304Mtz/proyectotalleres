@@ -228,13 +228,13 @@ class TalleresController
 	}
 
 	public function horariosGuardar($param = array())
-{
-    $idgrupo_talleres = $param[0];
-    $dia = $param[1];
-    $hora = $param[2];
-    $talleresModel = new TalleresModel();
+	{
+		$idgrupo_talleres = $param[0];
+		$dia = $param[1];
+		$hora = $param[2];
+		$talleresModel = new TalleresModel();
 
-    $horario_Ocupado = $talleresModel->horarioOcupado($idgrupo_talleres, $dia, $hora);
+		$horario_Ocupado = $talleresModel->horarioOcupado($idgrupo_talleres, $dia, $hora);
 
     if ($horario_Ocupado == 1) {
         echo "<script>
@@ -255,9 +255,6 @@ class TalleresController
     header("Location: /talleres/horario/$idgrupo_talleres");
     exit();
 }
-
-
-
 	public function eliminarHorarioScript($param = array())
 	{
 		$idgrupo_talleres = $param[0];
@@ -268,8 +265,6 @@ class TalleresController
 		header("Location: /talleres/horario/$idgrupo_talleres");
 		exit();
 	}
-
-
 
 	private function darHorarios($idGrupo)
 	{
@@ -288,13 +283,79 @@ class TalleresController
 		return $horarios;
 	}
 
+	public function horarioAlumno($param = array())
+	{
+
+		if (count($param) > 0) {
+			$idGrupo = $param[0];
+			$talleresModel = new TalleresModel();
+			$grupo_talleres = $talleresModel->darGrupo($idGrupo);
+
+
+
+			$personaModel = new PersonaModel();
+			$persona = $personaModel->darPersona(336);
+			$matriculaAlumno = $personaModel->darMatricula(336);
+
+			$horarios = $this->darHorarioAlumno($idGrupo);
+
+			(new TalleresView())->horarioAlumno($persona, $grupo_talleres, $horarios, $matriculaAlumno);
+		} else {
+			
+			exit(0);
+		}
+	}
+
+	public function horariosGuardarAlumno($param = array())
+	{
+		$idgrupo_talleres = $param[0];
+		$dia = $param[1];
+		$hora = $param[2];
+		$talleresModel = new TalleresModel();
+
+		$talleresModel->estaOcupada($idgrupo_talleres, $dia, $hora);
+
+		header("location: /talleres/horario/$idgrupo_talleres");
+		exit();
+	}
+
+
+	private function darHorarioAlumno($idGrupo)
+{
+		$horarios = array();
+	
+		for ($i = 7; $i < 18; $i++) {
+			$horarioDia = array(
+				"horas" => $i . " - " . ($i + 1),
+				"dia1" => "",
+				"dia2" => "",
+				"dia3" => "",
+				"dia4" => "",
+				"dia5" => ""
+			);
+	
+			// Verificar ocupación para cada día de la semana
+			for ($dia = 1; $dia <= 5; $dia++) {
+				$ocupado = (new TalleresModel())->estaOcupada($idGrupo, $dia, $i);
+				$horarioDia["dia$dia"] = $ocupado ? "H" : "";
+			}
+	
+			$horarios[] = $horarioDia;
+		}
+	
+		return $horarios;
+	
+}
+
+
+
 	public function verGrupoTaller()
 	{
 		$talleresModel = new TalleresModel();
 		$grupoTalleres = $talleresModel->darGrupoTallerActivo();
 
 		$personaModel = new PersonaModel();
-		$persona = $personaModel->darPersona(5);
+		$persona = $personaModel->darPersona(336);
 
 		$talleresView = new TalleresView();
 		$talleresView->verGrupoTaller($persona, $grupoTalleres);
@@ -309,7 +370,7 @@ class TalleresController
 
 		if ($horarios_registrados == 1) {
 			echo "<script>
-						if(confirm('Seguro que quieres eliminar este grupo. Hay horarios registrados')) {
+						if(confirm('Seguro que quieres eliminar este grupo. Hay Alumnos registrados')) {
 							// Si el usuario confirma, redirigir a la confirmación de eliminación
 							window.location.href = '/talleres/eliminargrupoScrip/{$idgrupo_talleres}';
 						} else {

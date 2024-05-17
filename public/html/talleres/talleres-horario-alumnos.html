@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SII UPAtlacomulco</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="icono/png" href="/public/images/upa_logo.png">
+		<link rel="stylesheet" href="/public/css/w3.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		
+		<style>
+			.my-table {
+			width: 100%;
+			}
+			
+			.my-table th, .my-table td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			}
+			
+			.my-table th {
+			background-color: #f2f2f2;
+			}
+			
+			.my-table tr:nth-child(even) {
+			background-color: #f2f2f2;
+			}
+			
+			.my-table tr:hover {
+			background-color: #ddd;
+			}
+			
+			.my-table td div {
+			padding: 5px;
+			}
+		</style>
+		
+		<style>
+			html,
+			body,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5 {
+            font-family: "Raleway", sans-serif
+			}
+			
+			.ancho-avatar {
+            width: 46px;
+			}
+			
+			table {
+            border-collapse: collapse;
+            width: 100%;
+			}
+			
+			th,
+			td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+			}
+			
+			th {
+            background-color: #f2f2f2;
+			}
+			
+			.selected {
+            background-color: black;
+            color: white;
+			}
+			
+			table {
+            border-collapse: collapse;
+            width: 100%;
+			}
+			
+			th,
+			td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+			}
+			
+			th {
+            background-color: lightgray;
+            /* Color de fondo para las horas */
+			}
+		</style>
+	</head>
+	
+	<body class="w3-light-grey">
+		
+		<!-- Top container -->
+		<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+			<button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey"
+            onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+			<span class="w3-bar-item w3-right"><img src="/public/images/upa_logo.png" style="width:46px"> SII
+			UPAtlacomulco</span>
+		</div>
+		
+		<!-- Sidebar/menu -->
+		<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+			<div class="w3-container w3-row">
+				<div class="w3-col s4">
+					<img src="/public/images/avatar2.png" class="w3-circle w3-margin-right ancho-avatar">
+				</div>
+				<div class="w3-col s8 w3-bar">
+					<br>
+					<span>Hola, <strong>{nombrePersona}</strong></span>
+				</div>
+			</div>
+			<hr>
+			<div class="w3-container w3-green">
+				<h5>MENU</h5>
+			</div>
+			<div class="w3-bar-block">
+				<a href="https://sii.upatlacomulco.edu.mx/alumnos/index#"
+                class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
+                onclick="w3_close()" title="cerrar menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Cerrar Menu</a>
+				
+				<a href="https://sii.upatlacomulco.edu.mx/alumnos/index" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-home fa-fw"></i>&nbsp; INICIO</a>
+				
+				<a href="http://www.talleres.local/talleres/crear" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-futbol-o"></i>&nbsp; TALLERES</a>
+				
+				<a href="http://www.talleres.local/talleres/tallerista" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-futbol-o"></i>&nbsp; TALLERISTAS</a>
+				
+				<a href="http://www.talleres.local/talleres/crearGrupoTaller" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-futbol-o"></i>&nbsp; GRUPO-TALLER</a>
+
+				<a href="http://www.talleres.local/talleres/verGrupoTaller" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-futbol-o"></i>&nbsp; ALUMNO TALLER</a>
+				
+				<a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
+                class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-user-o fa-fw"></i>&nbsp; ACTUALIZAR DATOS</a>
+				
+				<a href="https://sii.upatlacomulco.edu.mx/clases/alumnos" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-address-book-o fa-fw"></i>&nbsp; DATOS PERSONALES</a>
+				
+				<a href="https://sii.upatlacomulco.edu.mx/alumnos/mapa_curricular"
+                class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-table fa-fw"></i>&nbsp; MAPA CURRICULAR</a>
+				
+				<a href="https://sii.upatlacomulco.edu.mx/alumnos/consulta_actas" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-file-o fa-fw"></i>&nbsp; ACTA DE CALIFICACIONES</a>
+				
+				<a href="https://sii.upatlacomulco.edu.mx/alumnos/historial_alumnos"
+                class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-folder-open-o fa-fw"></i>&nbsp; HISTORIAL ACADÉMICO</a>
+				
+				<a href="https://sii.upatlacomulco.edu.mx/alumnos/chgpase" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-unlock-alt fa-fw"></i>&nbsp; NIP</a>
+				
+				<a href="https://sii.upatlacomulco.edu.mx/alumnos/salir" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-sign-out fa-fw"></i>&nbsp; SALIR Y CERRAR SESIÓN</a>
+				
+			</div>
+		</nav>
+		
+		<!-- Overlay effect when opening sidebar on small screens -->
+		<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+        title="cerrar menu" id="myOverlay"></div>
+		<!-- !PAGE CONTENT! -->
+		<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+			
+			<!-- Header -->
+			<header class="w3-container" style="padding-top:22px">
+				<h5><b><i class="fa fa-futbol-o"></i> TALLERISTAS</b></h5>
+			</header>
+			
+			<div class="w3-container w3-dark-grey w3-padding">
+				
+				<div class="w3-container w3-padding">
+					<div>Nombre Tallerista: {nombre_talleristas}</div>
+					<div>Taller: {nombre_taller}</div>
+					<div>Periodo: {periodo}</div>
+					<div>Matricula: {matriculaAlumno} </div>
+				</div>
+				
+				<div class="w3-container">					
+					<div class="w3-table-all w3-text-black">
+						<table >
+							<tr>
+								<th class="w3-center" >HORARIO</th>
+								<th class="w3-center" >LUNES</th>
+								<th class="w3-center" >MARTES</th>
+								<th class="w3-center" >MIERCOLES</th>
+								<th class="w3-center" >JUEVES</th>
+								<th class="w3-center" >VIERNES</th>
+							</tr>
+							<!--HORARIOS-->
+							<tr>
+								<td class="w3-center" >{horas}</td>
+								<td class="w3-center">
+								{dia1} </td>
+								<td class="w3-center">{dia2}</td>
+								<td class="w3-center">{dia3}</td>
+								<td class="w3-center">{dia4}</td>
+								<td class="w3-center">{dia5}</td>
+							</tr>
+							<!--HORARIOS-->
+						</table>
+						
+					</div>
+					<div class="w3-container w3-border-top w3-padding-16 ">
+
+						<a class="w3-button w3-green w3-round w3-right" href="/talleres/verGrupoTaller"> Regresar
+						</a>
+					</div>
+					
+				</div>
+			</div>
+			
+			
+			<!-- Footer -->
+			<footer class="w3-container w3-padding-16 w3-light-grey">
+				<p><i style="font-size: 16px" class="fa"></i>
+					Universidad Politécnica de Atlacomulco,
+					Km. 5 Carretera Atlacomulco - San José Toxi,
+					Santo Domingo Shomeje, Atlacomulco de Fabela,
+					Estado de México. Tel. (712) 690 3020
+				</p>
+			</footer>
+			
+			<!-- End page content -->
+		</div>
+		
+		<script>
+			var mySidebar = document.getElementById("mySidebar");
+			var overlayBg = document.getElementById("myOverlay");
+			function w3_open() {
+				if (mySidebar.style.display === 'block') {
+					mySidebar.style.display = 'none';
+					overlayBg.style.display = "none";
+					} else {
+					mySidebar.style.display = 'block';
+					overlayBg.style.display = "block";
+				}
+			}
+			function w3_close() {
+				mySidebar.style.display = "none";
+				overlayBg.style.display = "none";
+			}
+		</script>
+		
+	</body>
+	
+</html>
