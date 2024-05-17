@@ -228,21 +228,47 @@ class TalleresController
 	}
 
 	public function horariosGuardar($param = array())
+{
+    $idgrupo_talleres = $param[0];
+    $dia = $param[1];
+    $hora = $param[2];
+    $talleresModel = new TalleresModel();
+
+    $horario_Ocupado = $talleresModel->horarioOcupado($idgrupo_talleres, $dia, $hora);
+
+    if ($horario_Ocupado == 1) {
+        echo "<script>
+            if (confirm('Seguro que quieres eliminar este grupo. Hay Alumnos registrados')) {
+                // Si el usuario confirma, redirigir a la confirmación de eliminación
+                window.location.href = '/talleres/eliminarHorarioScript/{$idgrupo_talleres}/{$dia}/{$hora}';
+            } else {
+                // Si el usuario cancela, redirigir a la página principal
+                window.location.href = '/talleres/horario/{$idgrupo_talleres}';
+            }
+        </script>";
+        exit();
+    } else if ($talleresModel->estaOcupada($idgrupo_talleres, $dia, $hora)) {
+        $talleresModel->eliminarHorario($idgrupo_talleres, $dia, $hora);
+    } else {
+        $talleresModel->horariosGuardar($idgrupo_talleres, $dia, $hora);
+    }
+    header("Location: /talleres/horario/$idgrupo_talleres");
+    exit();
+}
+
+
+
+	public function eliminarHorarioScript($param = array())
 	{
 		$idgrupo_talleres = $param[0];
 		$dia = $param[1];
 		$hora = $param[2];
 		$talleresModel = new TalleresModel();
-
-		if ($talleresModel->estaOcupada($idgrupo_talleres, $dia, $hora)) {
-			$talleresModel->eliminarHorario($idgrupo_talleres, $dia, $hora);
-		} else {
-			$talleresModel->horariosGuardar($idgrupo_talleres, $dia, $hora);
-		}
-
-		header("location: /talleres/horario/$idgrupo_talleres");
+		$talleresModel->eliminarHorario($idgrupo_talleres, $dia, $hora);
+		header("Location: /talleres/horario/$idgrupo_talleres");
 		exit();
 	}
+
 
 
 	private function darHorarios($idGrupo)
