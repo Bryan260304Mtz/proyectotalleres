@@ -158,31 +158,31 @@
 		<div class="w3-container w3-dark-grey w3-padding">
 			<div class="w3-container w3-padding">
 
-			<table class="w3-table-all w3-text-black">
-				<tr>
-					<th>ID grupo Taller</th>
-					<th>Nombre Tallerista</th>
-					<th>Taller</th>
-					<th>Periodo</th>
-					<th>Cupo</th>
-					<th>Acciones</th>
-				</tr>
-				<!--GRUPO_TALLERES-->
-				<tr>
-
-					<td> {idgrupo_talleres} </td>
-					<td>{nombre_talleristas}</td>
-					<td>{nombre_taller}</td>
-					<td>{periodo}</td>
-					<td>{cupo}</td>
-					<td>
-						<a class="w3-button w3-green w3-round" href="/talleres/horarioAlumno/{idgrupo_talleres}"> Seleccionar
-							Taller
-						</a>
-					</td>
-				</tr>
-				<!--GRUPO_TALLERES-->
-			</table>	
+<!--MENSAJE-->
+    <!--TABLA-->
+    <table class="w3-table-all w3-text-black">
+        <tr>
+            <th>ID grupo Taller</th>
+            <th>Nombre Tallerista</th>
+            <th>Taller</th>
+            <th>Periodo</th>
+            <th>Cupo</th>
+            <th>Acciones</th>
+        </tr>
+        <!--GRUPO_TALLERES-->
+        <tr>
+            <td>{idgrupo_talleres}</td>
+            <td>{nombre_talleristas}</td>
+            <td>{nombre_taller}</td>
+            <td>{periodo}</td>
+            <td>{cupo}</td>
+            <td>
+                <a class="w3-button w3-green w3-round" href="/talleres/horarioAlumno/{idgrupo_talleres}">Seleccionar Taller</a>
+            </td>
+        </tr>
+        <!--GRUPO_TALLERES-->
+    </table>
+    <!--FIN_TABLA-->
 		</div>
 	</div>
 

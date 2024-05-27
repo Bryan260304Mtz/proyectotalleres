@@ -72,19 +72,25 @@ class TalleresView {
         echo $contenido;
 
     }
-    public function verGrupoTaller( $persona, $grupo_talleres)
-    {
+    public function verGrupoTaller($persona, $grupo_talleres, $mensaje, $hayTalleres) {
         $contenido = file_get_contents("./public/html/talleres/talleres-alumnos.html");   
-     
+        
+        if (!$hayTalleres) {
+            $contenido = str_replace("<!--MENSAJE-->", "<p>$mensaje</p>", $contenido);
+            // Remover la tabla completamente
+            $contenido = preg_replace("/<!--TABLA-->(.*?)<!--FIN_TABLA-->/s", "", $contenido);
+        } else {
+            $contenido = str_replace("<!--MENSAJE-->", "", $contenido);
+            $template = new Template($contenido);
+            $contenido = $template->render_regex($grupo_talleres, "GRUPO_TALLERES");
+        }
+        
         $template = new Template($contenido);
-        $contenido = $template->render_regex($grupo_talleres, "GRUPO_TALLERES");
-		
-		$template = new Template($contenido);
         $contenido = $template->render($persona);
-
+    
         echo $contenido;
-
     }
+    
 
     public function horarioAlumno( $persona, $grupo_talleres, $horarios, $matriculaAlumno)
     {

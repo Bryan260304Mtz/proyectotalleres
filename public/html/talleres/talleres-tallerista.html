@@ -17,21 +17,58 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<style>
-		html,
-		body,
-		h1,
-		h2,
-		h3,
-		h4,
-		h5 {
-			font-family: "Raleway", sans-serif
-		}
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: "Raleway", sans-serif
+        }
 
-		.ancho-avatar {
-			width: 46px;
-		}
-	</style> <!--tercera forma de importar estilos (bloque de estilo)  -->
+        .ancho-avatar {
+            width: 46px;
+        }
 
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .selected {
+            background-color: black;
+            color: white;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: lightgray;
+            /* Color de fondo para las horas */
+        }
+    </style>
 <body class="w3-light-grey">
 
 	<!-- Top container -->
@@ -71,11 +108,11 @@
 			<a href="http://www.talleres.local/talleres/tallerista" class="w3-bar-item w3-button w3-padding ">
 				<i class="fa fa-futbol-o"></i>&nbsp; TALLERISTAS</a>
 
-				<a href="http://www.talleres.local/talleres/crearGrupoTaller" class="w3-bar-item w3-button w3-padding ">
-					<i class="fa fa-futbol-o"></i>&nbsp; GRUPO-TALLER</a>
+			<a href="http://www.talleres.local/talleres/crearGrupoTaller" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-futbol-o"></i>&nbsp; GRUPO-TALLER</a>
 
 			<a href="http://www.talleres.local/talleres/verGrupoTaller" class="w3-bar-item w3-button w3-padding ">
-			<i class="fa fa-futbol-o"></i>&nbsp; ALUMNO TALLER</a>
+				<i class="fa fa-futbol-o"></i>&nbsp; ALUMNO TALLER</a>
 
 			<a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
 				class="w3-bar-item w3-button w3-padding ">
@@ -118,61 +155,88 @@
 		</header>
 
 		<div class="w3-container w3-dark-grey w3-padding">
-			
-			<div class="w3-container w3-padding">		
 
-			</div>
+
 			<div class="w3-container">
-				<form action="/talleres/agregarTallerista" method="post">
+				<form id="talleristaForm" action="/talleres/agregarTallerista" method="post">
 
-					<select name="idprofesor" class="w3-input">
+					<link rel="stylesheet"
+						href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+
+					<h5>Si el profesor no esta en la lista verificalo con el administrador</h5>
+					<select name="idprofesor" class="w3-input w3-round select2">
 						<option value="">-- SELECCIONA PROFESOR --</option>
 						<!--LISTA_PROFESORES-->
 						<option value="{idpersonas}">{nombre_profesor}</option>
 						<!--LISTA_PROFESORES-->
 					</select>
-
-					<div class="w3-container w3-padding"></div>
-					<button type="submit" class="w3-button w3-green w3-round">Agregar a Talleristas</button>
-
-				</form>
 			</div>
 
-			<div class="w3-container w3-padding">		
-		<table class="w3-table-all w3-text-black">
-			<tr>
-				<th>ID Tallerista</th>
-				<th>Nombre Tallerista</th>
-				<th>Estado</th>
-				<th>Acciones</th>
-			</tr>
-			<!--LISTA_TALLERISTAS-->
-			<tr>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+			<script>
+				$(document).ready(function () {
+					$.fn.select2.defaults.set('language', {
+						noResults: function () {
+							return "No se encontraron resultados";
+						}
+					});
 
-				<td> {idtallerista} </td>
-				<td>{nombre_talleristas}</td>
-				<td>{estado}</td>
-				<td><a href="/talleres/cambiarEstadoTallerista/{idtallerista}" class="w3-button w3-green w3-round"  > estado </a>
-				</td>		
+					$('.select2').select2({
+						placeholder: "-- SELECCIONA PROFESOR --",
+						allowClear: true,
+						
+					});
+					$('#talleristaForm').on('submit', function (e) {
+						if ($('.select2').val() === "") {
+							alert("Selecciona un profesor");
+							e.preventDefault();
+						}
+					});
+				});
+			</script>
 
-			</tr>
-		<!--LISTA_TALLERISTAS-->
-		</table>
+			<div class="w3-container w3-padding"></div>
+			<button type="submit" class="w3-button w3-green w3-round" style="margin-top:10px;">Agregar a Talleristas</button>
+			</form>
+
+			<div class="w3-container w3-padding">
+				<table class="w3-table-all w3-text-black">
+					<tr>
+						<th>ID Tallerista</th>
+						<th>Nombre Tallerista</th>
+						<th>Estado</th>
+						<th>Acciones</th>
+					</tr>
+					<!--LISTA_TALLERISTAS-->
+					<tr>
+
+						<td> {idtallerista} </td>
+						<td>{nombre_talleristas}</td>
+						<td>{estado}</td>
+						<td><a href="/talleres/cambiarEstadoTallerista/{idtallerista}"
+								class="w3-button w3-green w3-round"> estado </a>
+						</td>
+
+					</tr>
+					<!--LISTA_TALLERISTAS-->
+				</table>
+			</div>
+		</div>
 	</div>
-</div>
 
 
-		<!-- Footer -->
-		<footer class="w3-container w3-padding-16 w3-light-grey">
-			<p><i style="font-size: 16px" class="fa"></i>
-				Universidad Politécnica de Atlacomulco,
-				Km. 5 Carretera Atlacomulco - San José Toxi,
-				Santo Domingo Shomeje, Atlacomulco de Fabela,
-				Estado de México. Tel. (712) 690 3020
-			</p>
-		</footer>
+	<!-- Footer -->
+	<footer class="w3-container w3-padding-16 w3-light-grey">
+		<p><i style="font-size: 16px" class="fa"></i>
+			Universidad Politécnica de Atlacomulco,
+			Km. 5 Carretera Atlacomulco - San José Toxi,
+			Santo Domingo Shomeje, Atlacomulco de Fabela,
+			Estado de México. Tel. (712) 690 3020
+		</p>
+	</footer>
 
-		<!-- End page content -->
+	<!-- End page content -->
 	</div>
 
 	<script>

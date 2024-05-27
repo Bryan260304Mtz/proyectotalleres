@@ -151,7 +151,7 @@
 
 
             <div class="w3-container">
-                <form class="w3-container" action="/talleres/guardarGrupoTaller/" method="post"
+                <form id="grupoTallerForm" class="w3-container" action="/talleres/guardarGrupoTaller/" method="post"
                     enctype="multipart/form-data">
 
                     <div class="w3-container w3-padding">
@@ -164,8 +164,15 @@
                         </div>
                         <!--PERIODO-->
 
+                        <link rel="stylesheet"
+                            href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+                        <!-- Select2 CSS -->
+                        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+                            rel="stylesheet" />
 
-                        <select name="idtallerista" class="w3-input">
+
+
+                        <select name="idtallerista" class="w3-input w3-round select2 select-tallerista" style="width:100%;">
                             <option value="">-- SELECCIONA TALLERISTA --</option>
                             <!--LISTA_TALLERISTAS-->
                             <option value="{idtallerista}">{nombre_talleristas}</option>
@@ -175,13 +182,60 @@
 
                     <div class="w3-container w3-padding">
 
-                        <select name="idtalleres" class="w3-input">
+                        <select name="idtalleres" class="w3-input w3-round select2 select-taller" style="width:100%;">
                             <option value="">-- SELECCIONA TALLER --</option>
                             <!--LISTA_TALLERES-->
                             <option value="{idtalleres}">{nombre_taller}</option>
                             <!--LISTA_TALLERES-->
                         </select>
                     </div>
+
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+                    <script>
+                        $(document).ready(function () {
+                            // Configurar el idioma de Select2 para mostrar "No se encontraron resultados"
+                            $.fn.select2.defaults.set('language', {
+                                noResults: function () {
+                                    return "No se encontraron resultados";
+                                }
+                            });
+
+                            // Inicializar selectores con Select2
+                            $('.select-tallerista').select2({
+                                placeholder: "-- SELECCIONA TALLERISTA --",
+                                allowClear: true
+                            });
+
+                            $('.select-taller').select2({
+                                placeholder: "-- SELECCIONA TALLER --",
+                                allowClear: true
+                            });
+
+                            // Enfocar el campo de búsqueda cuando se abre el selector
+                            $('.select2').on('select2:open', function () {
+                                let searchField = $('.select2-container--open .select2-search__field');
+                                searchField.focus();
+                            });
+                            $('#grupoTallerForm').on('submit', function (e) {
+                                let talleristaSeleccionado = $('.select-tallerista').val();
+                                let tallerSeleccionado = $('.select-taller').val();
+                                let cupo = $('#cupo').val().trim();
+
+                                if (talleristaSeleccionado === "") {
+                                    alert("Selecciona un tallerista");
+                                    e.preventDefault();
+                                } else if (tallerSeleccionado === "") {
+                                    alert("Selecciona un taller");
+                                    e.preventDefault();
+                                } else if (cupo === "") {
+                                    alert("Ingresa un cupo");
+                                    e.preventDefault();
+                                }
+                            });
+                        });
+                    </script>
+
                     <div class="w3-container w3-padding">
 
                         <label for="cupo" class="w3-text-white">Cupo</label>
@@ -216,11 +270,20 @@
                         <td>{periodo}</td>
                         <td>{cupo}</td>
                         <td>
-                            <a class="w3-button w3-green w3-round" href="/talleres/horario/{idgrupo_talleres}"> edit
+                            <a class="w3-button w3-green w3-round" href="/talleres/horario/{idgrupo_talleres}">HORAS
                             </a>
-                            <a class="w3-button w3-green w3-round"
-                                href="/talleres/eliminarGrupoTaller/{idgrupo_talleres}"> eliminar
-                            </a>
+
+                            <input class="w3-button w3-green w3-round" name="button" type="button"
+                                onclick="confirmarEliminar()" value="ELIMINAR" />
+                            <script>
+                                function confirmarEliminar() {
+                                    if (confirm('¿Quieres eliminar este Grupo?')) {
+                                        window.location.href = "/talleres/eliminarGrupoTaller/{idgrupo_talleres}";
+                                    } else {
+                                        console.log('Operación Cancelada');
+                                    }
+                                }
+                            </script>
                         </td>
                     </tr>
                     <!--GRUPO_TALLERES-->
@@ -228,6 +291,15 @@
 
 
             </div>
+            <style>
+                .w3-table-all td {
+                    vertical-align: middle;
+                }
+                .w3-table-all td a, .w3-table-all td input[type="button"] {
+                    display: inline-block;
+                    margin: 2px;
+                }
+            </style>
         </div>
 
 

@@ -14,6 +14,20 @@ class TalleresModel extends DB
 		                WHERE talleres.idtalleres = $idtalleres ";
         $this->set_query();
     }
+    public function existeNombre($nombre)
+    {
+        $this->query = "SELECT CASE 
+        WHEN EXISTS ( 
+            SELECT 1 
+            FROM talleres t 
+            WHERE t.nombre= $nombre ) 
+            THEN 1 
+            ELSE 0 
+            END AS resultado";
+        $this->get_query();
+        return $this->rows[0]['resultado'];
+    }
+
 
     public function darTalleres()
     {
@@ -53,6 +67,21 @@ class TalleresModel extends DB
         $this->get_query();
         return $this->rows;
     }
+    public function verificarTalleristaExistente($idProfesor = null)
+    {
+    $query = "SELECT talleristas.*, nombreCompleto(persona.idpersonas) AS 'nombre_talleristas'
+              FROM talleristas
+              INNER JOIN persona ON persona.idpersonas = talleristas.idtallerista";
+
+    if ($idProfesor !== null) {
+        $query .= " WHERE talleristas.idtallerista = $idProfesor";
+    }
+    $query .= " ORDER BY nombre_talleristas";
+
+    $this->query = $query;
+    $this->get_query();
+    return $this->rows;
+}
     public function guardarTallerista($idtallerista)
     {
         $this->query = "INSERT INTO talleristas (idtallerista,estado) VALUES ($idtallerista,1)";
@@ -63,7 +92,7 @@ class TalleresModel extends DB
         $this->query = "UPDATE talleristas SET estado = !estado WHERE idtallerista = $idtallerista ";
         $this->set_query();
     }
-    public function darTallerista1()
+    public function darTalleristaActivo()
     {
         $this->query = "SELECT talleristas.*, nombreCompleto(persona.idpersonas) AS 'nombre_talleristas'
         FROM talleristas
@@ -72,7 +101,7 @@ class TalleresModel extends DB
         $this->get_query();
         return $this->rows;
     }
-    public function darTalleres1()
+    public function darTallerActivo()
     {
         $this->rows = array();
         $this->query = "SELECT talleres.*, talleres.nombre  AS 'nombre_taller'
@@ -129,7 +158,6 @@ class TalleresModel extends DB
         $this->get_query();
         return $this->rows[0];
     }
-
     public function horariosGuardar($idgrupo_talleres, $dia, $hora)
     {
         $this->query = "INSERT INTO horario_talleres (idgrupo_talleres, dia, inicio, duracion) VALUES ( $idgrupo_talleres, $dia, '$hora',1)";
@@ -185,6 +213,7 @@ class TalleresModel extends DB
             INNER JOIN talleres ON talleres.idtalleres = grupo_talleres.idtaller
             INNER JOIN periodo ON periodo.idperiodo = grupo_talleres.idperiodo
             INNER JOIN horario_talleres ON horario_talleres.idgrupo_talleres = grupo_talleres.idgrupo_talleres 
+            WHERE talleres.estado = 1
             ORDER BY idgrupo_talleres DESC";
         $this->get_query();
         return $this->rows;
@@ -199,6 +228,7 @@ class TalleresModel extends DB
 
     public function consultarHorariosPorGrupo($idgrupo_talleres)
     {
+
         $this->query = "SELECT CASE 
                         WHEN EXISTS (
                             SELECT 1 

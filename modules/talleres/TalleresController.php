@@ -46,8 +46,12 @@ class TalleresController
 				echo "Sorry, file already exists.";
 				$uploadOk = 0;
 			}
-
-			if ($_FILES["imagen"]["size"] > 500000) {
+			if ($_FILES["imagen"]["size"] > 2097152) { // 2 MB en bytes
+				if ($uploadOk == 0) {
+					echo "<script>alert('Lo siento, tu archivo sobrepasa los 2 MB.');";
+					echo "window.location.href = 'http://www.talleres.local/talleres/crear';</script>";
+					exit(); // Asegurar que se detenga la ejecución después de mostrar la alerta y redirigir
+				} 
 				$uploadOk = 0;
 			}
 
@@ -59,7 +63,9 @@ class TalleresController
 			}
 
 			if ($uploadOk == 0) {
-				echo "Sorry, your file was not uploaded.";
+				echo "<script>alert('Lo siento, tu archivo no fue soportado.');";
+				echo "window.location.href = 'http://www.talleres.local/talleres/crear';</script>";
+				exit(); // Asegurar que se detenga la ejecución después de mostrar la alerta y redirigir
 			} else {
 				if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $file_name)) {
 					$arrayImg = explode("/", $file_name);
@@ -67,11 +73,10 @@ class TalleresController
 					$talleresModel = new TalleresModel();
 					$talleresModel->crear($_POST["nombre"], 1, $nomImg);
 
-					// Redireccionar a la página donde está el botón "Crear un taller"
 					header("Location: http://www.talleres.local/talleres/crear");
-					exit(); // Asegurar que se detenga la ejecución después de la redirección
+					exit(); 
 				} else {
-					echo "Sorry, there was an error uploading your file.";
+					echo "Lo siento, hubo un error al subir tu archivo.";
 				}
 			}
 		}
@@ -96,7 +101,12 @@ class TalleresController
 				$uploadOk = 0;
 			}
 
-			if ($_FILES["imagen"]["size"] > 500000) {
+			if ($_FILES["imagen"]["size"] > 2097152) { // 2 MB en bytes
+				if ($uploadOk == 0) {
+					echo "<script>alert('Lo siento, tu archivo sobrepasa los 2 MB.');";
+					echo "window.location.href = 'http://www.talleres.local/talleres/crear';</script>";
+					exit(); // Asegurar que se detenga la ejecución después de mostrar la alerta y redirigir
+				} 
 				$uploadOk = 0;
 			}
 
@@ -108,8 +118,9 @@ class TalleresController
 			}
 
 			if ($uploadOk == 0) {
-				header("Location: http://www.talleres.local/talleres/crear");
-				exit(); // Asegurar que se detenga la ejecución después de la redirección
+				echo "<script>alert('Lo siento, tu archivo no fue soportado.');";
+				echo "window.location.href = 'http://www.talleres.local/talleres/crear';</script>";
+				exit(); // Asegurar que se detenga la ejecución después de mostrar la alerta y redirigir
 			} else {
 				if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $file_name)) {
 					$arrayImg = explode("/", $file_name);
@@ -118,14 +129,15 @@ class TalleresController
 					$talleresModel->actualizar($idtalleres, $_POST["nombre"], $nomImg);
 					// Redireccionar a la página donde está el botón "Crear un taller"
 					header("Location: http://www.talleres.local/talleres/crear");
-					exit(); // Asegurar que se detenga la ejecución después de la redirección
+					exit(); 
 				} else {
 					header("Location: http://www.talleres.local/talleres/crear");
-					exit(); // Asegurar que se detenga la ejecución después de la redirección
+					exit(); 
 				}
 			}
 		}
 	}
+
 	public function cambiarEstado($param = array())
 	{
 
@@ -151,16 +163,28 @@ class TalleresController
 		$talleresView->tallerista($persona, $docente, $tallerista);
 	}
 	public function agregarTallerista()
-	{
-		if ($_SERVER["REQUEST_METHOD"] == "POST") {
-			$idprofesor = $_POST['idprofesor'];
-			$talleresModel = new TalleresModel();
-			$talleresModel->guardarTallerista($idprofesor);
+{
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $idProfesor = $_POST['idprofesor'];
+        
+        // Verificar si el profesor ya es tallerista
+        $talleresModel = new TalleresModel();
+        $existeTallerista = $talleresModel->verificarTalleristaExistente($idProfesor);
 
-			header("Location: http://www.talleres.local/talleres/tallerista");
-			exit();
+        // Si el profesor ya es tallerista, mostrar un mensaje de error y redireccionar
+        if ($existeTallerista) {
+				echo "<script>alert('Este profesor ya es tallerista.');";
+				echo "window.location.href = 'http://www.talleres.local/talleres/tallerista';</script>";
+				exit(); 
 		}
-	}
+				else {
+            // Si el profesor no es tallerista, guardarlo en la base de datos
+            $talleresModel->guardarTallerista($idProfesor);
+            header("Location: http://www.talleres.local/talleres/tallerista");
+            exit();
+        }
+    }
+}
 	public function cambiarEstadoTallerista($param = array())
 	{
 		$talleresModel = new TalleresModel();
@@ -175,10 +199,10 @@ class TalleresController
 	{
 
 		$talleresModel = new TalleresModel();
-		$tallerista = $talleresModel->darTallerista1();
+		$tallerista = $talleresModel->darTalleristaActivo();
 
 		$talleresModel = new TalleresModel();
-		$talleres = $talleresModel->darTalleres1();
+		$talleres = $talleresModel->darTallerActivo();
 
 		$personaModel = new PersonaModel();
 		$persona = $personaModel->darPersona(5);
@@ -236,8 +260,8 @@ class TalleresController
 
 		$horario_Ocupado = $talleresModel->horarioOcupado($idgrupo_talleres, $dia, $hora);
 
-    if ($horario_Ocupado == 1) {
-        echo "<script>
+		if ($horario_Ocupado == 1) {
+			echo "<script>
             if (confirm('Seguro que quieres eliminar este grupo. Hay Alumnos registrados')) {
                 // Si el usuario confirma, redirigir a la confirmación de eliminación
                 window.location.href = '/talleres/eliminarHorarioScript/{$idgrupo_talleres}/{$dia}/{$hora}';
@@ -246,15 +270,15 @@ class TalleresController
                 window.location.href = '/talleres/horario/{$idgrupo_talleres}';
             }
         </script>";
-        exit();
-    } else if ($talleresModel->estaOcupada($idgrupo_talleres, $dia, $hora)) {
-        $talleresModel->eliminarHorario($idgrupo_talleres, $dia, $hora);
-    } else {
-        $talleresModel->horariosGuardar($idgrupo_talleres, $dia, $hora);
-    }
-    header("Location: /talleres/horario/$idgrupo_talleres");
-    exit();
-}
+			exit();
+		} else if ($talleresModel->estaOcupada($idgrupo_talleres, $dia, $hora)) {
+			$talleresModel->eliminarHorario($idgrupo_talleres, $dia, $hora);
+		} else {
+			$talleresModel->horariosGuardar($idgrupo_talleres, $dia, $hora);
+		}
+		header("Location: /talleres/horario/$idgrupo_talleres");
+		exit();
+	}
 	public function eliminarHorarioScript($param = array())
 	{
 		$idgrupo_talleres = $param[0];
@@ -301,7 +325,7 @@ class TalleresController
 
 			(new TalleresView())->horarioAlumno($persona, $grupo_talleres, $horarios, $matriculaAlumno);
 		} else {
-			
+
 			exit(0);
 		}
 	}
@@ -321,9 +345,9 @@ class TalleresController
 
 
 	private function darHorarioAlumno($idGrupo)
-{
+	{
 		$horarios = array();
-	
+
 		for ($i = 7; $i < 18; $i++) {
 			$horarioDia = array(
 				"horas" => $i . " - " . ($i + 1),
@@ -333,19 +357,18 @@ class TalleresController
 				"dia4" => "",
 				"dia5" => ""
 			);
-	
+
 			// Verificar ocupación para cada día de la semana
 			for ($dia = 1; $dia <= 5; $dia++) {
 				$ocupado = (new TalleresModel())->estaOcupada($idGrupo, $dia, $i);
 				$horarioDia["dia$dia"] = $ocupado ? "H" : "";
 			}
-	
+
 			$horarios[] = $horarioDia;
 		}
-	
+
 		return $horarios;
-	
-}
+	}
 
 
 
@@ -354,12 +377,20 @@ class TalleresController
 		$talleresModel = new TalleresModel();
 		$grupoTalleres = $talleresModel->darGrupoTallerActivo();
 
+		$mensaje = "";
+		$hayTalleres = !empty($grupoTalleres);
+		if (!$hayTalleres) {
+			$mensaje = "No hay talleres disponibles.";
+		}
+
 		$personaModel = new PersonaModel();
 		$persona = $personaModel->darPersona(336);
 
 		$talleresView = new TalleresView();
-		$talleresView->verGrupoTaller($persona, $grupoTalleres);
+		$talleresView->verGrupoTaller($persona, $grupoTalleres, $mensaje, $hayTalleres);
 	}
+
+
 
 	public function eliminarGrupoTaller($param = array())
 	{
