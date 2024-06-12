@@ -30,12 +30,16 @@
 		.ancho-avatar {
 			width: 46px;
 		}
-    .titulo {
-        font-size: 25px; /* Tamaño de la letra de la primera línea */
-    }
-    .subtitulo {
-        font-size: 15px; /* Tamaño de la letra de la segunda línea */
-	}
+
+		.titulo {
+			font-size: 25px;
+			/* Tamaño de la letra de la primera línea */
+		}
+
+		.subtitulo {
+			font-size: 15px;
+			/* Tamaño de la letra de la segunda línea */
+		}
 	</style> <!--tercera forma de importar estilos (bloque de estilo)  -->
 
 <body class="w3-light-grey">
@@ -80,8 +84,8 @@
 			<a href="http://www.talleres.local/talleres/crearGrupoTaller" class="w3-bar-item w3-button w3-padding ">
 				<i class="fa fa-futbol-o"></i>&nbsp; GRUPO-TALLER</a>
 
-				<a href="http://www.talleres.local/talleres/verGrupoTaller" class="w3-bar-item w3-button w3-padding ">
-					<i class="fa fa-futbol-o"></i>&nbsp; ALUMNO TALLER</a>
+			<a href="http://www.talleres.local/talleres/verGrupoTaller" class="w3-bar-item w3-button w3-padding ">
+				<i class="fa fa-futbol-o"></i>&nbsp; ESTUDIANTE TALLER</a>
 
 			<a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
 				class="w3-bar-item w3-button w3-padding ">
@@ -126,29 +130,32 @@
 		<div class="w3-container w3-dark-grey w3-padding">
 			<div class="w3-container w3-padding">
 				<button onclick="document.getElementById('form-crear').style.display='block'"
-					class="w3-button w3-green w3-round">Crear un Taller</button>
+					class="w3-button w3-green w3-round">CREAR UN TALLER</button>
 			</div>
 			<div class="w3-container">
 				<table class="w3-table-all w3-text-black">
 					<tr>
-						<th>Imagen</th>
+						<th>IMAGEN</th>
 						<th>ID</th>
-						<th>Talleres</th>
-						<th>Estado</th>
-						<th>Acciones</th>
+						<th>TALLER</th>
+						<th>ESTADO</th>
+						<th>ACCIONES</th>
 					</tr>
 					<!--LISTA_TALLERES-->
 					<tr>
 						<td> <img src="../public/images/talleres/{imagen}" width="50px"> </td>
 						<td> {idtalleres} </td>
 						<td> {nombre} </td>
-						<td>{estado}</td>
+						<td class="estado-texto">{estado_texto}</td>
 						<td>
 							<button
 								onclick="document.getElementById('form-actualizar{idtalleres}').style.display='block'"
-								class="w3-button w3-green w3-round">Actualizar</button>
+								class="w3-button w3-green w3-round">ACTUALIZAR</button>
 
-							<a href="/talleres/cambiar_estado/{idtalleres}" class="w3-button w3-green w3-round"> estado
+							<a href="/talleres/cambiar_estado/{idtalleres}"
+								class="w3-button w3-round estado-boton {estado_color}" data-estado="{estado}"
+								onclick="cambiarEstado(this, '{idtalleres}', '{estado}')">
+								{estado_texto_boton}
 							</a>
 						</td>
 					</tr>
@@ -165,20 +172,23 @@
 						title="Cerrar formulario">×</span>
 
 				</div>
-				<form class="w3-container" id="form-crear" action="/talleres/guardar/" method="post" enctype="multipart/form-data">
+				<form class="w3-container" id="form-crear" action="/talleres/guardar/" method="post"
+					enctype="multipart/form-data">
 					<div class="w3-section">
 						<label class="titulo"><b>Nombre del taller</b></label>
-						<input class="w3-input w3-border w3-margin-bottom" type="text" name="nombre" placeholder="Nombre del taller" required>
+						<input class="w3-input w3-border w3-margin-bottom" type="text" name="nombre"
+							placeholder="Nombre del taller" required>
 						<div class="titulo"><b>Imagen</b></div>
 						<div class="subtitulo"><b>Solo soporta archivos JPG, PNG, JPEG, GIF</b></div>
 						<input class="w3-input w3-border" type="file" name="imagen" required>
 					</div>
 					<div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
 						<input class="w3-button w3-green w3-round" type="submit" value="GUARDAR" name="guardar-taller">
-						<button onclick="document.getElementById('form-crear').style.display='none'" type="button" class="w3-button w3-red w3-right w3-round">CANCELAR</button>
+						<button onclick="document.getElementById('form-crear').style.display='none'" type="button"
+							class="w3-button w3-red w3-right w3-round">CANCELAR</button>
 					</div>
 				</form>
-				
+
 			</div>
 		</div>
 
@@ -199,8 +209,8 @@
 						<label class="titulo"><b>Nombre del taller</b></label>
 						<input class="w3-input w3-border w3-margin-bottom" type="text" name="nombre" required
 							value="{nombre}">
-							<div class="titulo"><b>Imagen</b></div>
-							<div class="subtitulo"><b>Solo soporta archivos JPG, PNG, JPEG, GIF</b></div>
+						<div class="titulo"><b>Imagen</b></div>
+						<div class="subtitulo"><b>Solo soporta archivos JPG, PNG, JPEG, GIF</b></div>
 						<input class="w3-input w3-border" type="file" name="imagen" required>
 
 					</div>
@@ -227,7 +237,49 @@
 
 		<!-- End page content -->
 	</div>
+	<script>
+		function cambiarEstado(element, id, estado) {
+			event.preventDefault(); // Prevent the default link behavior
 
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "/talleres/cambiar_estado/" + id, true);
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					// Toggle the state visually
+					if (estado == '1') {
+						element.classList.remove('w3-red');
+						element.classList.add('w3-green');
+						element.innerText = 'ACTIVAR';
+						element.setAttribute('onclick', "cambiarEstado(this, '" + id + "', '0')");
+						element.parentNode.previousElementSibling.innerText = 'INACTIVO';
+						element.setAttribute('data-estado', '0');
+					} else {
+						element.classList.remove('w3-green');
+						element.classList.add('w3-red');
+						element.innerText = 'DESACTIVAR';
+						element.setAttribute('onclick', "cambiarEstado(this, '" + id + "', '1')");
+						element.parentNode.previousElementSibling.innerText = 'ACTIVO';
+						element.setAttribute('data-estado', '1');
+					}
+				}
+			};
+			xhr.send();
+		}
+
+		// Initialize button states based on their data attributes
+		document.querySelectorAll('.estado-boton').forEach(function (button) {
+			var estado = button.getAttribute('data-estado');
+			if (estado == '1') {
+				button.classList.add('w3-red');
+				button.innerText = 'DESACTIVAR';
+				button.parentNode.previousElementSibling.innerText = 'ACTIVO';
+			} else {
+				button.classList.add('w3-green');
+				button.innerText = 'ACTIVAR';
+				button.parentNode.previousElementSibling.innerText = 'INACTIVO';
+			}
+		});
+	</script>
 	<script>
 		var mySidebar = document.getElementById("mySidebar");
 		var overlayBg = document.getElementById("myOverlay");

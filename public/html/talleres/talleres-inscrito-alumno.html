@@ -136,7 +136,10 @@
 				<i class="fa fa-futbol-o"></i>&nbsp; GRUPO-TALLER</a>
 
 				<a href="http://www.talleres.local/talleres/verGrupoTaller" class="w3-bar-item w3-button w3-padding ">
-				<i class="fa fa-futbol-o"></i>&nbsp; ESTUDIANTE TALLER</a>
+				<i class="fa fa-futbol-o"></i>&nbsp; ALUMNO TALLER</a>
+
+                <a href="http://www.talleres.local/talleres/tallerInscritoAlumno" class="w3-bar-item w3-button w3-padding ">
+					<i class="fa fa-futbol-o"></i>&nbsp; TALLERES INSCRITOS</a>
 				
 				<a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
                 class="w3-bar-item w3-button w3-padding ">
@@ -171,60 +174,52 @@
 		<!-- !PAGE CONTENT! -->
 		<div class="w3-main" style="margin-left:300px;margin-top:43px;">
 			
-			<!-- Header -->
-			<header class="w3-container" style="padding-top:22px">
-				<h5><b><i class="fa fa-futbol-o"></i> TALLERISTAS</b></h5>
-			</header>
-			
-			<div class="w3-container w3-dark-grey w3-padding">
-				<div class="w3-container w3-padding" style="display: flex;">
-					<div>
-					<div>Nombre Tallerista: {nombre_talleristas}</div>
-					<div>Taller: {nombre_taller}</div>
-					<div>Periodo: {periodo}</div>
-					<div>Matricula: {matriculaAlumno} </div>
-				</div>
-				<div class="symbol-container" style="margin-left: 300px;">
-					<div>Simbología</div>
-					<div>✓  ➝ HORARIO OCUPADO</div>
-					<div>O  ➝ HORARIO DISPONIBLE</div>
-				</div>
-				</div>
-				<div class="w3-container">					
-					<div class="w3-table-all w3-text-black">
-						<table >
-							<tr>
-								<th class="w3-center" >HORARIO</th>
-								<th class="w3-center" >LUNES</th>
-								<th class="w3-center" >MARTES</th>
-								<th class="w3-center" >MIERCOLES</th>
-								<th class="w3-center" >JUEVES</th>
-								<th class="w3-center" >VIERNES</th>
-							</tr>
-							<!--HORARIOS-->
-							<tr>
-								<td class="w3-center" >{horas}</td>
-								<td class="w3-center">
-								{dia1} </td>
-								<td class="w3-center">{dia2}</td>
-								<td class="w3-center">{dia3}</td>
-								<td class="w3-center">{dia4}</td>
-								<td class="w3-center">{dia5}</td>
-							</tr>
-							<!--HORARIOS-->
-						</table>
-						
-					</div>
-					<div class="  w3-padding-16">
-						<a class="w3-button w3-green w3-round w3-right" href="/talleres/horarioSeleccion/{idgrupo_talleres}"> Guardar </a>
-					</div>
-						<div class="  w3-padding-16">
-						<!-- Botón de Regresar -->
-						<a class="w3-button w3-green w3-round w3-right" href="/talleres/verGrupoTaller"> Regresar </a>
-					</div>
-					
-				</div>
-			</div>
+<!-- Header -->
+<header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-futbol-o"></i> TALLERISTAS</b></h5>
+</header>
+
+<div class="w3-container w3-dark-grey w3-padding">
+    <div class="w3-container w3-padding">
+        <div>Nombre Tallerista: {nombre_talleristas}</div>
+        <div>Taller: {nombre_taller}</div>
+        <div>Periodo: {periodo}</div>
+        <div>Matricula: {matriculaAlumno} </div>
+    </div>
+    
+    <div class="w3-container">                    
+        <div class="w3-table-all w3-text-black">
+            <table>
+                <tr>
+                    <th class="w3-center">HORARIO</th>
+                    <th class="w3-center">LUNES</th>
+                    <th class="w3-center">MARTES</th>
+                    <th class="w3-center">MIERCOLES</th>
+                    <th class="w3-center">JUEVES</th>
+                    <th class="w3-center">VIERNES</th>
+                </tr>
+                <!--HORARIOS-->
+                <tr>
+                    <td class="w3-center">{horas}</td>
+                    <td class="w3-center">{dia1}</td>
+                    <td class="w3-center">{dia2}</td>
+                    <td class="w3-center">{dia3}</td>
+                    <td class="w3-center">{dia4}</td>
+                    <td class="w3-center">{dia5}</td>
+                </tr>
+                <!--HORARIOS-->
+            </table>
+            
+        </div>
+       
+        <div class="w3-container w3-border-top w3-padding-16 ">
+
+			<a class="w3-button w3-green w3-round w3-right" href="/talleres/verGrupoTaller"> Regresar
+			</a>
+		</div>
+    </div>
+</div>
+
 			
 			
 			<!-- Footer -->

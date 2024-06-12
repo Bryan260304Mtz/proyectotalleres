@@ -12,6 +12,15 @@ class PersonaModel extends DB {
 		$this->get_query();
 		return $this->rows[0];	
 	}
+	public function darMatricula1($idpersonas) {
+		$this->rows = array();
+		$this->query = "SELECT alumno.nocuenta AS matriculaAlumno
+						FROM alumno
+						JOIN persona ON persona.idpersonas = alumno.idpersonas
+						WHERE persona.idpersonas = $idpersonas";
+		$this->get_query();
+		return isset($this->rows[0]['matriculaAlumno']) ? $this->rows[0]['matriculaAlumno'] : null;
+	}
 	public function darMatricula($idpersonas) {
         $this->rows = array();
 		$this->query = "SELECT alumno.nocuenta AS matriculaAlumno

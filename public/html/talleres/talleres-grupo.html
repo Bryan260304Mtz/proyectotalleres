@@ -61,7 +61,18 @@
             background-color: lightgray;
             /* Color de fondo para las horas */
         }
+        .input-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-container input {
+            width: 250px; /* Ajusta el valor según sea necesario */
+            padding: 3px;
+            font-size: 14px;
+        }
     </style>
+    
 </head>
 
 <body class="w3-light-grey">
@@ -107,7 +118,7 @@
                 <i class="fa fa-futbol-o"></i>&nbsp; GRUPO-TALLER</a>
 
             <a href="http://www.talleres.local/talleres/verGrupoTaller" class="w3-bar-item w3-button w3-padding ">
-                <i class="fa fa-futbol-o"></i>&nbsp; ALUMNO TALLER</a>
+                <i class="fa fa-futbol-o"></i>&nbsp; ESTUDIANTE TALLER</a>
 
             <a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
                 class="w3-bar-item w3-button w3-padding ">
@@ -172,7 +183,8 @@
 
 
 
-                        <select name="idtallerista" class="w3-input w3-round select2 select-tallerista" style="width:100%;">
+                        <select name="idtallerista" class="w3-input w3-round select2 select-tallerista"
+                            style="width:100%;">
                             <option value="">-- SELECCIONA TALLERISTA --</option>
                             <!--LISTA_TALLERISTAS-->
                             <option value="{idtallerista}">{nombre_talleristas}</option>
@@ -197,31 +209,33 @@
                             // Configurar el idioma de Select2 para mostrar "No se encontraron resultados"
                             $.fn.select2.defaults.set('language', {
                                 noResults: function () {
-                                    return "No se encontraron resultados";
+                                    return "NO SE ENCONTRARON RESULTADOS";
                                 }
                             });
-
+                
                             // Inicializar selectores con Select2
                             $('.select-tallerista').select2({
                                 placeholder: "-- SELECCIONA TALLERISTA --",
                                 allowClear: true
                             });
-
+                
                             $('.select-taller').select2({
                                 placeholder: "-- SELECCIONA TALLER --",
                                 allowClear: true
                             });
-
+                
                             // Enfocar el campo de búsqueda cuando se abre el selector
                             $('.select2').on('select2:open', function () {
                                 let searchField = $('.select2-container--open .select2-search__field');
                                 searchField.focus();
                             });
+                
+                            // Validar el formulario al enviar
                             $('#grupoTallerForm').on('submit', function (e) {
                                 let talleristaSeleccionado = $('.select-tallerista').val();
                                 let tallerSeleccionado = $('.select-taller').val();
                                 let cupo = $('#cupo').val().trim();
-
+                
                                 if (talleristaSeleccionado === "") {
                                     alert("Selecciona un tallerista");
                                     e.preventDefault();
@@ -236,15 +250,11 @@
                         });
                     </script>
 
-                    <div class="w3-container w3-padding">
+                    <div class="input-container w3-padding">
 
-                        <label for="cupo" class="w3-text-white">Cupo</label>
-                        <input type="text" id="cupo" name="cupo" onkeyup="showHint(this.value)">
-
+                        <label for="cupo">CUPO:</label>
+                        <input class="w3-round" type="number" name="cupo" id="cupo" min="1" max="40" placeholder="NOTA: CUPO MÁXIMO DE 40">
                     </div>
-
-
-
                     <div class="w3-container w3-padding">
                         <input class="w3-button w3-green w3-round w3-right" type="submit" value="GUARDAR"
                             name="guardar-grupo-taller">
@@ -252,12 +262,12 @@
                 </form>
                 <table class="w3-table-all w3-text-black">
                     <tr>
-                        <th>ID grupo Taller</th>
-                        <th>Nombre Tallerista</th>
-                        <th>Taller</th>
-                        <th>Periodo</th>
-                        <th>Cupo</th>
-                        <th>Acciones</th>
+                        <th>ID GRUPO TALLER</th>
+                        <th>NOMBRE TALLERISTA</th>
+                        <th>TALLER</th>
+                        <th>PERIODO</th>
+                        <th>CUPO</th>
+                        <th>ACCIONES</th>
 
 
                     </tr>
@@ -295,7 +305,9 @@
                 .w3-table-all td {
                     vertical-align: middle;
                 }
-                .w3-table-all td a, .w3-table-all td input[type="button"] {
+
+                .w3-table-all td a,
+                .w3-table-all td input[type="button"] {
                     display: inline-block;
                     margin: 2px;
                 }
@@ -315,6 +327,15 @@
 
         <!-- End page content -->
     </div>
+    
+    <script>
+        document.getElementById('cupo').addEventListener('input', function (event) {
+            var value = parseInt(event.target.value, 10);
+            if (value > 40) {
+                event.target.value = 40;
+            }
+        });
+    </script>
 
     <script>
         var mySidebar = document.getElementById("mySidebar");

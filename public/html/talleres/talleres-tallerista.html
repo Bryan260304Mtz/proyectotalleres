@@ -112,7 +112,7 @@
 				<i class="fa fa-futbol-o"></i>&nbsp; GRUPO-TALLER</a>
 
 			<a href="http://www.talleres.local/talleres/verGrupoTaller" class="w3-bar-item w3-button w3-padding ">
-				<i class="fa fa-futbol-o"></i>&nbsp; ALUMNO TALLER</a>
+				<i class="fa fa-futbol-o"></i>&nbsp; ESTUDIANTE TALLER</a>
 
 			<a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
 				class="w3-bar-item w3-button w3-padding ">
@@ -163,13 +163,14 @@
 					<link rel="stylesheet"
 						href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 
-					<h5>Si el profesor no esta en la lista verificalo con el administrador</h5>
+					<h5>SI EL PROFESOR NO ESTA EN LA LISTA VERIFICALO CON EL ADMINISTRADOR</h5>
 					<select name="idprofesor" class="w3-input w3-round select2">
 						<option value="">-- SELECCIONA PROFESOR --</option>
 						<!--LISTA_PROFESORES-->
 						<option value="{idpersonas}">{nombre_profesor}</option>
 						<!--LISTA_PROFESORES-->
 					</select>
+					
 			</div>
 
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -178,7 +179,7 @@
 				$(document).ready(function () {
 					$.fn.select2.defaults.set('language', {
 						noResults: function () {
-							return "No se encontraron resultados";
+							return "NO SE ENCONTRARON RESULTADOS";
 						}
 					});
 
@@ -189,7 +190,7 @@
 					});
 					$('#talleristaForm').on('submit', function (e) {
 						if ($('.select2').val() === "") {
-							alert("Selecciona un profesor");
+							alert("SELECCIONA UN PROFESOR");
 							e.preventDefault();
 						}
 					});
@@ -197,25 +198,30 @@
 			</script>
 
 			<div class="w3-container w3-padding"></div>
-			<button type="submit" class="w3-button w3-green w3-round" style="margin-top:10px;">Agregar a Talleristas</button>
+			<button type="submit" class="w3-button w3-green w3-round" style="margin-top:10px;">AGREGAR A TALLERISTAS</button>
 			</form>
 
 			<div class="w3-container w3-padding">
 				<table class="w3-table-all w3-text-black">
 					<tr>
-						<th>ID Tallerista</th>
-						<th>Nombre Tallerista</th>
-						<th>Estado</th>
-						<th>Acciones</th>
+						<th>ID TALLERISTAS</th>
+						<th>NOMBRE TALLERISTA</th>
+						<th>ESTADO</th>
+						<th>ACCIONES</th>
 					</tr>
 					<!--LISTA_TALLERISTAS-->
 					<tr>
 
 						<td> {idtallerista} </td>
 						<td>{nombre_talleristas}</td>
-						<td>{estado}</td>
-						<td><a href="/talleres/cambiarEstadoTallerista/{idtallerista}"
-								class="w3-button w3-green w3-round"> estado </a>
+						<td class="estado-texto">{estado_texto}</td>
+						<td>
+							<a href="/talleres/cambiarEstadoTallerista/{idtallerista}"
+							   class="w3-button w3-round estado-boton"
+							   data-id="{idtallerista}"
+							   data-estado="{estado}">
+							   {estado_texto_boton}
+							</a>
 						</td>
 
 					</tr>
@@ -238,6 +244,37 @@
 
 	<!-- End page content -->
 	</div>
+	<script>
+		function cambiarEstado(element, id, estado) {
+			event.preventDefault(); // Prevent the default link behavior
+	
+			var xhr = new XMLHttpRequest();
+			xhr.open("GET", "/talleres/cambiarEstadoTallerista/" + id, true);
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					toggleEstado(element, estado === '1' ? '0' : '1');
+				}
+			};
+			xhr.send();
+		}
+	
+		function toggleEstado(element, nuevoEstado) {
+			var esActivo = nuevoEstado === '1';
+			element.classList.toggle('w3-red', esActivo);
+			element.classList.toggle('w3-green', !esActivo);
+			element.innerText = esActivo ? 'DESACTIVAR' : 'ACTIVAR';
+			element.setAttribute('onclick', "cambiarEstado(this, '" + element.getAttribute('data-id') + "', '" + nuevoEstado + "')");
+			element.parentNode.previousElementSibling.innerText = esActivo ? 'ACTIVO' : 'INACTIVO';
+			element.setAttribute('data-estado', nuevoEstado);
+		}
+	
+		// Initialize button states based on their data attributes
+		document.querySelectorAll('.estado-boton').forEach(function (button) {
+			var estado = button.getAttribute('data-estado');
+			toggleEstado(button, estado);
+		});
+	</script>
+	
 
 	<script>
 		var mySidebar = document.getElementById("mySidebar");

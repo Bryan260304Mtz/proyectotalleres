@@ -164,6 +164,13 @@ class TalleresModel extends DB
         $this->set_query();
     }
 
+    public function contarHorariosSeleccionados($idgrupo_talleres)
+{
+    $this->query = "SELECT COUNT(*) as total FROM horario_talleres WHERE idgrupo_talleres = $idgrupo_talleres";
+    $result = $this->get_query();
+    return $result[0]['total'];
+}
+
     public function horarioOcupado($idGrupo, $dia, $hora)
     {
         $horaCompleta = $hora . ':00';
@@ -213,7 +220,7 @@ class TalleresModel extends DB
             INNER JOIN talleres ON talleres.idtalleres = grupo_talleres.idtaller
             INNER JOIN periodo ON periodo.idperiodo = grupo_talleres.idperiodo
             INNER JOIN horario_talleres ON horario_talleres.idgrupo_talleres = grupo_talleres.idgrupo_talleres 
-            WHERE talleres.estado = 1
+            WHERE talleres.estado = 1 and periodo.actual = 1
             ORDER BY idgrupo_talleres DESC";
         $this->get_query();
         return $this->rows;
@@ -242,4 +249,43 @@ class TalleresModel extends DB
         $this->get_query();
         return $this->rows[0]['resultado'];
     }
+    public function obtenerIdHorario($idGrupo, $dia, $hora)
+    {
+        $this->query = "SELECT idhorario_talleres AS ih FROM horario_talleres WHERE idgrupo_talleres = $idGrupo AND dia = $dia AND inicio = '$hora:00'";
+        $this->get_query();
+        if (count($this->rows) > 0) {
+            return $this->rows[0]['ih'];
+        } else {
+            return false;
+        }
+    }
+
+    public function verificarHorarioRegistrado($noCuenta, $idHorarioTaller)
+    {
+        $this->query = "SELECT COUNT(*) AS count FROM cursan_talleres WHERE nocuenta = $noCuenta AND idhorario_talleres = $idHorarioTaller";
+        $this->get_query();
+        return $this->rows[0]['count'] > 0;
+    }
+
+    public function eliminarHorarioAlumno($noCuenta, $idHorarioTaller)
+    {
+        $this->query = "DELETE FROM cursan_talleres WHERE nocuenta = $noCuenta AND idhorario_talleres = $idHorarioTaller";
+        $this->set_query();
+    }
+
+    public function horariosAlumnoGuardar($noCuenta, $idHorarioTaller)
+    {
+        $this->query = "INSERT INTO cursan_talleres(nocuenta, horas_acomuladas, idhorario_talleres) VALUES ($noCuenta, 0, $idHorarioTaller)";
+        $this->set_query();
+    }
+    public function obtenerIdGrupoTalleres($idHorarioTalleres) {
+        $this->query = "SELECT idgrupo_talleres FROM horario_talleres WHERE idhorario_talleres = $idHorarioTalleres";
+        $this->get_query();
+        if (count($this->rows) > 0) {
+            return $this->rows[0]['idgrupo_talleres'];
+        } else {
+            return false;
+        }
+    }
+    
 }
