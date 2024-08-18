@@ -61,18 +61,20 @@
             background-color: lightgray;
             /* Color de fondo para las horas */
         }
+
         .input-container {
             display: flex;
             align-items: center;
         }
 
         .input-container input {
-            width: 250px; /* Ajusta el valor según sea necesario */
+            width: 250px;
+            /* Ajusta el valor según sea necesario */
             padding: 3px;
             font-size: 14px;
         }
     </style>
-    
+
 </head>
 
 <body class="w3-light-grey">
@@ -93,7 +95,7 @@
             </div>
             <div class="w3-col s8 w3-bar">
                 <br>
-                <span>Hola, <strong>{nombrePersona}</strong></span>
+                <span>Hola, <strong>{nombre_completo_tallerista}</strong></span>
             </div>
         </div>
         <hr>
@@ -111,6 +113,9 @@
             <a href="http://www.talleres.local/talleres/crear" class="w3-bar-item w3-button w3-padding ">
                 <i class="fa fa-futbol-o"></i>&nbsp; TALLERES</a>
 
+            <a href="http://www.talleres.local/talleres/assitencia" class="w3-bar-item w3-button w3-padding ">
+                <i class="fa fa-futbol-o"></i>&nbsp; Asistencia</a>
+
             <a href="http://www.talleres.local/talleres/tallerista" class="w3-bar-item w3-button w3-padding ">
                 <i class="fa fa-futbol-o"></i>&nbsp; TALLERISTAS</a>
 
@@ -119,9 +124,6 @@
 
             <a href="http://www.talleres.local/talleres/verGrupoTaller" class="w3-bar-item w3-button w3-padding ">
                 <i class="fa fa-futbol-o"></i>&nbsp; ESTUDIANTE TALLER</a>
-
-                <a href="http://www.talleres.local/talleres/assitencia" class="w3-bar-item w3-button w3-padding ">
-                    <i class="fa fa-futbol-o"></i>&nbsp; Asistencia</a>
 
             <a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
                 class="w3-bar-item w3-button w3-padding ">
@@ -158,152 +160,92 @@
 
         <!-- Header -->
         <header class="w3-container" style="padding-top:22px">
-            <h5><b><i class="fa fa-futbol-o"></i> CREAR GRUPO DE TALLER</b></h5>
+            <h5><b><i class="fa fa-futbol-o"></i> ASISTENCIA</b></h5>
         </header>
 
         <div class="w3-container w3-dark-grey w3-padding">
 
 
             <div class="w3-container">
-                <form id="grupoTallerForm" class="w3-container" action="/talleres/guardarGrupoTaller/" method="post"
-                    enctype="multipart/form-data">
-
-                    <div class="w3-container w3-padding">
-
-                        <!--PERIODO-->
-                        <div class="w3-container w3-padding">
-                            <label for="idperiodo" class="w3-text-white"></label>
-                            <span>{periodo_actual}</span>
-                            <input type="hidden" name="idperiodo" value="{idperiodo}">
-                        </div>
-                        <!--PERIODO-->
-
-                        <link rel="stylesheet"
-                            href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
-                        <!-- Select2 CSS -->
-                        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-                            rel="stylesheet" />
-
-
-
-                        <select name="idtallerista" class="w3-input w3-round select2 select-tallerista"
-                            style="width:100%;">
-                            <option value="">-- SELECCIONA TALLERISTA --</option>
-                            <!--LISTA_TALLERISTAS-->
-                            <option value="{idtallerista}">{nombre_talleristas}</option>
-                            <!--LISTA_TALLERISTAS-->
-                        </select>
-                    </div>
-
-                    <div class="w3-container w3-padding">
-
-                        <select name="idtalleres" class="w3-input w3-round select2 select-taller" style="width:100%;">
-                            <option value="">-- SELECCIONA TALLER --</option>
-                            <!--LISTA_TALLERES-->
-                            <option value="{idtalleres}">{nombre_taller}</option>
-                            <!--LISTA_TALLERES-->
-                        </select>
-                    </div>
-
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-                    <script>
-                        $(document).ready(function () {
-                            // Configurar el idioma de Select2 para mostrar "No se encontraron resultados"
-                            $.fn.select2.defaults.set('language', {
-                                noResults: function () {
-                                    return "NO SE ENCONTRARON RESULTADOS";
-                                }
-                            });
+                <h1>Selecciona el día y horario</h1>
                 
-                            // Inicializar selectores con Select2
-                            $('.select-tallerista').select2({
-                                placeholder: "-- SELECCIONA TALLERISTA --",
-                                allowClear: true
-                            });
+                <label for="dia">Día:</label>
+                <select id="dia" name="dia" onchange="loadHorarios()" class="w3-input w3-round" style="width:100%;">
+                    <option value="">Selecciona un día</option>
+                    <option value="1">Lunes</option>
+                    <option value="2">Martes</option>
+                    <option value="3">Miércoles</option>
+                    <option value="4">Jueves</option>
+                    <option value="5">Viernes</option>
+                </select>
                 
-                            $('.select-taller').select2({
-                                placeholder: "-- SELECCIONA TALLER --",
-                                allowClear: true
-                            });
-                
-                            // Enfocar el campo de búsqueda cuando se abre el selector
-                            $('.select2').on('select2:open', function () {
-                                let searchField = $('.select2-container--open .select2-search__field');
-                                searchField.focus();
-                            });
-                
-                            // Validar el formulario al enviar
-                            $('#grupoTallerForm').on('submit', function (e) {
-                                let talleristaSeleccionado = $('.select-tallerista').val();
-                                let tallerSeleccionado = $('.select-taller').val();
-                                let cupo = $('#cupo').val().trim();
-                
-                                if (talleristaSeleccionado === "") {
-                                    alert("Selecciona un tallerista");
-                                    e.preventDefault();
-                                } else if (tallerSeleccionado === "") {
-                                    alert("Selecciona un taller");
-                                    e.preventDefault();
-                                } else if (cupo === "") {
-                                    alert("Ingresa un cupo");
-                                    e.preventDefault();
-                                }
-                            });
-                        });
-                    </script>
-
-                    <div class="input-container w3-padding">
-
-                        <label for="cupo">CUPO:</label>
-                        <input class="w3-round" type="number" name="cupo" id="cupo" min="1" max="40" placeholder="NOTA: CUPO MÁXIMO DE 40">
-                    </div>
-                    <div class="w3-container w3-padding">
-                        <input class="w3-button w3-green w3-round w3-right" type="submit" value="GUARDAR"
-                            name="guardar-grupo-taller">
-                    </div>
-                </form>
-                <table class="w3-table-all w3-text-black">
-                    <tr>
-                        <th>ID GRUPO TALLER</th>
-                        <th>NOMBRE TALLERISTA</th>
-                        <th>TALLER</th>
-                        <th>PERIODO</th>
-                        <th>CUPO</th>
-                        <th>ACCIONES</th>
-
-
-                    </tr>
-                    <!--GRUPO_TALLERES-->
-                    <tr>
-
-                        <td> {idgrupo_talleres} </td>
-                        <td>{nombre_talleristas}</td>
-                        <td>{nombre_taller}</td>
-                        <td>{periodo}</td>
-                        <td>{cupo}</td>
-                        <td>
-                            <a class="w3-button w3-green w3-round" href="/talleres/horario/{idgrupo_talleres}">HORAS
-                            </a>
-
-                            <input class="w3-button w3-green w3-round" name="button" type="button"
-                                onclick="confirmarEliminar()" value="ELIMINAR" />
-                            <script>
-                                function confirmarEliminar() {
-                                    if (confirm('¿Quieres eliminar este Grupo?')) {
-                                        window.location.href = "/talleres/eliminarGrupoTaller/{idgrupo_talleres}";
-                                    } else {
-                                        console.log('Operación Cancelada');
-                                    }
-                                }
-                            </script>
-                        </td>
-                    </tr>
-                    <!--GRUPO_TALLERES-->
-                </table>
-
-
+                <div id="horarios" style="display:none; margin-top: 20px;">
+                    <label for="horario">Horario:</label>
+                    <select name="idtallerista" id="horario" class="w3-input w3-round select2 select-tallerista" style="width:100%;" onchange="showNextButton()">
+                        <option value="">-- SELECCIONA UN HORARIO --</option>
+                    </select>
+                </div>
+            
+                <div id="nextButton" style="display:none; text-align: right; margin-top: 20px;">
+                    <button class="w3-button w3-green w3-round" onclick="nextStep()">Siguiente</button>
+                </div>
             </div>
+            
+            <script>
+            function loadHorarios() {
+                var dia = document.getElementById('dia').value;
+                var horariosDiv = document.getElementById('horarios');
+                var horarioSelect = document.getElementById('horario');
+            
+                // Verifica si un día ha sido seleccionado
+                if (dia) {
+                    // Mostrar el div de horarios
+                    horariosDiv.style.display = 'block';
+            
+                    // Añadir la opción por defecto al select de horarios
+                    horarioSelect.innerHTML = '<option value="">-- SELECCIONA UN HORARIO --</option>';
+            
+                    // Crear una solicitud AJAX
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/talleres/assitencia', true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            // Inserta los horarios disponibles debajo de la opción "SELECCIONA UN HORARIO"
+                            horarioSelect.innerHTML += xhr.responseText;
+                        }
+                    };
+            
+                    // Envía la solicitud con el día seleccionado
+                    xhr.send('dia=' + dia);
+                } else {
+                    // Si no hay un día seleccionado, oculta el div de horarios y el botón de siguiente
+                    horariosDiv.style.display = 'none';
+                    document.getElementById('nextButton').style.display = 'none';
+                }
+            }
+            
+            function showNextButton() {
+                var horarioSelect = document.getElementById('horario').value;
+                var nextButton = document.getElementById('nextButton');
+            
+                // Muestra el botón de siguiente solo si se selecciona un horario
+                if (horarioSelect) {
+                    nextButton.style.display = 'block';
+                } else {
+                    nextButton.style.display = 'none';
+                }
+            }
+            
+            function nextStep() {
+                // Redirige al usuario a la URL especificada
+                window.location.href = '/talleres/ListaAsistencia';
+            }
+            </script>
+            
+
+
             <style>
                 .w3-table-all td {
                     vertical-align: middle;
@@ -330,7 +272,7 @@
 
         <!-- End page content -->
     </div>
-    
+
     <script>
         document.getElementById('cupo').addEventListener('input', function (event) {
             var value = parseInt(event.target.value, 10);
@@ -362,4 +304,4 @@
 
 </body>
 
-</html>
+</html

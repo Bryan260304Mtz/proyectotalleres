@@ -69,19 +69,19 @@ class TalleresModel extends DB
     }
     public function verificarTalleristaExistente($idProfesor = null)
     {
-    $query = "SELECT talleristas.*, nombreCompleto(persona.idpersonas) AS 'nombre_talleristas'
+        $query = "SELECT talleristas.*, nombreCompleto(persona.idpersonas) AS 'nombre_talleristas'
               FROM talleristas
               INNER JOIN persona ON persona.idpersonas = talleristas.idtallerista";
 
-    if ($idProfesor !== null) {
-        $query .= " WHERE talleristas.idtallerista = $idProfesor";
-    }
-    $query .= " ORDER BY nombre_talleristas";
+        if ($idProfesor !== null) {
+            $query .= " WHERE talleristas.idtallerista = $idProfesor";
+        }
+        $query .= " ORDER BY nombre_talleristas";
 
-    $this->query = $query;
-    $this->get_query();
-    return $this->rows;
-}
+        $this->query = $query;
+        $this->get_query();
+        return $this->rows;
+    }
     public function guardarTallerista($idtallerista)
     {
         $this->query = "INSERT INTO talleristas (idtallerista,estado) VALUES ($idtallerista,1)";
@@ -165,11 +165,11 @@ class TalleresModel extends DB
     }
 
     public function contarHorariosSeleccionados($idgrupo_talleres)
-{
-    $this->query = "SELECT COUNT(*) as total FROM horario_talleres WHERE idgrupo_talleres = $idgrupo_talleres";
-    $result = $this->get_query();
-    return $result[0]['total'];
-}
+    {
+        $this->query = "SELECT COUNT(*) as total FROM horario_talleres WHERE idgrupo_talleres = $idgrupo_talleres";
+        $result = $this->get_query();
+        return $result[0]['total'];
+    }
 
     public function horarioOcupado($idGrupo, $dia, $hora)
     {
@@ -278,7 +278,8 @@ class TalleresModel extends DB
         $this->query = "INSERT INTO cursan_talleres(nocuenta, horas_acomuladas, idhorario_talleres) VALUES ($noCuenta, 0, $idHorarioTaller)";
         $this->set_query();
     }
-    public function obtenerIdGrupoTalleres($idHorarioTalleres) {
+    public function obtenerIdGrupoTalleres($idHorarioTalleres)
+    {
         $this->query = "SELECT idgrupo_talleres FROM horario_talleres WHERE idhorario_talleres = $idHorarioTalleres";
         $this->get_query();
         if (count($this->rows) > 0) {
@@ -287,5 +288,25 @@ class TalleresModel extends DB
             return false;
         }
     }
-    
+
+
+    public function verHorarioTallerista($idTallerista, $dia)
+    {
+        $this->query = "SELECT ht.inicio AS horario
+                    FROM horario_talleres ht
+                    INNER JOIN grupo_talleres gt ON ht.idgrupo_talleres = gt.idgrupo_talleres
+                    INNER JOIN talleristas t ON gt.idtallerista = t.idtallerista
+                    WHERE t.idtallerista = $idTallerista
+                    AND ht.dia = $dia";
+
+        // Ejecutar la consulta
+        $this->get_query();
+
+        // Devolver todos los horarios obtenidos
+        if (isset($this->rows) && !empty($this->rows)) {
+            return array_column($this->rows, 'horario');
+        } else {
+            return [];
+        }
+    }
 }

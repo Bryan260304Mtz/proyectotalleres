@@ -51,7 +51,7 @@ class TalleresController
 					echo "<script>alert('Lo siento, tu archivo sobrepasa los 2 MB.');";
 					echo "window.location.href = 'http://www.talleres.local/talleres/crear';</script>";
 					exit(); // Asegurar que se detenga la ejecución después de mostrar la alerta y redirigir
-				} 
+				}
 				$uploadOk = 0;
 			}
 
@@ -74,7 +74,7 @@ class TalleresController
 					$talleresModel->crear($_POST["nombre"], 1, $nomImg);
 
 					header("Location: http://www.talleres.local/talleres/crear");
-					exit(); 
+					exit();
 				} else {
 					echo "Lo siento, hubo un error al subir tu archivo.";
 				}
@@ -106,7 +106,7 @@ class TalleresController
 					echo "<script>alert('Lo siento, tu archivo sobrepasa los 2 MB.');";
 					echo "window.location.href = 'http://www.talleres.local/talleres/crear';</script>";
 					exit(); // Asegurar que se detenga la ejecución después de mostrar la alerta y redirigir
-				} 
+				}
 				$uploadOk = 0;
 			}
 
@@ -129,10 +129,10 @@ class TalleresController
 					$talleresModel->actualizar($idtalleres, $_POST["nombre"], $nomImg);
 					// Redireccionar a la página donde está el botón "Crear un taller"
 					header("Location: http://www.talleres.local/talleres/crear");
-					exit(); 
+					exit();
 				} else {
 					header("Location: http://www.talleres.local/talleres/crear");
-					exit(); 
+					exit();
 				}
 			}
 		}
@@ -163,28 +163,27 @@ class TalleresController
 		$talleresView->tallerista($persona, $docente, $tallerista);
 	}
 	public function agregarTallerista()
-{
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $idProfesor = $_POST['idprofesor'];
-        
-        // Verificar si el profesor ya es tallerista
-        $talleresModel = new TalleresModel();
-        $existeTallerista = $talleresModel->verificarTalleristaExistente($idProfesor);
+	{
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			$idProfesor = $_POST['idprofesor'];
 
-        // Si el profesor ya es tallerista, mostrar un mensaje de error y redireccionar
-        if ($existeTallerista) {
+			// Verificar si el profesor ya es tallerista
+			$talleresModel = new TalleresModel();
+			$existeTallerista = $talleresModel->verificarTalleristaExistente($idProfesor);
+
+			// Si el profesor ya es tallerista, mostrar un mensaje de error y redireccionar
+			if ($existeTallerista) {
 				echo "<script>alert('Este profesor ya es tallerista.');";
 				echo "window.location.href = 'http://www.talleres.local/talleres/tallerista';</script>";
-				exit(); 
+				exit();
+			} else {
+				// Si el profesor no es tallerista, guardarlo en la base de datos
+				$talleresModel->guardarTallerista($idProfesor);
+				header("Location: http://www.talleres.local/talleres/tallerista");
+				exit();
+			}
 		}
-				else {
-            // Si el profesor no es tallerista, guardarlo en la base de datos
-            $talleresModel->guardarTallerista($idProfesor);
-            header("Location: http://www.talleres.local/talleres/tallerista");
-            exit();
-        }
-    }
-}
+	}
 	public function cambiarEstadoTallerista($param = array())
 	{
 		$talleresModel = new TalleresModel();
@@ -218,27 +217,27 @@ class TalleresController
 		$talleresView->crearGrupoTaller($persona, $tallerista, $talleres, $periodo, $grupo_talleres);
 	}
 	public function guardarGrupoTaller()
-{
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $idtallerista = $_POST['idtallerista'];
-        $idtaller = $_POST['idtalleres'];
-        $cupo = $_POST['cupo'];
-        $idperiodo = $_POST['idperiodo'];
+	{
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			$idtallerista = $_POST['idtallerista'];
+			$idtaller = $_POST['idtalleres'];
+			$cupo = $_POST['cupo'];
+			$idperiodo = $_POST['idperiodo'];
 
-        // Validación del valor de cupo
-        if ($cupo < 1 || $cupo > 40) {
-            // Manejar el error, por ejemplo, redirigiendo a la página anterior con un mensaje de error
-           header("Location: http://www.talleres.local/talleres/crearGrupoTaller");
-		   exit();
-	   }
-        
-        $talleresModel = new TalleresModel();
-        $talleresModel->guardarGrupoTaller($idtallerista, $idtaller, $cupo, $idperiodo);
+			// Validación del valor de cupo
+			if ($cupo < 1 || $cupo > 40) {
+				// Manejar el error, por ejemplo, redirigiendo a la página anterior con un mensaje de error
+				header("Location: http://www.talleres.local/talleres/crearGrupoTaller");
+				exit();
+			}
 
-        header("Location: http://www.talleres.local/talleres/crearGrupoTaller");
-        exit();
-    }
-}
+			$talleresModel = new TalleresModel();
+			$talleresModel->guardarGrupoTaller($idtallerista, $idtaller, $cupo, $idperiodo);
+
+			header("Location: http://www.talleres.local/talleres/crearGrupoTaller");
+			exit();
+		}
+	}
 
 
 	public function horario($param = array())
@@ -270,13 +269,13 @@ class TalleresController
 
 		$totalHorarios = $talleresModel->contarHorariosSeleccionados($idgrupo_talleres);
 
-    if ($totalHorarios >= 8) {
-        echo "<script>
+		if ($totalHorarios >= 8) {
+			echo "<script>
             alert('No puedes seleccionar más de 8 horarios.');
             window.location.href = '/talleres/horario/{$idgrupo_talleres}';
         </script>";
-        exit();
-    }
+			exit();
+		}
 
 		$horario_Ocupado = $talleresModel->horarioOcupado($idgrupo_talleres, $dia, $hora);
 
@@ -311,21 +310,21 @@ class TalleresController
 	}
 
 	private function darHorarios($idGrupo)
-{
-    $horarios = array();
+	{
+		$horarios = array();
 
-    for ($i = 7; $i < 18; $i++) {
-        $horarios[] = [
-            "horas" => $i . " - " . ($i + 1),
-            "dia1" => "<a href='/talleres/horarios_guardar/$idGrupo/1/$i:00:00' class='estado dia1'>" . ((new TalleresModel())->estaOcupada($idGrupo, 1, $i) ? "✓" : "O") . "</a>",
-            "dia2" => "<a href='/talleres/horarios_guardar/$idGrupo/2/$i:00:00' class='estado dia2'>" . ((new TalleresModel())->estaOcupada($idGrupo, 2, $i) ? "✓" : "O") . "</a>",
-            "dia3" => "<a href='/talleres/horarios_guardar/$idGrupo/3/$i:00:00' class='estado dia3'>" . ((new TalleresModel())->estaOcupada($idGrupo, 3, $i) ? "✓" : "O") . "</a>",
-            "dia4" => "<a href='/talleres/horarios_guardar/$idGrupo/4/$i:00:00' class='estado dia4'>" . ((new TalleresModel())->estaOcupada($idGrupo, 4, $i) ? "✓" : "O") . "</a>",
-            "dia5" => "<a href='/talleres/horarios_guardar/$idGrupo/5/$i:00:00' class='estado dia5'>" . ((new TalleresModel())->estaOcupada($idGrupo, 5, $i) ? "✓" : "O") . "</a>"
-        ];
-    }
-    return $horarios;
-}
+		for ($i = 7; $i < 18; $i++) {
+			$horarios[] = [
+				"horas" => $i . " - " . ($i + 1),
+				"dia1" => "<a href='/talleres/horarios_guardar/$idGrupo/1/$i:00:00' class='estado dia1'>" . ((new TalleresModel())->estaOcupada($idGrupo, 1, $i) ? "✓" : "O") . "</a>",
+				"dia2" => "<a href='/talleres/horarios_guardar/$idGrupo/2/$i:00:00' class='estado dia2'>" . ((new TalleresModel())->estaOcupada($idGrupo, 2, $i) ? "✓" : "O") . "</a>",
+				"dia3" => "<a href='/talleres/horarios_guardar/$idGrupo/3/$i:00:00' class='estado dia3'>" . ((new TalleresModel())->estaOcupada($idGrupo, 3, $i) ? "✓" : "O") . "</a>",
+				"dia4" => "<a href='/talleres/horarios_guardar/$idGrupo/4/$i:00:00' class='estado dia4'>" . ((new TalleresModel())->estaOcupada($idGrupo, 4, $i) ? "✓" : "O") . "</a>",
+				"dia5" => "<a href='/talleres/horarios_guardar/$idGrupo/5/$i:00:00' class='estado dia5'>" . ((new TalleresModel())->estaOcupada($idGrupo, 5, $i) ? "✓" : "O") . "</a>"
+			];
+		}
+		return $horarios;
+	}
 
 
 	public function horarioAlumno($param = array())
@@ -368,7 +367,7 @@ class TalleresController
 		} else {
 			$talleresModel->horariosAlumnoGuardar($noCuenta, $idHorarioTaller);
 		}
-		
+
 		$id_horario = $talleresModel->obtenerIdGrupoTalleres($idHorarioTaller);
 		header("Location: /talleres/horarioAlumno/$id_horario");
 		exit();
@@ -418,7 +417,7 @@ class TalleresController
 
 	public function horarioSeleccion($param = array())
 	{
-	
+
 		if (count($param) > 0) {
 			$idGrupo = $param[0];
 			$talleresModel = new TalleresModel();
@@ -431,18 +430,18 @@ class TalleresController
 
 			(new TalleresView())->tallerInscritoAlumno($persona, $horarios, $grupo_talleres, $noCuenta);
 		} else {
-			
 		}
 	}
 
 
-	private function darHorarioSeleccionAlumno($idGrupo, $soloElegidos = false) {
+	private function darHorarioSeleccionAlumno($idGrupo, $soloElegidos = false)
+	{
 		$horarios = array();
-	
+
 		$talleresModel = new TalleresModel();
 		$personaModel = new PersonaModel();
 		$noCuenta = $personaModel->darMatricula1(336);
-	
+
 		for ($i = 7; $i < 18; $i++) {
 			$horarioDia = array(
 				"horas" => $i . " - " . ($i + 1),
@@ -452,11 +451,11 @@ class TalleresController
 				"dia4" => "",
 				"dia5" => ""
 			);
-	
+
 			for ($dia = 1; $dia <= 5; $dia++) {
 				$idHorarioTaller = $talleresModel->obtenerIdHorario($idGrupo, $dia, $i);
 				$ocupado = $talleresModel->estaOcupada($idGrupo, $dia, $i);
-	
+
 				if ($idHorarioTaller && $ocupado) {
 					$registrado = $talleresModel->verificarHorarioRegistrado($noCuenta, $idHorarioTaller);
 					if ($registrado) {
@@ -466,25 +465,26 @@ class TalleresController
 					}
 				}
 			}
-	
+
 			$horarios[] = $horarioDia;
 		}
-	
+
 		return $horarios;
 	}
-	public function horarioSeleccionAlumno($param = array()) {
+	public function horarioSeleccionAlumno($param = array())
+	{
 		if (count($param) > 0) {
 			$idGrupo = $param[0];
 			$talleresModel = new TalleresModel();
 			$grupo_talleres = $talleresModel->darGrupo($idGrupo);
-	
+
 			$personaModel = new PersonaModel();
 			$persona = $personaModel->darPersona(336);
 			$matriculaAlumno = $personaModel->darMatricula(336);
-	
+
 			// Pasar true para mostrar solo los horarios elegidos
 			$horarios = $this->darHorarioAlumno($idGrupo, true);
-	
+
 			(new TalleresView())->horarioAlumno($persona, $grupo_talleres, $horarios, $matriculaAlumno);
 		} else {
 			exit(0);
@@ -545,7 +545,44 @@ class TalleresController
 		exit();
 	}
 
-	public function home()
-	{
-	}
+	public function assitencia()
+{
+	$idTallerista = 128; // Ajusta según tu necesidad
+
+    if (isset($_POST['dia'])) {
+        $diaSeleccionado = $_POST['dia'];
+
+        $talleresModel = new TalleresModel();
+        $horariosGrupoTaller = $talleresModel->verHorarioTallerista($idTallerista, $diaSeleccionado);
+
+        // Devuelve las opciones para el select
+        if (!empty($horariosGrupoTaller)) {
+            foreach ($horariosGrupoTaller as $horario) {
+                echo "<option value='$horario'>$horario</option>";
+            }
+        } else {
+            echo "<option value=''>No hay horarios disponibles</option>";
+        }
+    } else {
+        // Si no es una solicitud AJAX, carga la vista completa
+        $personaModel = new PersonaModel();
+        $persona = $personaModel->darTallerista( $idTallerista);
+
+        $talleresModel = new TalleresModel();
+        $horariosGrupoTaller = [];
+
+        $talleresView = new TalleresView();
+        $talleresView->asistencia($persona, $horariosGrupoTaller);
+    }
+}
+public function ListaAsiStencia()
+{
+	$personaModel = new PersonaModel();
+	$persona = $personaModel->darTallerista(128);
+	
+	$talleresView = new TalleresView();
+	$talleresView->ListaAsiStencia($persona);
+}
+
+	public function home() {}
 }
