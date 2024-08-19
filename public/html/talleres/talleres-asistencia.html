@@ -172,14 +172,14 @@
                 
                 <label for="dia">Día:</label>
                 <input type="text" id="dia" name="dia" class="w3-input w3-round" style="width:100%;" placeholder="Selecciona una fecha">
-        
+                
                 <div id="horarios" style="display:none; margin-top: 20px;">
                     <label for="horario">Horario:</label>
                     <select name="horario" id="horario" class="w3-input w3-round select2 select-tallerista" style="width:100%;" onchange="updateHiddenFields()">
                         <option value="">-- SELECCIONA UN HORARIO --</option>
                     </select>
                 </div>
-            
+                
                 <form action="/talleres/mostrarListaAsistencia" method="post">
                     <input type="hidden" id="hiddenDia" name="dia">
                     <input type="hidden" id="hiddenHorario" name="horario">
@@ -190,7 +190,7 @@
             <!-- Incluye la librería Flatpickr -->
             <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
             <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
-
+            
             <script>
                 // Configura Flatpickr en español
                 flatpickr("#dia", {
@@ -203,8 +203,13 @@
                             const dia = fecha.getDay(); // Obtén el día de la semana (0 = Domingo, 1 = Lunes, etc.)
                             const diaMap = {0: 7, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6}; // Mapea los días de la semana a los IDs
                             const diaId = diaMap[dia];
-                            
-                            if (diaId) {
+            
+                            if (dia === 0 || dia === 6) { // Si es sábado (6) o domingo (0)
+                                alert("Por favor, selecciona un horario de entre lunes y viernes.");
+                                document.getElementById('horarios').style.display = 'none';
+                                document.getElementById('nextButton').style.display = 'none';
+                                document.getElementById('hiddenDia').value = '';
+                            } else {
                                 document.getElementById('dia').value = fecha.toLocaleDateString('es-ES'); // Muestra la fecha en formato "dd/mm/aaaa"
                                 document.getElementById('hiddenDia').value = diaId; // Guarda el ID del día
                                 loadHorarios();
@@ -217,7 +222,7 @@
                     var dia = document.getElementById('hiddenDia').value;
                     var horariosDiv = document.getElementById('horarios');
                     var horarioSelect = document.getElementById('horario');
-                
+            
                     if (dia) {
                         horariosDiv.style.display = 'block';
                         horarioSelect.innerHTML = '<option value="">-- SELECCIONA UN HORARIO --</option>';
@@ -225,20 +230,20 @@
                         var xhr = new XMLHttpRequest();
                         xhr.open('POST', '/talleres/assitencia', true);
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                
+            
                         xhr.onreadystatechange = function() {
                             if (xhr.readyState === 4 && xhr.status === 200) {
                                 horarioSelect.innerHTML += xhr.responseText;
                             }
                         };
-                
+            
                         xhr.send('dia=' + dia);
                     } else {
                         horariosDiv.style.display = 'none';
                         document.getElementById('nextButton').style.display = 'none';
                     }
                 }
-                
+            
                 function updateHiddenFields() {
                     var dia = document.getElementById('hiddenDia').value;
                     var horario = document.getElementById('horario').value;
@@ -248,11 +253,11 @@
                     
                     showNextButton();
                 }
-                
+            
                 function showNextButton() {
                     var horarioSelect = document.getElementById('horario').value;
                     var nextButton = document.getElementById('nextButton');
-                
+            
                     if (horarioSelect) {
                         nextButton.style.display = 'block';
                     } else {
@@ -260,7 +265,6 @@
                     }
                 }
             </script>
-            
 
 
             <style>
