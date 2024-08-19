@@ -8,7 +8,7 @@
     <link rel="icon" type="icono/png" href="/public/images/upa_logo.png">
     <link rel="stylesheet" href="/public/css/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
         html,
         body,
@@ -20,60 +20,67 @@
             font-family: "Raleway", sans-serif
         }
 
+
+
         .ancho-avatar {
             width: 46px;
+            height: 46px;
+            border-radius: 50%;
         }
 
-        table {
-            border-collapse: collapse;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-custom {
             width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
         }
 
-        th,
-        td {
-            border: 1px solid #dddddd;
-            text-align: center;
-            padding: 8px;
+        .table-custom th,
+        .table-custom td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
         }
 
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .selected {
-            background-color: black;
+        .table-custom th {
+            background-color: #4CAF50;
             color: white;
         }
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
+        .table-custom tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
 
-        th,
-        td {
-            border: 1px solid black;
-            padding: 8px;
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            background-color: #4CAF50;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
             text-align: center;
+            margin-top: 20px;
         }
 
-        th {
-            background-color: lightgray;
-            /* Color de fondo para las horas */
-        }
-
-        .input-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .input-container input {
-            width: 250px;
-            /* Ajusta el valor según sea necesario */
-            padding: 3px;
-            font-size: 14px;
-        }
+       
+        .titulo-asistencia {
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff; /* Ajusta el color de fondo si es necesario */
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        z-index: 1000; /* Asegúrate de que esté sobre otros elementos */
+    }
     </style>
+
 
 </head>
 
@@ -83,7 +90,7 @@
     <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
         <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey"
             onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
-        <span class="w3-bar-item w3-right"><img src="/public/images/upa_logo.png" style="width:46px"> SII
+        <span class="w3-bar-item w3-right"><img src="/public/images/upa_logo.png" style="width:4px"> SII
             UPAtlacomulco</span>
     </div>
 
@@ -152,70 +159,51 @@
         </div>
     </nav>
 
-    <!-- Overlay effect when opening sidebar on small screens -->
-    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
-        title="cerrar menu" id="myOverlay"></div>
-    <!-- !PAGE CONTENT! -->
-    <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+     <!-- Overlay effect when opening sidebar on small screens -->
+     <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+     title="cerrar menu" id="myOverlay"></div>
 
-        <!-- Header -->
-        <header class="w3-container" style="padding-top:22px">
-            <h5><b><i class="fa fa-futbol-o"></i> ASISTENCIA</b></h5>
-        </header>
+ <!-- !PAGE CONTENT! -->
+ <div class="w3-main main-content" style="margin-left:300px;">
 
-        <div class="w3-container w3-dark-grey w3-padding">
-            <h2>LISTA DE ASISTENCIA</h2>
-            {tabla_asistencia} <!-- Aquí se insertará la tabla de asistencia -->
-            <div class="w3-padding-16">
-                <!-- Botón de Regresar -->
-                <a class="w3-button w3-green w3-round w3-right" href="/talleres/assitencia"> Regresar </a>
-            </div>
-        </div>
-        
+     <!-- Header -->
+     <header class="titulo-asistencia">
+         <h5><b><i class="fa fa-futbol-o"></i> ASISTENCIA</b></h5>
+     </header>
 
+     <div class="w3-container w3-dark-grey w3-padding">
 
-        <!-- Footer -->
-        <footer class="w3-container w3-padding-16 w3-light-grey">
-            <p><i style="font-size: 16px" class="fa"></i>
-                Universidad Politécnica de Atlacomulco,
-                Km. 5 Carretera Atlacomulco - San José Toxi,
-                Santo Domingo Shomeje, Atlacomulco de Fabela,
-                Estado de México. Tel. (712) 690 3020
-            </p>
-        </footer>
+         <div class="container">
+             <h2 class="w3-text-light-grey">Lista de Asistencia</h2>
 
-        <!-- End page content -->
-    </div>
+             <!-- Tabla de Asistencia -->
+             <table class="table-custom">
+                 <tr>
+                     <th>Nombre</th>
+                     <th>Asistencia</th>
+                 </tr>
+                 <!-- Aquí se inserta la lista de asistencia -->
+                 {LISTA_ASISTENCIA}
+             </table>
 
-    <script>
-        document.getElementById('cupo').addEventListener('input', function (event) {
-            var value = parseInt(event.target.value, 10);
-            if (value > 40) {
-                event.target.value = 40;
-            }
-        });
-    </script>
+             <!-- Botón de Regresar -->
+             <a class="button" href="/talleres/assitencia">Regresar</a>
+         </div>
+     </div>
 
-    <script>
-        var mySidebar = document.getElementById("mySidebar");
-        var overlayBg = document.getElementById("myOverlay");
-        function w3_open() {
-            if (mySidebar.style.display === 'block') {
-                mySidebar.style.display = 'none';
-                overlayBg.style.display = "none";
-            } else {
-                mySidebar.style.display = 'block';
-                overlayBg.style.display = "block";
-            }
-        }
-        function w3_close() {
-            mySidebar.style.display = "none";
-            overlayBg.style.display = "none";
-        }
+     <!-- Footer -->
+     <footer class="w3-container w3-padding-16 w3-light-grey">
+         <p><i style="font-size: 16px" class="fa"></i>
+             Universidad Politécnica de Atlacomulco,
+             Km. 5 Carretera Atlacomulco - San José Toxi,
+             Santo Domingo Shomeje, Atlacomulco de Fabela,
+             Estado de México. Tel. (712) 690 3020
+         </p>
+     </footer>
 
-    </script>
-
+     <!-- End page content -->
+ </div>
 
 </body>
 
-</html
+</html>

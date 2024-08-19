@@ -149,24 +149,30 @@ class TalleresView
         echo $contenido;
     }
     
-    public function ListaAsiStencia($persona, $listaAsistencia)
+    public function ListaAsistencia($persona, $listaAsistencia)
     {
+        // Cargar el contenido del archivo HTML
         $contenido = file_get_contents("./public/html/talleres/talleres-ListaAsistencia.html");
         $template = new Template($contenido);
         $contenido = $template->render($persona);
     
-        // Agregar el código para mostrar la lista de asistencia
-        $tablaAsistencia = '<table><thead><tr><th>Nombre Completo</th></tr></thead><tbody>';
+        // Crear el código HTML para la lista de asistencia con checkbox
+        $listaAsistenciaHtml = '';
         foreach ($listaAsistencia as $estudiante) {
-            $tablaAsistencia .= '<tr><td>' . $estudiante['nombreCursan'] . '</td></tr>';
+            $listaAsistenciaHtml .= '<tr><td>' . htmlspecialchars($estudiante['nombreCursan'], ENT_QUOTES, 'UTF-8') . '</td>';
+            $listaAsistenciaHtml .= '<td><input type="checkbox" name="asistencia[]" value="' . htmlspecialchars($estudiante['id'], ENT_QUOTES, 'UTF-8') . '"></td></tr>';
         }
-        $tablaAsistencia .= '</tbody></table>';
     
-        // Insertar la tabla en el contenido renderizado
-        $contenido = str_replace('{tabla_asistencia}', $tablaAsistencia, $contenido);
+        // Reemplazar el marcador de la lista de asistencia en el contenido renderizado
+        $contenido = str_replace('{LISTA_ASISTENCIA}', $listaAsistenciaHtml, $contenido);
     
+        // Imprimir el contenido final
         echo $contenido;
     }
+    
+
+    
+
     
     
 }
