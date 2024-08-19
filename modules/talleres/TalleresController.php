@@ -546,43 +546,53 @@ class TalleresController
 	}
 
 	public function assitencia()
+	{
+		$idTallerista = 2045; // Ajusta según tu necesidad
+
+		if (isset($_POST['dia'])) {
+			$diaSeleccionado = $_POST['dia'];
+
+			$talleresModel = new TalleresModel();
+			$horariosGrupoTaller = $talleresModel->verHorarioTallerista($idTallerista, $diaSeleccionado);
+
+			// Devuelve las opciones para el select
+			if (!empty($horariosGrupoTaller)) {
+				foreach ($horariosGrupoTaller as $horario) {
+					echo "<option value='$horario'>$horario</option>";
+				}
+			} else {
+				echo "<option value=''>No hay horarios disponibles</option>";
+			}
+		} else {
+			// Si no es una solicitud AJAX, carga la vista completa
+			$personaModel = new PersonaModel();
+			$persona = $personaModel->darTallerista($idTallerista);
+
+			$talleresModel = new TalleresModel();
+			$horariosGrupoTaller = [];
+
+			$talleresView = new TalleresView();
+			$talleresView->asistencia($persona, $horariosGrupoTaller);
+		}
+	}
+	public function mostrarListaAsistencia()
 {
-	$idTallerista = 128; // Ajusta según tu necesidad
+    $idTallerista=2045;
+    $dia = $_POST['dia'];
+    $horario = $_POST['horario'];
 
-    if (isset($_POST['dia'])) {
-        $diaSeleccionado = $_POST['dia'];
+    $talleresModel = new TalleresModel();
+    $listaAsistencia = $talleresModel->verListaAsistencia($idTallerista, $dia, $horario);
 
-        $talleresModel = new TalleresModel();
-        $horariosGrupoTaller = $talleresModel->verHorarioTallerista($idTallerista, $diaSeleccionado);
+    $personaModel = new PersonaModel();
+    $persona = $personaModel->darTallerista($idTallerista);
 
-        // Devuelve las opciones para el select
-        if (!empty($horariosGrupoTaller)) {
-            foreach ($horariosGrupoTaller as $horario) {
-                echo "<option value='$horario'>$horario</option>";
-            }
-        } else {
-            echo "<option value=''>No hay horarios disponibles</option>";
-        }
-    } else {
-        // Si no es una solicitud AJAX, carga la vista completa
-        $personaModel = new PersonaModel();
-        $persona = $personaModel->darTallerista( $idTallerista);
-
-        $talleresModel = new TalleresModel();
-        $horariosGrupoTaller = [];
-
-        $talleresView = new TalleresView();
-        $talleresView->asistencia($persona, $horariosGrupoTaller);
-    }
+    $talleresView = new TalleresView();
+    $talleresView->ListaAsiStencia($persona, $listaAsistencia);
 }
-public function ListaAsiStencia()
-{
-	$personaModel = new PersonaModel();
-	$persona = $personaModel->darTallerista(128);
+
+
 	
-	$talleresView = new TalleresView();
-	$talleresView->ListaAsiStencia($persona);
-}
 
 	public function home() {}
 }

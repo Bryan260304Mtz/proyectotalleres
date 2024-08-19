@@ -149,13 +149,24 @@ class TalleresView
         echo $contenido;
     }
     
-    PUBLIC function ListaAsiStencia($persona)
+    public function ListaAsiStencia($persona, $listaAsistencia)
     {
         $contenido = file_get_contents("./public/html/talleres/talleres-ListaAsistencia.html");
         $template = new Template($contenido);
         $contenido = $template->render($persona);
     
+        // Agregar el código para mostrar la lista de asistencia
+        $tablaAsistencia = '<table><thead><tr><th>Nombre Completo</th></tr></thead><tbody>';
+        foreach ($listaAsistencia as $estudiante) {
+            $tablaAsistencia .= '<tr><td>' . $estudiante['nombreCursan'] . '</td></tr>';
+        }
+        $tablaAsistencia .= '</tbody></table>';
+    
+        // Insertar la tabla en el contenido renderizado
+        $contenido = str_replace('{tabla_asistencia}', $tablaAsistencia, $contenido);
+    
         echo $contenido;
     }
+    
     
 }

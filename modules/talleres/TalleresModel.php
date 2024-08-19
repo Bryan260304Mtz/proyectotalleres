@@ -297,7 +297,8 @@ class TalleresModel extends DB
                     INNER JOIN grupo_talleres gt ON ht.idgrupo_talleres = gt.idgrupo_talleres
                     INNER JOIN talleristas t ON gt.idtallerista = t.idtallerista
                     WHERE t.idtallerista = $idTallerista
-                    AND ht.dia = $dia";
+                    AND ht.dia = $dia 
+                    ORDER BY ht.inicIo ASC";
 
         // Ejecutar la consulta
         $this->get_query();
@@ -309,4 +310,28 @@ class TalleresModel extends DB
             return [];
         }
     }
+    public function verListaAsistencia($idTallerista, $dia, $horario)
+    {
+        // Verifica que $idTallerista no sea un array
+        if (is_array($idTallerista)) {
+            $idTallerista = $idTallerista[0]; // O el índice que corresponda
+        }
+    
+        $this->query = "SELECT CONCAT(p.nombre, ' ', p.apellidopat, ' ', p.apellidomat) AS nombreCursan
+                        FROM alumno a 
+                        JOIN cursan_talleres ct ON a.nocuenta = ct.nocuenta 
+                        JOIN horario_talleres ht ON ct.idhorario_talleres = ht.idhorario_talleres 
+                        JOIN grupo_talleres gt ON ht.idgrupo_talleres = gt.idgrupo_talleres 
+                        JOIN persona p ON a.idpersonas = p.idpersonas 
+                        WHERE ht.dia = $dia 
+                        AND ht.inicio = '$horario' 
+                        AND gt.idtallerista = $idTallerista";
+    
+        $this->get_query();
+    
+        return $this->rows;
+    }
+    
+    
+    
 }

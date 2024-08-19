@@ -165,7 +165,6 @@
 
         <div class="w3-container w3-dark-grey w3-padding">
 
-
             <div class="w3-container">
                 <h1>Selecciona el día y horario</h1>
                 
@@ -181,14 +180,16 @@
                 
                 <div id="horarios" style="display:none; margin-top: 20px;">
                     <label for="horario">Horario:</label>
-                    <select name="idtallerista" id="horario" class="w3-input w3-round select2 select-tallerista" style="width:100%;" onchange="showNextButton()">
+                    <select name="horario" id="horario" class="w3-input w3-round select2 select-tallerista" style="width:100%;" onchange="updateHiddenFields()">
                         <option value="">-- SELECCIONA UN HORARIO --</option>
                     </select>
                 </div>
             
-                <div id="nextButton" style="display:none; text-align: right; margin-top: 20px;">
-                    <button class="w3-button w3-green w3-round" onclick="nextStep()">Siguiente</button>
-                </div>
+                <form action="/talleres/mostrarListaAsistencia" method="post">
+                    <input type="hidden" id="hiddenDia" name="dia">
+                    <input type="hidden" id="hiddenHorario" name="horario">
+                    <button type="submit" id="nextButton" class="w3-button w3-blue" style="display:none;">Siguiente</button>
+                </form>
             </div>
             
             <script>
@@ -197,50 +198,46 @@
                 var horariosDiv = document.getElementById('horarios');
                 var horarioSelect = document.getElementById('horario');
             
-                // Verifica si un día ha sido seleccionado
                 if (dia) {
-                    // Mostrar el div de horarios
                     horariosDiv.style.display = 'block';
-            
-                    // Añadir la opción por defecto al select de horarios
                     horarioSelect.innerHTML = '<option value="">-- SELECCIONA UN HORARIO --</option>';
-            
-                    // Crear una solicitud AJAX
+                    
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', '/talleres/assitencia', true);
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === 4 && xhr.status === 200) {
-                            // Inserta los horarios disponibles debajo de la opción "SELECCIONA UN HORARIO"
                             horarioSelect.innerHTML += xhr.responseText;
                         }
                     };
             
-                    // Envía la solicitud con el día seleccionado
                     xhr.send('dia=' + dia);
                 } else {
-                    // Si no hay un día seleccionado, oculta el div de horarios y el botón de siguiente
                     horariosDiv.style.display = 'none';
                     document.getElementById('nextButton').style.display = 'none';
                 }
+            }
+            
+            function updateHiddenFields() {
+                var dia = document.getElementById('dia').value;
+                var horario = document.getElementById('horario').value;
+                
+                document.getElementById('hiddenDia').value = dia;
+                document.getElementById('hiddenHorario').value = horario;
+                
+                showNextButton();
             }
             
             function showNextButton() {
                 var horarioSelect = document.getElementById('horario').value;
                 var nextButton = document.getElementById('nextButton');
             
-                // Muestra el botón de siguiente solo si se selecciona un horario
                 if (horarioSelect) {
                     nextButton.style.display = 'block';
                 } else {
                     nextButton.style.display = 'none';
                 }
-            }
-            
-            function nextStep() {
-                // Redirige al usuario a la URL especificada
-                window.location.href = '/talleres/ListaAsistencia';
             }
             </script>
             
