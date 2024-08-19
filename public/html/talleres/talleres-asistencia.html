@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/public/css/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/w3-css/w3.css">
     <style>
         html,
         body,
@@ -169,15 +171,8 @@
                 <h1>Selecciona el día y horario</h1>
                 
                 <label for="dia">Día:</label>
-                <select id="dia" name="dia" onchange="loadHorarios()" class="w3-input w3-round" style="width:100%;">
-                    <option value="">Selecciona un día</option>
-                    <option value="1">Lunes</option>
-                    <option value="2">Martes</option>
-                    <option value="3">Miércoles</option>
-                    <option value="4">Jueves</option>
-                    <option value="5">Viernes</option>
-                </select>
-                
+                <input type="text" id="dia" name="dia" class="w3-input w3-round" style="width:100%;" placeholder="Selecciona una fecha">
+        
                 <div id="horarios" style="display:none; margin-top: 20px;">
                     <label for="horario">Horario:</label>
                     <select name="horario" id="horario" class="w3-input w3-round select2 select-tallerista" style="width:100%;" onchange="updateHiddenFields()">
@@ -192,53 +187,78 @@
                 </form>
             </div>
             
+            <!-- Incluye la librería Flatpickr -->
+            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+            <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
             <script>
-            function loadHorarios() {
-                var dia = document.getElementById('dia').value;
-                var horariosDiv = document.getElementById('horarios');
-                var horarioSelect = document.getElementById('horario');
-            
-                if (dia) {
-                    horariosDiv.style.display = 'block';
-                    horarioSelect.innerHTML = '<option value="">-- SELECCIONA UN HORARIO --</option>';
-                    
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', '/talleres/assitencia', true);
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            horarioSelect.innerHTML += xhr.responseText;
+                // Configura Flatpickr en español
+                flatpickr("#dia", {
+                    dateFormat: "Y-m-d",
+                    locale: "es", // Establece el idioma en español
+                    firstDayOfWeek: 1, // La semana comienza en lunes
+                    onChange: function(selectedDates, dateStr, instance) {
+                        if (selectedDates.length > 0) {
+                            const fecha = selectedDates[0];
+                            const dia = fecha.getDay(); // Obtén el día de la semana (0 = Domingo, 1 = Lunes, etc.)
+                            const diaMap = {0: 7, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6}; // Mapea los días de la semana a los IDs
+                            const diaId = diaMap[dia];
+                            
+                            if (diaId) {
+                                document.getElementById('dia').value = fecha.toLocaleDateString('es-ES'); // Muestra la fecha en formato "dd/mm/aaaa"
+                                document.getElementById('hiddenDia').value = diaId; // Guarda el ID del día
+                                loadHorarios();
+                            }
                         }
-                    };
+                    }
+                });
             
-                    xhr.send('dia=' + dia);
-                } else {
-                    horariosDiv.style.display = 'none';
-                    document.getElementById('nextButton').style.display = 'none';
-                }
-            }
-            
-            function updateHiddenFields() {
-                var dia = document.getElementById('dia').value;
-                var horario = document.getElementById('horario').value;
+                function loadHorarios() {
+                    var dia = document.getElementById('hiddenDia').value;
+                    var horariosDiv = document.getElementById('horarios');
+                    var horarioSelect = document.getElementById('horario');
                 
-                document.getElementById('hiddenDia').value = dia;
-                document.getElementById('hiddenHorario').value = horario;
+                    if (dia) {
+                        horariosDiv.style.display = 'block';
+                        horarioSelect.innerHTML = '<option value="">-- SELECCIONA UN HORARIO --</option>';
+                        
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/talleres/assitencia', true);
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 
-                showNextButton();
-            }
-            
-            function showNextButton() {
-                var horarioSelect = document.getElementById('horario').value;
-                var nextButton = document.getElementById('nextButton');
-            
-                if (horarioSelect) {
-                    nextButton.style.display = 'block';
-                } else {
-                    nextButton.style.display = 'none';
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                horarioSelect.innerHTML += xhr.responseText;
+                            }
+                        };
+                
+                        xhr.send('dia=' + dia);
+                    } else {
+                        horariosDiv.style.display = 'none';
+                        document.getElementById('nextButton').style.display = 'none';
+                    }
                 }
-            }
+                
+                function updateHiddenFields() {
+                    var dia = document.getElementById('hiddenDia').value;
+                    var horario = document.getElementById('horario').value;
+                    
+                    document.getElementById('hiddenDia').value = dia;
+                    document.getElementById('hiddenHorario').value = horario;
+                    
+                    showNextButton();
+                }
+                
+                function showNextButton() {
+                    var horarioSelect = document.getElementById('horario').value;
+                    var nextButton = document.getElementById('nextButton');
+                
+                    if (horarioSelect) {
+                        nextButton.style.display = 'block';
+                    } else {
+                        nextButton.style.display = 'none';
+                    }
+                }
             </script>
             
 
