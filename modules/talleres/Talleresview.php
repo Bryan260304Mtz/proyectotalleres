@@ -153,22 +153,19 @@ class TalleresView
     {
         // Cargar el contenido del archivo HTML
         $contenido = file_get_contents("./public/html/talleres/talleres-ListaAsistencia.html");
+    
+        // Renderizar los datos de la persona
         $template = new Template($contenido);
         $contenido = $template->render($persona);
     
-        // Crear el código HTML para la lista de asistencia con checkbox
-        $listaAsistenciaHtml = '';
-        foreach ($listaAsistencia as $estudiante) {
-            $listaAsistenciaHtml .= '<tr><td>' . htmlspecialchars($estudiante['nombreCursan'], ENT_QUOTES, 'UTF-8') . '</td>';
-            $listaAsistenciaHtml .= '<td><input type="checkbox" name="asistencia[]" value="' . htmlspecialchars($estudiante['id'], ENT_QUOTES, 'UTF-8') . '"></td></tr>';
-        }
-    
-        // Reemplazar el marcador de la lista de asistencia en el contenido renderizado
-        $contenido = str_replace('{LISTA_ASISTENCIA}', $listaAsistenciaHtml, $contenido);
+        // Renderizar la lista de asistencia utilizando render_regex
+        $template = new Template($contenido);
+        $contenido = $template->render_regex($listaAsistencia, "LISTA_ASISTENCIA");
     
         // Imprimir el contenido final
         echo $contenido;
     }
+    
     
 
     

@@ -69,16 +69,25 @@
             margin-top: 20px;
         }
 
-       
+
         .titulo-asistencia {
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: #ffffff; /* Ajusta el color de fondo si es necesario */
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        z-index: 1000; /* Asegúrate de que esté sobre otros elementos */
-    }
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            z-index: 1000;
+        }
+/* Estilo para centrar y hacer más grande el checkbox */
+.custom-checkbox {
+    display: block;
+    margin: 0 auto;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
     </style>
 
 
@@ -159,50 +168,59 @@
         </div>
     </nav>
 
-     <!-- Overlay effect when opening sidebar on small screens -->
-     <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
-     title="cerrar menu" id="myOverlay"></div>
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+        title="cerrar menu" id="myOverlay"></div>
 
- <!-- !PAGE CONTENT! -->
- <div class="w3-main main-content" style="margin-left:300px;">
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main main-content" style="margin-left:300px;">
 
-     <!-- Header -->
-     <header class="titulo-asistencia">
-         <h5><b><i class="fa fa-futbol-o"></i> ASISTENCIA</b></h5>
-     </header>
+        <!-- Header -->
+        <header class="titulo-asistencia">
+            <h5><b><i class="fa fa-futbol-o"></i> ASISTENCIA</b></h5>
+        </header>
 
-     <div class="w3-container w3-dark-grey w3-padding">
+        <div class="w3-container w3-dark-grey w3-padding">
+            <div class="container">
+                <h2 class="w3-text-light-grey">Lista de Asistencia</h2>
+        
+                <!-- Tabla de Asistencia -->
+                <table class="table-custom w3-text-black">
+                    <tr>
+                        <th>Matricula</th>
+                        <th>Nombre</th>
+                        <th>Asistencia</th>
+                    </tr>
+                    <!--LISTA_ASISTENCIA-->
+                    <tr>
+                        <td>{noCuenta}</td>
+                        <td>{nombreCursan}</td>
+                        <td class="center">
+                            <input type="checkbox" class="custom-checkbox">
+                        </td>
+                    </tr>
+                    <!--LISTA_ASISTENCIA-->
+                </table>
+        
+                <!-- Botón de Regresar -->
+                <a class="button" href="/talleres/assitencia">Regresar</a>
+            </div>
+        </div>
+        
 
-         <div class="container">
-             <h2 class="w3-text-light-grey">Lista de Asistencia</h2>
 
-             <!-- Tabla de Asistencia -->
-             <table class="table-custom">
-                 <tr>
-                     <th>Nombre</th>
-                     <th>Asistencia</th>
-                 </tr>
-                 <!-- Aquí se inserta la lista de asistencia -->
-                 {LISTA_ASISTENCIA}
-             </table>
+        <!-- Footer -->
+        <footer class="w3-container w3-padding-16 w3-light-grey">
+            <p><i style="font-size: 16px" class="fa"></i>
+                Universidad Politécnica de Atlacomulco,
+                Km. 5 Carretera Atlacomulco - San José Toxi,
+                Santo Domingo Shomeje, Atlacomulco de Fabela,
+                Estado de México. Tel. (712) 690 3020
+            </p>
+        </footer>
 
-             <!-- Botón de Regresar -->
-             <a class="button" href="/talleres/assitencia">Regresar</a>
-         </div>
-     </div>
-
-     <!-- Footer -->
-     <footer class="w3-container w3-padding-16 w3-light-grey">
-         <p><i style="font-size: 16px" class="fa"></i>
-             Universidad Politécnica de Atlacomulco,
-             Km. 5 Carretera Atlacomulco - San José Toxi,
-             Santo Domingo Shomeje, Atlacomulco de Fabela,
-             Estado de México. Tel. (712) 690 3020
-         </p>
-     </footer>
-
-     <!-- End page content -->
- </div>
+        <!-- End page content -->
+    </div>
 
 </body>
 

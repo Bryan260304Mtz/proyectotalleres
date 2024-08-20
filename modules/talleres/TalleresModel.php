@@ -316,22 +316,20 @@ class TalleresModel extends DB
         if (is_array($idTallerista)) {
             $idTallerista = $idTallerista[0]; // O el índice que corresponda
         }
-    
-        $this->query = "SELECT CONCAT(p.nombre, ' ', p.apellidopat, ' ', p.apellidomat) AS nombreCursan
-                        FROM alumno a 
-                        JOIN cursan_talleres ct ON a.nocuenta = ct.nocuenta 
-                        JOIN horario_talleres ht ON ct.idhorario_talleres = ht.idhorario_talleres 
-                        JOIN grupo_talleres gt ON ht.idgrupo_talleres = gt.idgrupo_talleres 
-                        JOIN persona p ON a.idpersonas = p.idpersonas 
-                        WHERE ht.dia = $dia 
-                        AND ht.inicio = '$horario' 
-                        AND gt.idtallerista = $idTallerista";
-    
+
+        $this->query = "SELECT a.nocuenta as noCuenta, CONCAT(p.nombre, ' ', p.apellidopat, ' ', p.apellidomat) AS nombreCursan
+        FROM alumno a 
+        JOIN cursan_talleres ct ON a.nocuenta = ct.nocuenta 
+        JOIN horario_talleres ht ON ct.idhorario_talleres = ht.idhorario_talleres 
+        JOIN grupo_talleres gt ON ht.idgrupo_talleres = gt.idgrupo_talleres 
+        JOIN persona p ON a.idpersonas = p.idpersonas 
+        WHERE ht.dia = $dia 
+        AND ht.inicio = '$horario' 
+        AND gt.idtallerista = $idTallerista";
+
+
         $this->get_query();
-    
+
         return $this->rows;
     }
-    
-    
-    
 }
