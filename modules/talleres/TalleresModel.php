@@ -219,8 +219,9 @@ class TalleresModel extends DB
             INNER JOIN persona ON persona.idpersonas = grupo_talleres.idtallerista
             INNER JOIN talleres ON talleres.idtalleres = grupo_talleres.idtaller
             INNER JOIN periodo ON periodo.idperiodo = grupo_talleres.idperiodo
+            INNER JOIN talleristas ON talleristas.idtallerista = grupo_talleres.idtallerista
             INNER JOIN horario_talleres ON horario_talleres.idgrupo_talleres = grupo_talleres.idgrupo_talleres 
-            WHERE talleres.estado = 1 and periodo.actual = 1
+            WHERE talleres.estado = 1 AND talleristas.estado = 1 and periodo.actual = 1
             ORDER BY idgrupo_talleres DESC";
         $this->get_query();
         return $this->rows;
@@ -332,4 +333,19 @@ class TalleresModel extends DB
 
         return $this->rows;
     }
+    public function obtenerTaller($idTallerista, $dia, $horario)
+    {
+        $this->query = " SELECT t.nombre AS nombre_taller
+FROM grupo_talleres gt
+INNER JOIN talleres t ON gt.idtaller = t.idtalleres
+INNER JOIN persona p ON gt.idtallerista = p.idpersonas
+INNER JOIN horario_talleres ht ON ht.idgrupo_talleres = gt.idgrupo_talleres
+                    WHERE gt.idtallerista = $idTallerista
+                    AND ht.dia = $dia
+                    AND ht.inicio = '$horario'";
+
+$this->get_query();
+return $this->rows[0];
+
+}
 }

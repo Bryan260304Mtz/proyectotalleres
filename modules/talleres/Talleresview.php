@@ -132,44 +132,43 @@ class TalleresView
     public function asistencia($persona, $horariosGrupoTaller)
     {
         $contenido = file_get_contents("./public/html/talleres/talleres-asistencia.html");
-    
+
         // Generar la lista de opciones para los horarios
         $listaHorarios = "";
         foreach ($horariosGrupoTaller as $horarioTall) {
             $listaHorarios .= "<option value='{$horarioTall}'>{$horarioTall}</option>";
         }
-    
+
         // Reemplazar el marcador de lista de horarios con las opciones generadas
         $contenido = str_replace("<!--LISTA_HORARIOS-->", $listaHorarios, $contenido);
-    
+
         // Renderizar el contenido con la información del tallerista
         $template = new Template($contenido);
         $contenido = $template->render($persona);
-    
+
         echo $contenido;
     }
-    
-    public function ListaAsistencia($persona, $listaAsistencia)
+    public function ListaAsistencia($persona, $listaAsistencia, $horario, $fechaCompleta, $tallerista)
     {
         // Cargar el contenido del archivo HTML
         $contenido = file_get_contents("./public/html/talleres/talleres-ListaAsistencia.html");
-    
-        // Renderizar los datos de la persona
         $template = new Template($contenido);
         $contenido = $template->render($persona);
-    
-        // Renderizar la lista de asistencia utilizando render_regex
+
         $template = new Template($contenido);
         $contenido = $template->render_regex($listaAsistencia, "LISTA_ASISTENCIA");
-    
+        // Reemplazar los marcadores con los datos recibidos
+        $template = new Template($contenido);
+        $contenido = str_replace("{HORARIO_SELECCIONADO}", $horario, $contenido);
+
+        $template = new Template($contenido);
+        $contenido = str_replace("{DIA_SELECCIONADO}", $fechaCompleta, $contenido);
+
+        // Renderizar otros datos, como el tallerista
+        $template = new Template($contenido);
+        $contenido = $template->render($tallerista);
+
         // Imprimir el contenido final
         echo $contenido;
     }
-    
-    
-
-    
-
-    
-    
 }

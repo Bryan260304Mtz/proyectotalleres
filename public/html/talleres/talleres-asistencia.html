@@ -182,9 +182,11 @@
                 
                 <form action="/talleres/mostrarListaAsistencia" method="post">
                     <input type="hidden" id="hiddenDia" name="dia">
+                    <input type="hidden" id="hiddenFecha" name="fecha"> <!-- Campo oculto para la fecha -->
                     <input type="hidden" id="hiddenHorario" name="horario">
                     <button type="submit" id="nextButton" class="w3-button w3-blue" style="display:none;">Siguiente</button>
                 </form>
+                
             </div>
             
             <!-- Incluye la librería Flatpickr -->
@@ -209,9 +211,11 @@
                                 document.getElementById('horarios').style.display = 'none';
                                 document.getElementById('nextButton').style.display = 'none';
                                 document.getElementById('hiddenDia').value = '';
+                                document.getElementById('hiddenFecha').value = '';
                             } else {
                                 document.getElementById('dia').value = fecha.toLocaleDateString('es-ES'); // Muestra la fecha en formato "dd/mm/aaaa"
                                 document.getElementById('hiddenDia').value = diaId; // Guarda el ID del día
+                                document.getElementById('hiddenFecha').value = dateStr; // Guarda la fecha seleccionada en el campo oculto
                                 loadHorarios();
                             }
                         }

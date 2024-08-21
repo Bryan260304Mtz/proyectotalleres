@@ -99,7 +99,7 @@
     <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
         <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey"
             onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
-        <span class="w3-bar-item w3-right"><img src="/public/images/upa_logo.png" style="width:4px"> SII
+        <span class="w3-bar-item w3-right"><img src="/public/images/upa_logo.png" style="width:46px"> SII
             UPAtlacomulco</span>
     </div>
 
@@ -172,18 +172,22 @@
     <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
         title="cerrar menu" id="myOverlay"></div>
 
-    <!-- !PAGE CONTENT! -->
-    <div class="w3-main main-content" style="margin-left:300px;">
+   <!-- !PAGE CONTENT! -->
+   <div class="w3-main" style="margin-left:300px;margin-top:43px;">
 
-        <!-- Header -->
-        <header class="titulo-asistencia">
-            <h5><b><i class="fa fa-futbol-o"></i> ASISTENCIA</b></h5>
-        </header>
+    <!-- Header -->
+    <header class="w3-container" style="padding-top:22px">
+       <h5><b><i class="fa fa-futbol-o"></i> ASISTENCIA</b></h5>
+   </header>
 
-        <div class="w3-container w3-dark-grey w3-padding">
-            <div class="container">
-                <h2 class="w3-text-light-grey">Lista de Asistencia</h2>
-        
+   <div class="w3-container w3-dark-grey w3-padding">
+       <div class="container">
+           <h2 class="w3-text-light-grey">Lista de Asistencia</h2>
+           <div>
+               <div>Horario: {HORARIO_SELECCIONADO}</div>
+               <div>Fecha: {DIA_SELECCIONADO}</div>
+               <div>Taller: {nombre_taller}</div>
+           </div>
                 <!-- Tabla de Asistencia -->
                 <table class="table-custom w3-text-black">
                     <tr>

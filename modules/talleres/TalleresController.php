@@ -577,22 +577,30 @@ class TalleresController
 	}
 	public function mostrarListaAsistencia()
 {
-    $idTallerista=2045;
+    $idTallerista = 2045;
+    
+    // Captura la fecha y el ID del día desde el formulario
     $dia = $_POST['dia'];
     $horario = $_POST['horario'];
+    $fecha = $_POST['fecha']; // Captura la fecha enviada
 
+    // Convierte la fecha a otro formato si es necesario
+    $fechaCompleta = date('Y/m/d', strtotime($fecha));
+    
+    // Verifica el valor de $fechaCompleta
+    // escribeMatriz($fechaCompleta);
+    
     $talleresModel = new TalleresModel();
     $listaAsistencia = $talleresModel->verListaAsistencia($idTallerista, $dia, $horario);
+    $talleista = $talleresModel->obtenerTaller($idTallerista, $dia, $horario);
 
     $personaModel = new PersonaModel();
     $persona = $personaModel->darTallerista($idTallerista);
 
     $talleresView = new TalleresView();
-    $talleresView->ListaAsiStencia($persona, $listaAsistencia);
+    $talleresView->ListaAsistencia($persona, $listaAsistencia, $horario, $fechaCompleta, $talleista);
 }
 
-
-	
 
 	public function home() {}
 }
