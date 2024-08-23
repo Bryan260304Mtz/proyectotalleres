@@ -181,37 +181,49 @@
    </header>
 
    <div class="w3-container w3-dark-grey w3-padding">
-       <div class="container">
-           <h2 class="w3-text-light-grey">Lista de Asistencia</h2>
-           <div>
-               <div>Horario: {HORARIO_SELECCIONADO}</div>
-               <div>Fecha: {DIA_SELECCIONADO}</div>
-               <div>Taller: {nombre_taller}</div>
-           </div>
-                <!-- Tabla de Asistencia -->
-                <table class="table-custom w3-text-black">
-                    <tr>
-                        <th>Matricula</th>
-                        <th>Nombre</th>
-                        <th>Asistencia</th>
-                    </tr>
-                    <!--LISTA_ASISTENCIA-->
-                    <tr>
-                        <td>{noCuenta}</td>
-                        <td>{nombreCursan}</td>
-                        <td class="center">
-                            <input type="checkbox" class="custom-checkbox">
-                        </td>
-                    </tr>
-                    <!--LISTA_ASISTENCIA-->
-                </table>
-        
-                <!-- Botón de Regresar -->
-                <a class="button" href="/talleres/assitencia">Regresar</a>
-            </div>
+    <div class="container">
+        <h2 class="w3-text-light-grey">Lista de Asistencia</h2>
+        <div>
+            <div>Horario: {HORARIO_SELECCIONADO}</div>
+            <div>Dia: {dia}</div>
+            <div>Fecha: {DIA_SELECCIONADO}</div>
+            <div>Taller: {nombre_taller}</div>
         </div>
-        
 
+        <!-- Formulario para guardar la asistencia -->
+        <form action="/talleres/guardarAsistencia" method="POST">
+            <!-- Tabla de Asistencia -->
+            <table class="table-custom w3-text-black">
+                <tr>
+                    <th>Matricula</th>
+                    <th>Nombre</th>
+                    <th>Asistencia</th>
+                </tr>
+                <!--LISTA_ASISTENCIA-->
+                <tr>
+                    <td>{noCuenta}</td>
+                    <td>{nombreCursan}</td>
+                    <td class="center">
+                        <p>
+                            <input type="number" id="number-{noCuenta}" name="asistencia[{noCuenta}]" min="0" max="1" value="0" style="width: 50px;">
+                        </p>
+                    </td>
+                </tr>
+                <!--LISTA_ASISTENCIA-->
+            </table>
+            
+            <!-- Botón de Guardar -->
+            <input type="hidden" name="fecha" value="{DIA_SELECCIONADO}">
+            <input type="hidden" name="horario" value="{HORARIO_SELECCIONADO}">
+            <input type="hidden" name="dia" value="{dia}">
+            <button type="submit" class="button">Guardar</button>
+        </form>
+
+        <!-- Botón de Regresar -->
+        <a class="button" href="/talleres/assitencia">Regresar</a>
+    </div>
+</div>
+        
 
         <!-- Footer -->
         <footer class="w3-container w3-padding-16 w3-light-grey">

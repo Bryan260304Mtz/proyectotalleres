@@ -544,18 +544,16 @@ class TalleresController
 		header("location: /talleres/crearGrupoTaller");
 		exit();
 	}
-
 	public function assitencia()
 	{
-		$idTallerista = 2045; // Ajusta según tu necesidad
 
+		$idTallerista = 36;
 		if (isset($_POST['dia'])) {
 			$diaSeleccionado = $_POST['dia'];
 
 			$talleresModel = new TalleresModel();
 			$horariosGrupoTaller = $talleresModel->verHorarioTallerista($idTallerista, $diaSeleccionado);
 
-			// Devuelve las opciones para el select
 			if (!empty($horariosGrupoTaller)) {
 				foreach ($horariosGrupoTaller as $horario) {
 					echo "<option value='$horario'>$horario</option>";
@@ -564,7 +562,6 @@ class TalleresController
 				echo "<option value=''>No hay horarios disponibles</option>";
 			}
 		} else {
-			// Si no es una solicitud AJAX, carga la vista completa
 			$personaModel = new PersonaModel();
 			$persona = $personaModel->darTallerista($idTallerista);
 
@@ -576,30 +573,58 @@ class TalleresController
 		}
 	}
 	public function mostrarListaAsistencia()
-{
-    $idTallerista = 2045;
-    
-    // Captura la fecha y el ID del día desde el formulario
-    $dia = $_POST['dia'];
-    $horario = $_POST['horario'];
-    $fecha = $_POST['fecha']; // Captura la fecha enviada
+	{
+		$idTallerista = 36;
+		$dia = $_POST['dia'];
+		$horario = $_POST['horario'];
+		$fecha = $_POST['fecha'];
 
-    // Convierte la fecha a otro formato si es necesario
-    $fechaCompleta = date('Y/m/d', strtotime($fecha));
-    
-    // Verifica el valor de $fechaCompleta
-    // escribeMatriz($fechaCompleta);
-    
-    $talleresModel = new TalleresModel();
-    $listaAsistencia = $talleresModel->verListaAsistencia($idTallerista, $dia, $horario);
-    $talleista = $talleresModel->obtenerTaller($idTallerista, $dia, $horario);
+		$fechaCompleta = date('Y-m-d', strtotime($fecha));
+		$talleresModel = new TalleresModel();
+		$listaAsistencia = $talleresModel->verListaAsistencia($idTallerista, $dia, $horario);
+		$talleista = $talleresModel->obtenerTaller($idTallerista, $dia, $horario);
 
-    $personaModel = new PersonaModel();
-    $persona = $personaModel->darTallerista($idTallerista);
+		$personaModel = new PersonaModel();
+		$persona = $personaModel->darTallerista($idTallerista);
 
-    $talleresView = new TalleresView();
-    $talleresView->ListaAsistencia($persona, $listaAsistencia, $horario, $fechaCompleta, $talleista);
-}
+		$talleresView = new TalleresView();
+		$talleresView->ListaAsistencia($persona, $listaAsistencia, $horario, $fechaCompleta, $talleista, $dia);
+	}
+
+
+	public function guardarAsistencia()
+	{
+		$idTallerista = 36;
+
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$asistenciaArray = $_POST['asistencia'];
+			$fecha = $_POST['fecha'];
+			$horario = $_POST['horario'];
+			$diaElegido = $_POST['dia'];
+
+			if ($idTallerista && $diaElegido && $horario && $fecha) {
+				$talleresModel = new TalleresModel();
+				$idCursant = $talleresModel->idCursan($idTallerista, $diaElegido, $horario);
+
+				foreach ($idCursant as $alumno) {
+					$idcursan_talleres = $alumno['idcursan_talleres'];
+					$noCuenta = $alumno['noCuenta'];
+
+					$asistencia = isset($asistenciaArray[$noCuenta]) ? $asistenciaArray[$noCuenta] : 0;
+
+					$talleresModel->insertarAsistencia($idcursan_talleres, $fecha, $asistencia);
+				}
+			}
+		}
+		header("location: /talleres/assitencia");
+		exit();
+	}
+
+	
+
+
+
+
 
 
 	public function home() {}

@@ -318,21 +318,62 @@ class TalleresModel extends DB
             $idTallerista = $idTallerista[0]; // O el índice que corresponda
         }
 
-        $this->query = "SELECT a.nocuenta as noCuenta, CONCAT(p.nombre, ' ', p.apellidopat, ' ', p.apellidomat) AS nombreCursan
-        FROM alumno a 
-        JOIN cursan_talleres ct ON a.nocuenta = ct.nocuenta 
-        JOIN horario_talleres ht ON ct.idhorario_talleres = ht.idhorario_talleres 
-        JOIN grupo_talleres gt ON ht.idgrupo_talleres = gt.idgrupo_talleres 
-        JOIN persona p ON a.idpersonas = p.idpersonas 
-        WHERE ht.dia = $dia 
-        AND ht.inicio = '$horario' 
-        AND gt.idtallerista = $idTallerista";
-
+        $this->query = "SELECT 
+                            a.nocuenta as noCuenta, 
+                            CONCAT(p.nombre, ' ', p.apellidopat, ' ', p.apellidomat) AS nombreCursan
+                        FROM 
+                            alumno a 
+                        JOIN 
+                            cursan_talleres ct ON a.nocuenta = ct.nocuenta 
+                        JOIN 
+                            horario_talleres ht ON ct.idhorario_talleres = ht.idhorario_talleres 
+                        JOIN 
+                            grupo_talleres gt ON ht.idgrupo_talleres = gt.idgrupo_talleres 
+                        JOIN 
+                            persona p ON a.idpersonas = p.idpersonas 
+                        WHERE 
+                            ht.dia = $dia 
+                            AND ht.inicio = '$horario' 
+                            AND gt.idtallerista = $idTallerista";
 
         $this->get_query();
 
-        return $this->rows;
+        return $this->rows; // Devuelve los resultados
     }
+
+
+    public function idCursan($idTallerista, $dia, $horario)
+    {
+        // Verifica que $idTallerista no sea un array
+        if (is_array($idTallerista)) {
+            $idTallerista = $idTallerista[0]; // O el índice que corresponda
+        }
+    
+        $this->query = "SELECT 
+                            ct.idcursan_talleres AS idcursan_talleres,
+                            a.nocuenta AS noCuenta
+                        FROM 
+                            alumno a 
+                        JOIN 
+                            cursan_talleres ct ON a.nocuenta = ct.nocuenta 
+                        JOIN 
+                            horario_talleres ht ON ct.idhorario_talleres = ht.idhorario_talleres 
+                        JOIN 
+                            grupo_talleres gt ON ht.idgrupo_talleres = gt.idgrupo_talleres 
+                        JOIN 
+                            persona p ON a.idpersonas = p.idpersonas 
+                        WHERE 
+                            ht.dia = $dia 
+                            AND ht.inicio = '$horario' 
+                            AND gt.idtallerista = $idTallerista";
+    
+        $this->get_query();
+    
+        return $this->rows; // Devuelve los resultados
+    }
+    
+
+    
     public function obtenerTaller($idTallerista, $dia, $horario)
     {
         $this->query = " SELECT t.nombre AS nombre_taller
@@ -344,8 +385,31 @@ INNER JOIN horario_talleres ht ON ht.idgrupo_talleres = gt.idgrupo_talleres
                     AND ht.dia = $dia
                     AND ht.inicio = '$horario'";
 
-$this->get_query();
-return $this->rows[0];
+        $this->get_query();
+        return $this->rows[0];
+    }
 
-}
+    public function insertarAsistencia($idcursan_talleres, $fecha, $asistencia)
+    {
+        // Inserta la asistencia en la tabla asistencia_talleres
+        $this->query = "INSERT INTO asistencia_talleres (idcursan_talleres, fecha, asistencia) 
+                        VALUES ($idcursan_talleres, '$fecha', $asistencia)";
+        $this->set_query();
+    
+        // Si la asistencia es igual a 1, incrementa las horas acumuladas
+        if ($asistencia == 1) {
+            $this->incrementarHorasAcumuladas($idcursan_talleres);
+        }
+    }
+    
+    private function incrementarHorasAcumuladas($idcursan_talleres)
+    {
+        $this->query = "UPDATE cursan_talleres 
+                        SET horas_acomuladas = horas_acomuladas + 1 
+                        WHERE idcursan_talleres = $idcursan_talleres";
+        $this->set_query();
+    }
+
+
+    
 }
