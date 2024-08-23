@@ -377,11 +377,14 @@ class TalleresController
 	private function darHorarioAlumno($idGrupo)
 	{
 		$horarios = array();
-
+	
 		$talleresModel = new TalleresModel();
 		$personaModel = new PersonaModel();
 		$noCuenta = $personaModel->darMatricula1(336);
-
+	
+		// Obtén el número de horarios seleccionados por el alumno
+		$horariosSeleccionados = $talleresModel->contarHorariosSeleccionadosAlumno($noCuenta);
+	
 		for ($i = 7; $i < 18; $i++) {
 			$horarioDia = array(
 				"horas" => $i . " - " . ($i + 1),
@@ -391,26 +394,31 @@ class TalleresController
 				"dia4" => "",
 				"dia5" => ""
 			);
-
+	
 			for ($dia = 1; $dia <= 5; $dia++) {
 				$idHorarioTaller = $talleresModel->obtenerIdHorario($idGrupo, $dia, $i);
 				$ocupado = $talleresModel->estaOcupada($idGrupo, $dia, $i);
-
+	
 				if ($idHorarioTaller && $ocupado) {
 					$registrado = $talleresModel->verificarHorarioRegistrado($noCuenta, $idHorarioTaller);
 					if ($registrado) {
 						$horarioDia["dia$dia"] = "<a href='/talleres/guardarHorarioAlumno/$idHorarioTaller'>✓</a>";
 					} else {
-						$horarioDia["dia$dia"] = "<a href='/talleres/guardarHorarioAlumno/$idHorarioTaller'>O</a>";
+						// Permitir la selección si no se ha alcanzado el límite
+						if ($horariosSeleccionados < 4) {
+							$horarioDia["dia$dia"] = "<a href='/talleres/guardarHorarioAlumno/$idHorarioTaller'>O</a>";
+						} else {
+							$horarioDia["dia$dia"] = "Límite Alcanzado"; // O cualquier otro mensaje que desees mostrar
+						}
 					}
 				} else {
 					$horarioDia["dia$dia"] = $ocupado ? "O" : "";
 				}
 			}
-
+	
 			$horarios[] = $horarioDia;
 		}
-
+	
 		return $horarios;
 	}
 
@@ -490,6 +498,7 @@ class TalleresController
 			exit(0);
 		}
 	}
+	
 
 	public function verGrupoTaller()
 	{
@@ -593,32 +602,35 @@ class TalleresController
 
 
 	public function guardarAsistencia()
-	{
-		$idTallerista = 36;
+{
+    $idTallerista = 36;
 
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$asistenciaArray = $_POST['asistencia'];
-			$fecha = $_POST['fecha'];
-			$horario = $_POST['horario'];
-			$diaElegido = $_POST['dia'];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $asistenciaArray = $_POST['asistencia'];
+        $fecha = $_POST['fecha'];
+        $horario = $_POST['horario'];
+        $diaElegido = $_POST['dia'];
 
-			if ($idTallerista && $diaElegido && $horario && $fecha) {
-				$talleresModel = new TalleresModel();
-				$idCursant = $talleresModel->idCursan($idTallerista, $diaElegido, $horario);
+        if ($idTallerista && $diaElegido && $horario && $fecha) {
+            $talleresModel = new TalleresModel();
+            $idCursant = $talleresModel->idCursan($idTallerista, $diaElegido, $horario);
 
-				foreach ($idCursant as $alumno) {
-					$idcursan_talleres = $alumno['idcursan_talleres'];
-					$noCuenta = $alumno['noCuenta'];
+            foreach ($idCursant as $alumno) {
+                $idcursan_talleres = $alumno['idcursan_talleres'];
+                $noCuenta = $alumno['noCuenta'];
 
-					$asistencia = isset($asistenciaArray[$noCuenta]) ? $asistenciaArray[$noCuenta] : 0;
+                // Obtener asistencia del POST
+                $asistencia = isset($asistenciaArray[$noCuenta]) ? $asistenciaArray[$noCuenta] : 0;
 
-					$talleresModel->insertarAsistencia($idcursan_talleres, $fecha, $asistencia);
-				}
-			}
-		}
-		header("location: /talleres/assitencia");
-		exit();
-	}
+                // Guardar asistencia e incrementar horas acumuladas basadas en noCuenta
+                $talleresModel->insertarAsistencia($idcursan_talleres, $fecha, $asistencia, $noCuenta);
+            }
+        }
+    }
+    header("location: /talleres/assitencia");
+    exit();
+}
+
 
 	
 

@@ -142,7 +142,7 @@
 					<i class="fa fa-futbol-o"></i>&nbsp; TALLERES INSCRITOS</a>
 				
 					<a href="http://www.talleres.local/talleres/assitencia" class="w3-bar-item w3-button w3-padding ">
-						<i class="fa fa-futbol-o"></i>&nbsp; Asistencia</a>
+						<i class="fa fa-futbol-o"></i>&nbsp; ASISTENCIA</a>
 						
 				<a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
                 class="w3-bar-item w3-button w3-padding ">
@@ -238,6 +238,38 @@
 			<!-- End page content -->
 		</div>
 		
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				const maxHorarios = 4;
+				let totalHorariosSeleccionados = 0; // Total de horarios seleccionados en toda la semana
+		
+				// Inicializa el conteo de horarios seleccionados
+				document.querySelectorAll('a.estado').forEach(function (link) {
+					if (link.textContent.trim() === '✓') {
+						totalHorariosSeleccionados++;
+					}
+		
+					link.addEventListener('click', function (event) {
+						// Si el usuario intenta seleccionar más de 4 horarios en total
+						if (link.textContent.trim() === 'O' && totalHorariosSeleccionados >= maxHorarios) {
+							event.preventDefault();
+							alert('NO PUEDES SELECCIONAR MÁS DE 4 HORARIOS EN TOTAL.');
+						} else if (link.textContent.trim() === 'O') {
+							// Incrementa el contador y cambia el estado del enlace
+							totalHorariosSeleccionados++;
+							link.textContent = '✓';
+						} else if (link.textContent.trim() === '✓') {
+							// Decrementa el contador y cambia el estado del enlace
+							totalHorariosSeleccionados--;
+							link.textContent = 'O';
+						}
+					});
+				});
+			});
+		</script>
+		
+	
+
 		<script>
 			var mySidebar = document.getElementById("mySidebar");
 			var overlayBg = document.getElementById("myOverlay");

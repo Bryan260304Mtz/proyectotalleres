@@ -207,6 +207,14 @@ class TalleresModel extends DB
         $query = "DELETE FROM horario_talleres WHERE idgrupo_talleres = $idgrupo_talleres AND dia = $dia AND inicio = '$hora:00'";
         $this->execute_query($query);
     }
+
+    public function contarHorariosSeleccionadosAlumno($noCuenta)
+{
+    $this->query = "SELECT COUNT(*) AS count FROM cursan_talleres WHERE nocuenta = $noCuenta";
+    $this->get_query();
+    return $this->rows[0]['count'];
+}
+
     public function darGrupoTallerActivo()
     {
         $this->rows = array();
@@ -389,27 +397,24 @@ INNER JOIN horario_talleres ht ON ht.idgrupo_talleres = gt.idgrupo_talleres
         return $this->rows[0];
     }
 
-    public function insertarAsistencia($idcursan_talleres, $fecha, $asistencia)
-    {
-        // Inserta la asistencia en la tabla asistencia_talleres
-        $this->query = "INSERT INTO asistencia_talleres (idcursan_talleres, fecha, asistencia) 
-                        VALUES ($idcursan_talleres, '$fecha', $asistencia)";
-        $this->set_query();
-    
-        // Si la asistencia es igual a 1, incrementa las horas acumuladas
-        if ($asistencia == 1) {
-            $this->incrementarHorasAcumuladas($idcursan_talleres);
-        }
-    }
-    
-    private function incrementarHorasAcumuladas($idcursan_talleres)
-    {
-        $this->query = "UPDATE cursan_talleres 
-                        SET horas_acomuladas = horas_acomuladas + 1 
-                        WHERE idcursan_talleres = $idcursan_talleres";
-        $this->set_query();
-    }
+    public function insertarAsistencia($idcursan_talleres, $fecha, $asistencia, $noCuenta)
+{
+    $this->query = "INSERT INTO asistencia_talleres (idcursan_talleres, fecha, asistencia) 
+                    VALUES ($idcursan_talleres, '$fecha', $asistencia)";
+    $this->set_query();
 
+    if ($asistencia == 1) {
+        $this->incrementarHorasAcumuladas($noCuenta);
+    }
+}
+
+   private function incrementarHorasAcumuladas($noCuenta)
+{
+    $this->query = "UPDATE cursan_talleres 
+                    SET horas_acomuladas = horas_acomuladas + 1 
+                    WHERE noCuenta = $noCuenta";
+    $this->set_query();
+}
 
     
 }

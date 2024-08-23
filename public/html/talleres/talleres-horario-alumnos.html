@@ -140,7 +140,7 @@
 				<i class="fa fa-futbol-o"></i>&nbsp; ESTUDIANTE TALLER</a>
 
 			<a href="http://www.talleres.local/talleres/assitencia" class="w3-bar-item w3-button w3-padding ">
-				<i class="fa fa-futbol-o"></i>&nbsp; Asistencia</a>
+				<i class="fa fa-futbol-o"></i>&nbsp; ASISTENCIA</a>
 
 			<a href="https://sii.upatlacomulco.edu.mx/alumnos/formularioAspirantes"
 				class="w3-bar-item w3-button w3-padding ">
@@ -231,7 +231,45 @@
 			</div>
 		</div>
 
-
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				const maxHorarios = 4;
+		
+				// Actualizar el total de horarios seleccionados
+				function actualizarConteo() {
+					return document.querySelectorAll('a.estado[data-id][style="color: green;"]').length;
+				}
+		
+				document.querySelectorAll('a.estado').forEach(function (link) {
+					// Inicializar el color si el horario ya está seleccionado
+					if (link.textContent.trim() === '✓') {
+						link.style.color = 'green';
+					}
+		
+					link.addEventListener('click', function (event) {
+						// Verificar si el enlace está marcado como seleccionado
+						if (link.textContent.trim() === '✓') {
+							// Si es seleccionado, cambiarlo a no seleccionado
+							link.textContent = 'O';
+							link.style.color = ''; // Restaurar color original
+						} else {
+							// Si no está seleccionado
+							const totalHorariosSeleccionados = actualizarConteo();
+							
+							if (totalHorariosSeleccionados >= maxHorarios) {
+								event.preventDefault();
+								alert('YA SE SELECCIONARON LAS 4 HORAS.');
+							} else {
+								link.textContent = '✓';
+								link.style.color = 'green'; // Estilo para seleccionados
+							}
+						}
+					});
+				});
+			});
+		</script>
+		
+		
 		<!-- Footer -->
 		<footer class="w3-container w3-padding-16 w3-light-grey">
 			<p><i style="font-size: 16px" class="fa"></i>
@@ -245,23 +283,8 @@
 		<!-- End page content -->
 	</div>
 
-	<script>
-		var mySidebar = document.getElementById("mySidebar");
-		var overlayBg = document.getElementById("myOverlay");
-		function w3_open() {
-			if (mySidebar.style.display === 'block') {
-				mySidebar.style.display = 'none';
-				overlayBg.style.display = "none";
-			} else {
-				mySidebar.style.display = 'block';
-				overlayBg.style.display = "block";
-			}
-		}
-		function w3_close() {
-			mySidebar.style.display = "none";
-			overlayBg.style.display = "none";
-		}
-	</script>
+
+	
 
 </body>
 
